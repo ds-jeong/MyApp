@@ -4,6 +4,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from "./common/Header";
 import Main from "./components/layouts/Main";
+import Login from "./common/Login";
+import Join from "./common/Join";
 import Footer from "./common/Footer";
 import Qna from "./components/layouts/qna/Qna";
 import QnaRegist from "./components/layouts/qna/QnaRegist";
@@ -23,6 +25,8 @@ function App() {
                     <div className="contentWrapper">
                         <Routes>
                             <Route path="/" element={<Main/>}/>
+                            <Route path="/login" element={<Login />}/>
+                            <Route path="/join" element={<Join />}/>
                             <Route path="/qna" element={<Qna />}/>
                             <Route path="/qnaRegist" element={<QnaRegist />}/>
                             <Route path="/mainHtml" element={<MainHtml />}/>

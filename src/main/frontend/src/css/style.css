@@ -2,6 +2,10 @@
     height: auto;
 }
 
+.contentWrapper > div{
+    width: 100%;
+}
+
 .divTable {
     width: 80%;
     padding: 20px;
@@ -19,3 +23,26 @@
 .btn {
     margin-bottom: 5px;
 }
+
+.custom-form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    max-width: 400px; /* 예시로 설정한 최대 너비 */
+    margin: auto; /* 가운데 정렬을 위해 */
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+.form-control {
+    border: 1px solid #ced4da; /* 각 입력 필드에 border 추가 */
+    border-radius: 4px; /* 입력 필드 border의 둥근 모서리 설정 */
+    padding: 10px; /* 입력 필드의 안쪽 여백 설정 */
+    margin-bottom: 10px; /* 입력 필드 사이의 여백 설정 */
+}
+
+.form-control:focus {
+    border-color: #80bdff; /* 입력 필드가 포커스 됐을 때의 border 색상 설정 */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* 포커스 시 효과 설정 */
+}
+
