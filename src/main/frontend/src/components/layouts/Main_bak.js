@@ -11,7 +11,7 @@ import {
 
 import axios from "axios";
 
-const Main = () => {
+const Main_bak = () => {
     const [resArr, setResArr] = useState([])
     useEffect(() => {
         axios.get('/main')
@@ -32,7 +32,7 @@ const Main = () => {
                              alt="Card image cap"/>
                     <CardBody>
                         <div className="text-center">
-                            <h5 className="fw-bolder">{resArr[i]}</h5>
+                            <h5 className="fw-bolder"></h5>
                             $40.00 - $80.00
                         </div>
                     </CardBody>
@@ -87,4 +87,4 @@ const Main = () => {
     );
 }
 
-export default Main;
+export default Main_bak;

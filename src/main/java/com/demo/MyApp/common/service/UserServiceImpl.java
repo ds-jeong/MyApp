@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor //생성자 주입코드없이 의존성주입
 public class UserServiceImpl implements UserService{
@@ -35,5 +37,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean isUsernameExists(String userNm) throws Exception {
         return userRepository.findByUserNm(userNm) != null;
+    }
+
+    @Override
+    public List<UserDto> getUserInfo(UserDto userDto) throws Exception {
+        return List.of();
     }
 }

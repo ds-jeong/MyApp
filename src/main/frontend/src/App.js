@@ -1,15 +1,18 @@
-// src/main/frontend/src/App.js
-
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
+
 import Header from "./common/Header";
-import Main from "./components/layouts/Main";
+import Main_bak from "./components/layouts/Main_bak";
 import Login from "./common/Login";
 import Join from "./common/Join";
 import Footer from "./common/Footer";
-import Qna from "./components/layouts/qna/Qna";
+import Main from "./components/Main";
+
+import QnaList from "./components/layouts/qna/QnaList";
 import QnaRegist from "./components/layouts/qna/QnaRegist";
-import MainHtml from "./components/mainHtml";
+import QnaDetail from "./components/layouts/qna/QnaDetail";
+import QnaModify from "./components/layouts/qna/QnaModify";
 
 import ProductList from "./components/layouts/admin/product/ProductList"
 import ProductRegist from "./components/layouts/admin/product/ProductRegist";
@@ -20,16 +23,21 @@ function App() {
     return (
         <div className="body">
             <div className='wrapper'>
+                <CookiesProvider>
                 <BrowserRouter>
                     <Header/>
                     <div className="contentWrapper">
                         <Routes>
-                            <Route path="/" element={<Main/>}/>
+                            <Route path="/mainHtml" element={<Main_bak />}/>
+                            <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
-                            <Route path="/qna" element={<Qna />}/>
+
+                            <Route path="/qnaList" element={<QnaList />}/>
                             <Route path="/qnaRegist" element={<QnaRegist />}/>
-                            <Route path="/mainHtml" element={<MainHtml />}/>
+                            <Route path="/qnaDetail/:id" element={<QnaDetail />} />
+                            <Route path="/qnaModify/:id" element={<QnaModify />} />
+
                             <Route path="/productList" element={<ProductList />}/>
                             <Route path="/productRegist" element={<ProductRegist />}/>
                             <Route path="/productDetail/:id" element={<ProductDetail />} />
@@ -37,6 +45,7 @@ function App() {
                         </Routes>
                     </div>
                 </BrowserRouter>
+                </CookiesProvider>
                 <Footer/>
             </div>
 

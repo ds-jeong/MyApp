@@ -1,21 +1,23 @@
 package com.demo.MyApp;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainController {
 
-    //메인페이지 Bast 상품리스트
-    @GetMapping("/mainSlider")
-    public String[] mainSlider() {
-        String[] products = {"product5", "product6", "product7", "product8", "product9"};
-        return products;
-    }
     //메인페이지 상품리스트
     @GetMapping("/main")
-    public String[] main() {
-        String[] products = {"product1", "product2", "product3", "product4", "product5", "product6", "product7", "product8", "product9"};
-        return products;
+    public String main(HttpSession session) {
+//        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication authentication2 = null;
+//
+//        if (session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
+//                instanceof SecurityContext securityContext) {   // java 17 문법입니다!
+//            authentication2 = securityContext.getAuthentication();
+//        }
+
+        return "메인페이지";
     }
 }

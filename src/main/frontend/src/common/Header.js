@@ -7,22 +7,29 @@ import Slider from './slick/Slider';
 const Header = () => {
 
     const location = useLocation();
+    // 현재 URL을 가져옵니다
+    const currentPath = location.pathname;
 
     let title, subtitle;
 
+    const accessToken = window.localStorage.getItem('accessToken');
+    const userId = window.localStorage.getItem('userId');
+    const role = window.localStorage.getItem('role');
+
+    console.log('userId : ' + userId + 'role : ' + role );
+
     // URL에 따라 다른 문구 설정
-    if (location.pathname === '/home') {
-        title = 'Shop in style';
-        subtitle = 'With this shop homepage template';
-    } else if (location.pathname === '/about') {
-        title = 'About Us';
-        subtitle = 'Learn more about our shop';
-    } else if (location.pathname === '/productList') {
-        title = 'productList';
-        subtitle = 'Learn more about our shop';
-    } else {
-        title = '';
-        subtitle = 'Default subtitle';
+    if (location.pathname === '/allProduct') {
+        title = 'All Products';
+    } else if (location.pathname === '/top') {
+        title = 'Top';
+        // subtitle = 'Learn more about our shop';
+    } else if (location.pathname === '/bottom') {
+        title = 'Botoom';
+    } else if (location.pathname === '/acc') {
+        title = 'Acc';
+    } else if (location.pathname === '/qna') {
+        title = 'Q&A';
     }
 
     return (
@@ -45,18 +52,15 @@ const Header = () => {
                             <NavItem>
                                 <NavLink href="/">Home</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink href="#!">About</NavLink>
-                            </NavItem>
                             <NavDropdown title="Shop" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#!">All Products</NavDropdown.Item>
-                                <NavDropdown.Item href="#!">Popular Items</NavDropdown.Item>
-                                <NavDropdown.Item href="#!">New Arrivals</NavDropdown.Item>
-                                <NavDropdown.Divider/>
-                                <NavDropdown.Item href="#!">Separated link</NavDropdown.Item>
+                                <NavDropdown.Item href="/allProduct">All Products</NavDropdown.Item>
+                                <NavDropdown.Item href="/top">Top</NavDropdown.Item>
+                                <NavDropdown.Item href="/bottom">Bottom</NavDropdown.Item>
+                                <NavDropdown.Item href="/acc">Acc</NavDropdown.Item>
+                                {/*<NavDropdown.Divider/>*/}
                             </NavDropdown>
                             <NavItem>
-                                <NavLink href="/qna">Q&A</NavLink>
+                                <NavLink href="/qnaList">Q&A</NavLink>
                             </NavItem>
                             <NavDropdown title="Admin" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="/productList">All Products</NavDropdown.Item>
@@ -72,14 +76,16 @@ const Header = () => {
                 </Container>
             </Navbar>
             <Slider/>
-            <header className="bg-dark py-5">
-                <Container>
-                    <div className="text-center text-white">
-                        <h1 className="display-4 fw-bolder">{title}</h1>
-                        <p className="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
-                    </div>
-                </Container>
-            </header>
+            {currentPath !== '/' &&
+                <header className="bg-custom py-5">
+                    <Container>
+                        <div className="text-center text-white">
+                            <h1 className="display-4 fw-bolder">{title}</h1>
+                            {/*<p className="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>*/}
+                        </div>
+                    </Container>
+                </header>
+            }
         </div>
     )
 }

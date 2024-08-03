@@ -1,4 +1,4 @@
-package com.demo.MyApp.security.service;
+package com.demo.MyApp.config.security;
 
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
@@ -15,14 +15,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        User user = userRepository.findByUserId(userId);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUserId(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with userId: " + userId);
+            throw new UsernameNotFoundException("User not found with userId: " + username);
         }
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUserNm())
+                .username(user.getUserId())
                 .password(user.getPw())
+                .roles(user.getRole())
                 .build();
     }
 }

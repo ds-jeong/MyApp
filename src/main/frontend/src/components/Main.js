@@ -1,6 +1,7 @@
 import React from 'react';
 
-function MainHtml() {
+const Main = () => {
+
     return (
         <div>
             <>
@@ -56,7 +57,7 @@ function MainHtml() {
           {/*                                  className="nav-link link text-black display-4"*/}
           {/*                                  href="https://mobiri.se"*/}
           {/*                              >*/}
-          {/*                                  Main*/}
+          {/*                                  Main_bak*/}
           {/*                              </a>*/}
           {/*                          </li>*/}
           {/*                          <li className="nav-item">*/}
@@ -96,13 +97,13 @@ function MainHtml() {
                         style={{opacity: "0.5", backgroundColor: "rgb()"}}
                     >
                     </div>
-                    <iframe width="1920" height="919"
-                            src="https://www.youtube.com/embed/Iwo7Ko9x5fo?autoplay=1&loop=1&playlist=Iwo7Ko9x5fo&t=20&mute=1&playsinline=1&controls=0&showinfo=0&autohide=1&allowfullscreen=true&mode=transparent"
-                            title="Free Copyright Video: Girl Blonde Portrait Casual Clothes Smile Pretty"
-                            className="ifm"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                    {/*<iframe width="1920" height="919"*/}
+                    {/*        src="https://www.youtube.com/embed/Iwo7Ko9x5fo?autoplay=1&loop=1&playlist=Iwo7Ko9x5fo&t=20&mute=1&playsinline=1&controls=0&showinfo=0&autohide=1&allowfullscreen=true&mode=transparent"*/}
+                    {/*        title="Free Copyright Video: Girl Blonde Portrait Casual Clothes Smile Pretty"*/}
+                    {/*        className="ifm"*/}
+                    {/*        frameBorder="0"*/}
+                    {/*        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"*/}
+                    {/*        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>*/}
 
                     <div className="container-fluid">
                         <div className="row">
@@ -1296,7 +1297,7 @@ function MainHtml() {
                 <section
                     data-bs-version="5.1"
                     className="footer4 cid-ui9yy916az"
-                    once="footers"
+                    // once="footers"
                     id="footer04-h"
                 >
                     <div className="container">
@@ -1352,7 +1353,6 @@ function MainHtml() {
 
         </div>
     );
+    }
 
-}
-
-export default MainHtml;
+export default Main;

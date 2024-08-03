@@ -6,6 +6,7 @@ import lombok.*;
 
 @ToString
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor //전체 필드에 대한 생성자를 생성하여 @builder사용이 가능하도록..
 @NoArgsConstructor //기본 생성자를 생성

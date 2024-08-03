@@ -61,7 +61,7 @@ function ProductList() {
             </section>
         </div>
 
-        // <div className="Qna">
+        // <div className="QnaList">
         //     <div className="header">
         //         <button className="write-btn">글쓰기</button>
         //     </div>

@@ -33,7 +33,7 @@ const Join = () => {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
 
-            axios.post('/api/user/join', formData)
+            axios.post('/api/join', formData)
                 .then(response => {
                     //console.log('Post submitted successfully');
                     alert("회원가입이 완료되었습니다.");
