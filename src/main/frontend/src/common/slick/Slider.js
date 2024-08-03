@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import Slider from 'react-slick';
 import axios from 'axios';
 
@@ -12,7 +13,7 @@ export default class SimpleSlider extends Component {
     }
 
     componentDidMount() {
-        axios.get('/admin/product/productList')
+        axios.get('/user/product/favoriteProductList')
             .then(response => {
                 this.setState({
                     resArr: response.data}

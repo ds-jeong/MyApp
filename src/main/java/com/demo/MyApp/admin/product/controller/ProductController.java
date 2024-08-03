@@ -3,14 +3,11 @@ package com.demo.MyApp.admin.product.controller;
 import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.service.ProductServiceImpl;
-import com.demo.MyApp.user.qna.entity.Qna;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.*;
 
 @RestController
 @RequestMapping("/admin/product")
