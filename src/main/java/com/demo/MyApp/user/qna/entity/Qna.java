@@ -32,6 +32,9 @@ public class Qna {
     @Column
     private  String filePath;
 
+    @Column
+    private Integer views;
+
     // Entity는 암묵적으로 Setter를 사용하지않음
     // Setter 대신 데이터를 가공할때 호출할 메소드
     public static Qna toEntity(QnaDto dto) {

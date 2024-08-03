@@ -6,6 +6,7 @@ import com.demo.MyApp.common.utill.service.UtillServiceImpl;
 import com.demo.MyApp.user.qna.entity.Qna;
 import com.demo.MyApp.user.qna.repository.QnaRepository;
 import com.demo.MyApp.user.qna.dto.QnaDto;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,18 @@ public class QnaServiceImpl implements QnaService{
     @Override
     public Page<Qna> qnaList(int page, int size) throws Exception {
         return qnaRepository.findAll(PageRequest.of(page, size));
+    }
+
+    @Override
+    public void addQnaViews(Long id) throws Exception {
+        Qna qna = qnaRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Qna Not Found"));
+        Integer currentViews = qna.getViews();
+        //현재 조회수가 null 값인지 체크하는 로직
+        if(currentViews==null){
+            currentViews=0;
+        }
+        qna.setViews(currentViews + 1);
+        qnaRepository.save(qna);
     }
 
     @Transactional

@@ -13,9 +13,12 @@ public interface QnaService {
 
     Page<Qna> qnaList(int page, int size) throws Exception;
 
+    void addQnaViews(Long id) throws Exception;
+
     QnaDto qnaDetail(Long id) throws Exception;
 
     void updateQna(QnaDto qnaDto, Long id, MultipartFile file) throws Exception;
 
     void deleteQna(Long id) throws Exception;
+
 }

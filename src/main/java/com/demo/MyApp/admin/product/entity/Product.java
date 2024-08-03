@@ -41,7 +41,10 @@ public class Product {
     private  String productKind;
 
     @Column
-    private int favorite;
+    private Integer favorite;
+
+    @Column
+    private Integer views;
 
     // Entity는 암묵적으로 Setter를 사용하지않음(정말 필요할때만 쓰기)
     // Setter 대신 데이터를 가공할때 호출할 메소드

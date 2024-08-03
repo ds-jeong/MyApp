@@ -34,6 +34,13 @@ public class QnaController {
         return qnaService.qnaList(page, size);
     }
 
+    @GetMapping("/addQnaViews")
+    public String addQnaViews(@RequestParam("id") Long id) throws Exception{
+        //사용자 > Q&A 조회수 증가
+        qnaService.addQnaViews(id);
+        return "Post received successfully";
+    }
+
     @GetMapping("/qnaDetail")
     public QnaDto qnaDetail(@ModelAttribute QnaDto qnaDto, @RequestParam("id") Long id) throws Exception{
         //사용자 > Q&A 상세
@@ -59,4 +66,5 @@ public class QnaController {
         qnaService.deleteQna(id);
         return "Post received successfully";
     }
+
 }
