@@ -4,9 +4,12 @@ import com.demo.MyApp.common.utill.service.UtillServiceImpl;
 import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.repository.ProductRepository;
+import com.demo.MyApp.user.qna.entity.Qna;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,25 +49,9 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    @Transactional
     @Override
-    public List<ProductDto> productList(Model model) throws Exception {
-        List<Product> products = productRepository.findAll();
-        List<ProductDto> productDtoList = new ArrayList<>();
-        for (Product product : products) {
-            ProductDto productDto = ProductDto.builder()
-                    .id(product.getId())
-                    .productNm(product.getProductNm())
-                    .price(product.getPrice())
-                    .content(product.getContent())
-                    .author(product.getAuthor())
-                    .fileNm(product.getFileNm())
-                    .filePath(product.getFilePath())
-                    .build();
-            productDtoList.add(productDto);
-        }
-
-        return productDtoList;
+    public Page<Product> productList(int page, int size) throws Exception {
+        return productRepository.findAll(PageRequest.of(page, size));
     }
 
     @Transactional

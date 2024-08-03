@@ -1,8 +1,11 @@
 package com.demo.MyApp.admin.product.controller;
 
 import com.demo.MyApp.admin.product.dto.ProductDto;
+import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.service.ProductServiceImpl;
+import com.demo.MyApp.user.qna.entity.Qna;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,11 +27,11 @@ public class ProductController {
     }
 
     @GetMapping("/productList")
-    public List<ProductDto> productList(Model model) throws Exception{
+    public Page<Product> productList(Model model
+            , @RequestParam("page") int page
+            , @RequestParam("size") int size) throws Exception{
         //관리자 > 상품리스트
-        List<ProductDto> list = productService.productList(model);
-        model.addAllAttributes(list);
-        return list;
+        return productService.productList(page, size);
     }
 
     @GetMapping("/productDetail")

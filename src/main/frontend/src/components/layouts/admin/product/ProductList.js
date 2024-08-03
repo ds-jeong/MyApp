@@ -1,21 +1,35 @@
 import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-bootstrap";
 import {formatPrice} from '../../../../js/utils/formatUtils';
 import {Link} from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 function ProductList() {
-
-    const [resArr, setResArr] = useState([])
+    const navigate = useNavigate();
+    const [resArr, setResArr] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const pageSize = 10;
 
     useEffect(() => {
-        axios.get('/admin/product/productList')
-            .then(response => {
-                    setResArr(response.data);
-                }
-            )
-            .catch(error => console.log(error))
-    }, []);
+        fetchData(currentPage);
+    }, [currentPage]);
+
+    const fetchData = async (page) => {
+        try {
+            const response = await axios.get(`/admin/product/productList?page=${page}&size=${pageSize}`);
+            setResArr(response.data.content);
+            setPageCount(response.data.totalPages);
+        } catch (error) {
+            console.error("Error fetching fetchData", error);
+        }
+    };
+
+    const handlePageClick = (data) => {
+        setCurrentPage(data.selected);
+    };
 
     // Default image path if the primary image fails
     const defaultImg = `${process.env.PUBLIC_URL}/404.jpg`;
@@ -59,23 +73,28 @@ function ProductList() {
                     </div>
                 </Container>
             </section>
+            {/* pagination */}
+            <div>
+                <ReactPaginate
+                    pageCount={pageCount}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link'}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    breakClassName={'page-item'}
+                    breakLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                />
+            </div>
+            {/* //pagination// */}
         </div>
-
-        // <div className="QnaList">
-        //     <div className="header">
-        //         <button className="write-btn">글쓰기</button>
-        //     </div>
-        //     <div className="post-list">
-        //         {posts.map((post, index) => (
-        //             <div key={post.id} className="post">
-        //                 <div className="post-content">{post.content}</div>
-        //                 <div className="post-number">글 번호: {index + 1}</div>
-        //             </div>
-        //         ))}
-        //     </div>
-        // </div>
-    )
-        ;
+    );
 }
 
 export default ProductList;
