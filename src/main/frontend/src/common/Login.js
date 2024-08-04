@@ -1,12 +1,10 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import {Button, Col, Container, Form} from 'react-bootstrap';
+import {Button, Container, Form} from 'react-bootstrap';
 
 const Login = () => {
     const [userId, setUserId] = useState('');
     const [pw, setPw] = useState('');
-    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,7 +23,8 @@ const Login = () => {
             window.localStorage.setItem('token', response.data.token);
             window.localStorage.setItem('userData', JSON.stringify(dataToSave));
 
-            navigate('/');
+            // 로그인 후 메인 페이지로 리디렉션
+            window.location.replace('/');
 
         } catch (error) {
             alert("로그인에 실패하였습니다.");

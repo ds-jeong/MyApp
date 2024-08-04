@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
 import {Link, useLocation} from 'react-router-dom';
 import {Container, Navbar, Nav, NavItem, NavLink, Button, NavbarBrand, NavDropdown, Form} from 'react-bootstrap';
 import Slider from './slick/Slider';
@@ -6,10 +7,9 @@ import Slider from './slick/Slider';
 
 const Header = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const token = window.localStorage.getItem('token');
 
     useEffect(() => {
-        // localStorage에서 token을 확인
-        const token = window.localStorage.getItem('token');
         if (token) {
             setIsAuthenticated(true);
         } else {
@@ -24,8 +24,8 @@ const Header = () => {
     //파싱한 데이터를 변수에 저장
     const userInfo = userData?.userInfo;
 
-    //각각 변수에 맞게 값 할당
-    const id = userInfo.id;
+    //변수에 맞게 값 할당
+    const id = userInfo?.id;
     const userId = userInfo?.userId;
     const userNm = userInfo?.userNm;
     const phone = userInfo?.phone;
@@ -33,14 +33,13 @@ const Header = () => {
     const role = userInfo?.role;
     const email = userInfo?.email;
 
-
-    console.log('id : ' + id);
-    console.log('아이디 : ' + userId);
-    console.log('사용자명 : ' + userNm);
-    console.log('연락처 : ' + phone);
-    console.log('주소 : ' + address);
-    console.log('role: ' + role);
-    console.log('이메일 : ' + email);
+    // console.log('id : ' + id);
+    // console.log('아이디 : ' + userId);
+    // console.log('사용자명 : ' + userNm);
+    // console.log('연락처 : ' + phone);
+    // console.log('주소 : ' + address);
+    // console.log('role: ' + role);
+    // console.log('이메일 : ' + email);
 
     // 현재 URL
     const location = useLocation();
@@ -61,6 +60,26 @@ const Header = () => {
         title = 'Q&A';
     }
 
+    const handleLogout = async () => {
+        try {
+            // 서버에 로그아웃 요청 보내기
+            if (token) {
+                await axios.post('/api/logout', null, {
+                    params: {token}
+                });
+            }
+
+            // localStorage에서 JWT 토큰 삭제
+            window.localStorage.removeItem('token');
+            window.localStorage.removeItem('userData'); // 필요에 따라 추가적인 사용자 데이터도 삭제
+
+            // 로그아웃 후 로그인 페이지로 리디렉션
+            window.location.replace('/login');
+
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }
     return (
         <div className="header">
             <Navbar bg="light" expand="lg">
@@ -115,10 +134,8 @@ const Header = () => {
                                     </Button>
                                 </>
                             ) : (
-                                <Button variant="outline-primary">
-                                    <Link to={`/logout`}>
+                                <Button variant="outline-primary" onClick={handleLogout}>
                                         로그아웃
-                                    </Link>
                                 </Button>
                             )}
                         </Form>
