@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - MyAppApplicationTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>MyAppApplicationTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.demo.MyApp.html">com.demo.MyApp</a> &gt; MyAppApplicationTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.473s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">contextLoads()</td>
+<td class="success">0.473s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>01:27:39.967 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.demo.MyApp.MyAppApplicationTests]: MyAppApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:27:40.081 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.demo.MyApp.MyAppApplication for test class com.demo.MyApp.MyAppApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.7)
+
+2024-08-05T01:27:40.541+09:00  INFO 16380 --- [    Test worker] com.demo.MyApp.MyAppApplicationTests     : Starting MyAppApplicationTests using Java 17.0.10 with PID 16380 (started by ektmfwjd93 in C:\localProject\MyApp)
+2024-08-05T01:27:40.542+09:00  INFO 16380 --- [    Test worker] com.demo.MyApp.MyAppApplicationTests     : The following 1 profile is active: &quot;dev&quot;
+2024-08-05T01:27:41.301+09:00  INFO 16380 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-08-05T01:27:41.303+09:00  INFO 16380 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-08-05T01:27:41.352+09:00  INFO 16380 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.demo.MyApp.admin.product.repository.ProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-08-05T01:27:41.355+09:00  INFO 16380 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.demo.MyApp.common.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-08-05T01:27:41.357+09:00  INFO 16380 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.demo.MyApp.common.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-08-05T01:27:41.358+09:00  INFO 16380 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.demo.MyApp.user.like.repository.LikeRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-08-05T01:27:41.360+09:00  INFO 16380 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.demo.MyApp.user.product.repository.UserProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-08-05T01:27:41.362+09:00  INFO 16380 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.demo.MyApp.user.qna.repository.QnaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-08-05T01:27:41.362+09:00  INFO 16380 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 0 JDBC repository interfaces.
+2024-08-05T01:27:41.374+09:00  INFO 16380 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-08-05T01:27:41.375+09:00  INFO 16380 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-05T01:27:41.426+09:00  INFO 16380 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 6 JPA repository interfaces.
+2024-08-05T01:27:41.909+09:00  INFO 16380 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-05T01:27:41.988+09:00  INFO 16380 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.9.Final
+2024-08-05T01:27:42.032+09:00  INFO 16380 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-08-05T01:27:42.321+09:00  INFO 16380 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-05T01:27:42.354+09:00  INFO 16380 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-08-05T01:27:44.147+09:00  INFO 16380 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6282f1eb
+2024-08-05T01:27:44.150+09:00  INFO 16380 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-08-05T01:27:45.397+09:00  INFO 16380 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-05T01:27:47.698+09:00  INFO 16380 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-05T01:27:48.172+09:00  WARN 16380 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-05T01:27:48.278+09:00  INFO 16380 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-08-05T01:27:48.540+09:00  INFO 16380 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7a80ebcd, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@365eaef, org.springframework.security.web.context.SecurityContextHolderFilter@3119fcad, org.springframework.security.web.header.HeaderWriterFilter@684a34f4, org.springframework.web.filter.CorsFilter@631c6ef4, org.springframework.security.web.authentication.logout.LogoutFilter@6259d7a0, com.demo.MyApp.config.security.jwt.JwtFilter@9e2b199, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5bbb351e, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@2b20caed, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7441edeb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@33a39d7e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@94f79a7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@58df431e, org.springframework.security.web.session.SessionManagementFilter@5f606ab6, org.springframework.security.web.access.ExceptionTranslationFilter@1ec96512, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@72f91c91]
+2024-08-05T01:27:49.109+09:00  INFO 16380 --- [    Test worker] com.demo.MyApp.MyAppApplicationTests     : Started MyAppApplicationTests in 8.863 seconds (process running for 9.988)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at 2024. 8. 5. 오전 1:27:50</p>
+</div>
+</div>
+</body>
+</html>
