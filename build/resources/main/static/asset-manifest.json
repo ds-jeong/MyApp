@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8b678829.css",
+    "main.js": "/static/js/main.9e398aa7.js",
+    "static/js/453.8ab44547.chunk.js": "/static/js/453.8ab44547.chunk.js",
+    "static/media/emptyHeart.png": "/static/media/emptyHeart.c412cbaead4744166c20.png",
+    "static/media/filledHeart.png": "/static/media/filledHeart.556c78a5a9b89d6b2eeb.png",
+    "index.html": "/index.html",
+    "main.8b678829.css.map": "/static/css/main.8b678829.css.map",
+    "main.9e398aa7.js.map": "/static/js/main.9e398aa7.js.map",
+    "453.8ab44547.chunk.js.map": "/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8b678829.css",
+    "static/js/main.9e398aa7.js"
+  ]
+}
