@@ -21,4 +21,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  profiles:
+    active: dev
+
+file:
+  upload-dir: ${IMAGE_UPLOAD_DIR}
+
 

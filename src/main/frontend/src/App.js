@@ -19,6 +19,7 @@ import ProductRegist from "./components/layouts/admin/product/ProductRegist";
 import ProductDetail from "./components/layouts/admin/product/ProductDetail";
 import ProductModify from "./components/layouts/admin/product/ProductModify";
 
+let globalCount = 0;
 function App() {
     return (
         <div className="body">

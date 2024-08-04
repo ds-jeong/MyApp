@@ -8,15 +8,15 @@ import ReactPaginate from "react-paginate";
 import LikeButton from '../../../button/LikeButton';
 
 function ProductList() {
+    const token = window.localStorage.getItem('token');
+
+
     const navigate = useNavigate();
     const [resArr, setResArr] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
-    const [like, setLike] = useState(false);
-    
-    const [userId, setUserId] = useState('');
-    const [productId, setProductId] = useState('');
+
 
     useEffect(() => {
         fetchData(currentPage);
@@ -56,9 +56,27 @@ function ProductList() {
     //     const res = await axios.post(...) // [POST] 사용자가 좋아요를 누름 -> DB 갱신
     //     setLike(!like)
     // }
-    const toggleLike = () => {
-        console.log('wwwwwwwww');
-    };
+    const [like, setLike] = useState(false);
+    // const [userId, setUserId] = useState('');
+    // const [productId, setProductId] = useState('');
+    const handleToggleLike = (e) => {
+        try {
+            // 서버에 로그아웃 요청 보내기
+            if (token) {
+                const productId = e.target.getAttribute('data-custom');
+
+                // await axios.post('/user/like/toggleLike', null, {
+                //     params: {token}
+                // });
+            }
+
+            // 로그아웃 후 로그인 페이지로 리디렉션
+            //window.location.replace('/login');
+
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }
 
     return (
         <div className="divTable">
@@ -69,10 +87,12 @@ function ProductList() {
                         {resArr.map((item, index) => (
                             <div className="col mb-5" key={index}>
                                 <Card className="h-100">
-                                    <CardImg className="cardImg" top="true" src={`${process.env.PUBLIC_URL}/upload/img/${item.fileNm}`}
+                                    <CardImg className="cardImg" top="true"
+                                             src={`${process.env.PUBLIC_URL}/upload/img/${item.fileNm}`}
                                              alt="Card image cap"
                                              onError={handleImgError}/>
                                     <CardBody>
+
                                         <div className="text-center">
                                             <h5 className="fw-bolder">{item.productNm}</h5>
                                             {formatPrice(item.price)} {/* 공통 함수로 가격 포맷 */}
@@ -82,10 +102,10 @@ function ProductList() {
                                         <div className="text-center">
                                             <Button variant="outline-dark">
                                                 <Link to={`/productDetail/${item.id}`}>
-                                                View options1
+                                                    View options1
                                                 </Link>
                                             </Button>
-                                            <LikeButton like={like} onClick={toggleLike} />
+                                            <LikeButton like={like} productId={item.id} onClick={handleToggleLike}/>
                                         </div>
                                     </CardFooter>
                                 </Card>

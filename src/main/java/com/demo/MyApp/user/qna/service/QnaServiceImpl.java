@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,15 @@ public class QnaServiceImpl implements QnaService{
     @Autowired
     private UtillServiceImpl utillService;
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     @Transactional
     @Override
     public void insertQna(QnaDto qnaDto, MultipartFile file) throws Exception {
         // 파일이 저장될 이미지 경로
-        String UPLOAD_DIR = "C:\\localProject\\MyApp\\src\\main\\resources\\frontend\\public\\upload\\";
+//        String UPLOAD_DIR = "C:\\localProject\\MyApp\\src\\main\\resources\\frontend\\public\\upload\\";
+        String UPLOAD_DIR = uploadDir + "\\upload\\";
 
         // 파일 null 처리
         if (file != null && !file.isEmpty()) {
@@ -91,7 +96,8 @@ public class QnaServiceImpl implements QnaService{
         Qna qna = qnaRepository.findById(id).orElseThrow();
 
         // 파일이 저장될 이미지 경로
-        String UPLOAD_DIR = "C:\\localProject\\MyApp\\src\\main\\resources\\frontend\\public\\upload\\";
+//        String UPLOAD_DIR = "C:\\localProject\\MyApp\\src\\main\\resources\\frontend\\public\\upload\\";
+        String UPLOAD_DIR = uploadDir + "\\upload\\";
 
         // 파일 null 처리
         if (file != null && !file.isEmpty()) {
