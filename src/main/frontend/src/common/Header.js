@@ -1,23 +1,52 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import {Container, Navbar, Nav, NavItem, NavLink, Button, NavbarBrand, NavDropdown, Form} from 'react-bootstrap';
 import Slider from './slick/Slider';
 
 
 const Header = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    useEffect(() => {
+        // localStorage에서 token을 확인
+        const token = window.localStorage.getItem('token');
+        if (token) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    }, []); // 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행
+
+    //localStorage에 저장된 사용자의 정보
+    const userDataStr = window.localStorage.getItem('userData');
+    //Json으로 파싱
+    const userData = JSON.parse(userDataStr);
+    //파싱한 데이터를 변수에 저장
+    const userInfo = userData?.userInfo;
+
+    //각각 변수에 맞게 값 할당
+    const id = userInfo.id;
+    const userId = userInfo?.userId;
+    const userNm = userInfo?.userNm;
+    const phone = userInfo?.phone;
+    const address = userInfo?.address;
+    const role = userInfo?.role;
+    const email = userInfo?.email;
+
+
+    console.log('id : ' + id);
+    console.log('아이디 : ' + userId);
+    console.log('사용자명 : ' + userNm);
+    console.log('연락처 : ' + phone);
+    console.log('주소 : ' + address);
+    console.log('role: ' + role);
+    console.log('이메일 : ' + email);
+
+    // 현재 URL
     const location = useLocation();
-    // 현재 URL을 가져옵니다
     const currentPath = location.pathname;
 
     let title, subtitle;
-
-    const accessToken = window.localStorage.getItem('accessToken');
-    const userId = window.localStorage.getItem('userId');
-    const role = window.localStorage.getItem('role');
-
-    console.log('userId : ' + userId + 'role : ' + role );
-
     // URL에 따라 다른 문구 설정
     if (location.pathname === '/allProduct') {
         title = 'All Products';
@@ -68,14 +97,37 @@ const Header = () => {
                         </Nav>
                         <Form className="d-flex">
                             <Button variant="outline-dark">
-                                <i className="bi-cart-fill me-1"></i>
+                                <i className="bi-cart-fill me-1">Cart</i>
                                 <span className="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </Button>
+                            &nbsp;&nbsp;
+                            {!isAuthenticated ? (
+                                <>
+                                    <Button variant="outline-primary">
+                                        <Link to={`/login`}>
+                                            로그인
+                                        </Link>
+                                    </Button>
+                                    <Button variant="outline-primary">
+                                    <Link to={`/join`}>
+                                        회원가입
+                                    </Link>
+                                    </Button>
+                                </>
+                            ) : (
+                                <Button variant="outline-primary">
+                                    <Link to={`/logout`}>
+                                        로그아웃
+                                    </Link>
+                                </Button>
+                            )}
                         </Form>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Slider/>
+            {currentPath !== '/login' && currentPath !== '/join' &&
+                <Slider/>
+            }
             {currentPath !== '/' &&
                 <header className="bg-custom py-5">
                     <Container>

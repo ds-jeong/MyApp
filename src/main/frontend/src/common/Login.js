@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import {Button, Col, Container, Form} from 'react-bootstrap';
 
 const Login = () => {
     const [userId, setUserId] = useState('');
@@ -16,9 +16,14 @@ const Login = () => {
             const data = Object.fromEntries(formData.entries());
 
             const response = await axios.post('/api/login', formData);
-            window.localStorage.setItem('accessToken', response.data.token);
-            window.localStorage.setItem('userId', response.headers.get('userId'));
-            window.localStorage.setItem('role', response.headers.get('role'));
+            
+            //로그인한 사용자 정보
+            const userInfo =response.data.userInfo;
+            //로그인한 사용자 정보를 받아 객체에 저장
+            const dataToSave = {userInfo};
+            //전역에서 사용할수 있도록 localStorage에 저장
+            window.localStorage.setItem('token', response.data.token);
+            window.localStorage.setItem('userData', JSON.stringify(dataToSave));
 
             navigate('/');
 
@@ -30,15 +35,33 @@ const Login = () => {
 
     return (
         <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <label>ID:</label>
-                <input type="text" name="userId" value={userId} onChange={(e) => setUserId(e.target.value)}/><br/>
-                <label>PW:</label>
-                <input type="password" name="pw" value={pw} onChange={(e) => setPw(e.target.value)}/><br/>
-                <Button type="submit">Login</Button>
-                <Button type="button" href={`/join`}>Join</Button>
-            </form>
+            <Container>
+                <Form className="custom-form" onSubmit={handleLogin}>
+                    <Form.Group className="mb-3" controlId="formUserId">
+                        <Form.Label>아이디</Form.Label>
+                        <Form.Control
+                            name="userId"
+                            type="text"
+                            placeholder="아이디를 입력하세요"
+                            value={userId}
+                            onChange={(e) => setUserId(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formPassword">
+                        <Form.Label>비밀번호</Form.Label>
+                        <Form.Control
+                            name="pw"
+                            type="password"
+                            placeholder="비밀번호를 입력하세요"
+                            value={pw}
+                            onChange={(e) => setPw(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                        로그인
+                    </Button>
+                </Form>
+            </Container>
         </div>
     );
 };

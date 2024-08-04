@@ -26,4 +26,11 @@ code {
   flex-direction: column;
 }
 
+.header {
+  margin-bottom: 100px;
+}
+.footer {
+  margin-top: 200px;
+}
+
 

@@ -117,7 +117,7 @@ const Join = () => {
     return (
         <div>
             <Container>
-                <h1 className="text-center mt-4">회원가입</h1>
+                <h1 className="text-center mt-4"></h1>
                 <Form className="custom-form" onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formUserId">
                         <Form.Label>아이디</Form.Label>

@@ -29,7 +29,7 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping("/join")
-    public String registerUser(@ModelAttribute UserDto userDto) throws Exception{
+    public String registerUser(@ModelAttribute UserDto userDto) throws Exception {
         String userNm = userDto.getUserNm();
         // 아이디 중복 체크
         if (userService.isUsernameExists(userNm)) {
@@ -58,11 +58,14 @@ public class UserController {
         //3. JwtTokenProvider를 통해 JWT 토큰을 생성한다.
         String jwtToken = jwtTokenProvider.createToken(authentication);
 
-        //4. 생성한 JWT 토큰을 Response Header에 담아서 리턴한다.
+        // 4. 유저 정보를 조회한다.
+        UserDto userInfo = userService.selectUserInfo(userDto);
+
+        // 5. 생성한 JWT 토큰을 Response Header에 담아서 리턴한다.
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwtToken);
-        httpHeaders.add("userId", userDto.getUserId());
 
-        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(new TokenResponseDto(jwtToken));
+
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(new TokenResponseDto(jwtToken, userInfo));
     }
 }

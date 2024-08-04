@@ -5,6 +5,7 @@ import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-boot
 import {formatPrice} from '../../../../js/utils/formatUtils';
 import {Link} from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import LikeButton from '../../../button/LikeButton';
 
 function ProductList() {
     const navigate = useNavigate();
@@ -12,6 +13,10 @@ function ProductList() {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
+    const [like, setLike] = useState(false);
+    
+    const [userId, setUserId] = useState('');
+    const [productId, setProductId] = useState('');
 
     useEffect(() => {
         fetchData(currentPage);
@@ -39,6 +44,22 @@ function ProductList() {
         e.target.src = defaultImg; // 이미지 로드 오류 발생 시 기본 이미지로 교체
     };
 
+    // useEffect(async () => {
+    //     const fetchData = async () => {
+    //         const res = await axios.get(...)
+    //         if (res.data.type === 'liked') setLike(true)
+    //     }
+    //     fetchData()
+    // }, []);
+
+    // const toggleLike = async (e) => {
+    //     const res = await axios.post(...) // [POST] 사용자가 좋아요를 누름 -> DB 갱신
+    //     setLike(!like)
+    // }
+    const toggleLike = () => {
+        console.log('wwwwwwwww');
+    };
+
     return (
         <div className="divTable">
             <section className="py-5">
@@ -64,6 +85,7 @@ function ProductList() {
                                                 View options1
                                                 </Link>
                                             </Button>
+                                            <LikeButton like={like} onClick={toggleLike} />
                                         </div>
                                     </CardFooter>
                                 </Card>

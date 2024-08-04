@@ -1,9 +1,11 @@
 package com.demo.MyApp.common.service;
 
+import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.common.dto.UserDto;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,8 +41,22 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByUserNm(userNm) != null;
     }
 
+    @Transactional
     @Override
-    public List<UserDto> getUserInfo(UserDto userDto) throws Exception {
-        return List.of();
+    public UserDto selectUserInfo(UserDto dto){
+        User user = userRepository.findByUserId(dto.getUserId());
+
+        UserDto userDto = UserDto.builder()
+                .id(user.getId())
+                .userId(user.getUserId())
+                .userNm(user.getUserNm())
+                .pw(user.getPw())
+                .address(user.getAddress())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .build();
+
+        return userDto;
     }
 }

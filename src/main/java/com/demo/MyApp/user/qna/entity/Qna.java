@@ -15,6 +15,7 @@ import lombok.*;
 public class Qna {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "qna_id")
     private Long id;
 
     @Column
