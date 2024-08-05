@@ -10,7 +10,7 @@ services:
 
   springboot-app:
     build:
-      context: src/main/generated
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
