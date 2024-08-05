@@ -23,9 +23,10 @@
     "styled-components": "^6.1.11",
     "web-vitals": "^2.1.4"
   },
+  /*    "build": "react-scripts build",*/
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build" : "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
