@@ -1,16 +1,16 @@
 services:
   react-app:
     build:
-      context: ./myapp-react-app
+      context: ./src/main/frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:4100"
+      - "3000:3000"
     networks:
       - app-network
 
   springboot-app:
     build:
-      context: ./myapp-springboot-app
+      context: src/main/generated
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
