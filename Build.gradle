@@ -24,12 +24,13 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'mysql:mysql-connector-java:8.0.32'
     runtimeOnly 'com.mysql:mysql-connector-j'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.18'                    // Spring Boot Web
+//    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.18'                    // Spring Boot Web
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.7.18'              // Spring Boot JDBC
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -62,14 +63,16 @@ task copyReactBuildFiles(type: Copy) {
 processResources { dependsOn "copyReactBuildFiles" }
 
 jar {
+    enabled = false
+}
+
+bootJar {
+    mainClass.set('com.demo.MyApp.MyAppApplication')
+    archiveFileName.set("MyApp-0.0.1-SNAPSHOT-plain.jar")
     manifest {
         attributes(
                 'Manifest-Version': '1.0',
                 'Main-Class': 'com.demo.MyApp.MyAppApplication'
         )
     }
-}
-
-bootJar {
-    archiveFileName.set("MyApp-0.0.1-SNAPSHOT-plain.jar")
 }
