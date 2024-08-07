@@ -54,8 +54,17 @@ sourceSets {
     }
 }
 
+task copyReactBuildFiles(type: Copy) {
+    from "$frontendDir/build"  // React 빌드 결과물 경로
+    into "$buildDir/resources/main/static"  // Spring Boot의 정적 리소스 디렉토리
+}
+
 processResources { dependsOn "copyReactBuildFiles" }
 
 jar {
     enabled = false
+}
+
+bootJar {
+    archiveFileName.set("MyApp-0.0.1-SNAPSHOT-plain.jar")
 }
