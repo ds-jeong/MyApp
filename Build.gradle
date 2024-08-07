@@ -42,12 +42,5 @@ tasks.named('test') {
 }
 
 bootJar {
-    mainClass.set('com.demo.MyApp.MyAppApplication')
     archiveFileName.set("MyApp-0.0.1-SNAPSHOT-plain.jar")
-    manifest {
-        attributes(
-                'Manifest-Version': '1.0',
-                'Main-Class': 'com.demo.MyApp.MyAppApplication'
-        )
-    }
 }
