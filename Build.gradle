@@ -6,6 +6,7 @@ plugins {
 
 group = 'com.demo'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -14,12 +15,6 @@ repositories {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
     }
 }
 
@@ -42,24 +37,8 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 }
 
-def frontendDir = "$projectDir/src/main/frontend"
-
-sourceSets {
-    main {
-        resources { srcDirs = ["$projectDir/src/main/resources"]
-        }
-    }
-}
-
-task copyReactBuildFiles(type: Copy) {
-    from "$frontendDir/build"  // React 빌드 결과물 경로
-    into "$buildDir/resources/main/static"  // Spring Boot의 정적 리소스 디렉토리
-}
-
-processResources { dependsOn "copyReactBuildFiles" }
-
-jar {
-    enabled = false
+tasks.named('test') {
+    useJUnitPlatform()
 }
 
 bootJar {
