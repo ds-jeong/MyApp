@@ -9,7 +9,7 @@ jwt:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.27.104.22:3306/myAppDb?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://3.106.69.213:3306/myAppDb?serverTimezone=Asia/Seoul
     username: dsjeong
     password: jo0411
     main:
