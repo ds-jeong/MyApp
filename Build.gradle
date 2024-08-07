@@ -62,7 +62,12 @@ task copyReactBuildFiles(type: Copy) {
 processResources { dependsOn "copyReactBuildFiles" }
 
 jar {
-    enabled = false
+    manifest {
+        attributes(
+                'Manifest-Version': '1.0',
+                'Main-Class': 'com.demo.MyApp.MyAppApplication'
+        )
+    }
 }
 
 bootJar {
