@@ -1,8 +1,11 @@
 package com.demo.MyApp.common.entity;
 
+import com.demo.MyApp.admin.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.Set;
 
 @ToString
 @Getter
@@ -24,4 +27,7 @@ public class Category {
     @ManyToOne
     @JoinColumn(name = "storeId")
     private Store storeId;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Product> products; // 카테고리에 속한 상품들
 }

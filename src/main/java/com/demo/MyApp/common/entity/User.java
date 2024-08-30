@@ -1,13 +1,11 @@
 package com.demo.MyApp.common.entity;
 
-import com.demo.MyApp.admin.product.dto.ProductDto;
-import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.common.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.util.List;
+import java.util.Set;
 
 @ToString
 @Getter
@@ -32,6 +30,18 @@ public class User {
 
     @Column(nullable=false, unique=true) //unique=true 해야함.
     private String email;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserProfile userProfile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Wishlist> wishlists;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<CartItem> cartItems;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<RecentlyViewedItem> recentlyViewedItems;
 
     // Entity는 암묵적으로 Setter를 사용하지않음(정말 필요할때만 쓰기)
     // Setter 대신 데이터를 가공할때 호출할 메소드
