@@ -1,18 +1,18 @@
-package com.demo.MyApp.user.like.controller;
+package com.demo.MyApp.user.favorite.controller;
 
-import com.demo.MyApp.user.like.service.LikeService;
+import com.demo.MyApp.user.favorite.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user/like")
-public class LikeController {
+public class FavoriteController {
 
     @Autowired
-    private LikeService likeService;
+    private FavoriteService favoriteService;
 
     @PostMapping("/toggleLike")
     public void toggleLike(@RequestParam Long userId, @RequestParam Long productId) {
-        likeService.toggleLike(userId, productId);
+        favoriteService.toggleLike(userId, productId);
     }
 }

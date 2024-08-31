@@ -1,4 +1,4 @@
-package com.demo.MyApp.user.like.dto;
+package com.demo.MyApp.user.favorite.dto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class LikeDto {
+public class FavoriteDto {
     private Long productId;
     private Long userId;
 }

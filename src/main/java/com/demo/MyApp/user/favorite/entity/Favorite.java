@@ -1,4 +1,4 @@
-package com.demo.MyApp.user.like.entity;
+package com.demo.MyApp.user.favorite.entity;
 
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.common.entity.User;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor //기본 생성자를 생성
 @Entity //선언
 @Table(name = "favorite")
-public class Like {
+public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

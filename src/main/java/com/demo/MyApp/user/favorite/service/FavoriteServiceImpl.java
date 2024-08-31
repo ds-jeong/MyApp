@@ -1,11 +1,11 @@
-package com.demo.MyApp.user.like.service;
+package com.demo.MyApp.user.favorite.service;
 
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.repository.ProductRepository;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
-import com.demo.MyApp.user.like.entity.Like;
-import com.demo.MyApp.user.like.repository.LikeRepository;
+import com.demo.MyApp.user.favorite.entity.Favorite;
+import com.demo.MyApp.user.favorite.repository.FavoriteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor //생성자 주입코드없이 의존성주입
-public class LikeServiceImpl implements LikeService {
+public class FavoriteServiceImpl implements FavoriteService {
 
     @Autowired
     private UserRepository userRepository;
@@ -24,7 +24,7 @@ public class LikeServiceImpl implements LikeService {
     private ProductRepository productRepository;
 
     @Autowired
-    private LikeRepository likeRepository;
+    private FavoriteRepository favoriteRepository;
 
     @Transactional
     public void toggleLike(Long userId, Long productId) {
@@ -33,17 +33,17 @@ public class LikeServiceImpl implements LikeService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
 
-        Optional<Like> existingLike = likeRepository.findByUserAndProduct(user, product);
+        Optional<Favorite> existingLike = favoriteRepository.findByUserAndProduct(user, product);
 
         if (existingLike.isPresent()) {
             // If like exists, remove it
-            likeRepository.deleteByUserAndProduct(user, product);
+            favoriteRepository.deleteByUserAndProduct(user, product);
         } else {
             // If like does not exist, add it
-            Like like = new Like();
-            like.setUser(user);
-            like.setProduct(product);
-            likeRepository.save(like);
+            Favorite favorite = new Favorite();
+            favorite.setUser(user);
+            favorite.setProduct(product);
+            favoriteRepository.save(favorite);
         }
     }
 }
