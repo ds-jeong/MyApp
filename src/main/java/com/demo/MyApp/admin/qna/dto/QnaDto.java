@@ -1,6 +1,6 @@
-package com.demo.MyApp.user.qna.dto;
+package com.demo.MyApp.admin.qna.dto;
 
-import com.demo.MyApp.user.qna.entity.Qna;
+import com.demo.MyApp.admin.qna.entity.Qna;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 

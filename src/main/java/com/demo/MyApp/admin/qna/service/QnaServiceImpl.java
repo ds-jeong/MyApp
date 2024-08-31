@@ -1,11 +1,9 @@
-package com.demo.MyApp.user.qna.service;
+package com.demo.MyApp.admin.qna.service;
 
-import com.demo.MyApp.admin.product.dto.ProductDto;
-import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.common.utill.service.UtillServiceImpl;
-import com.demo.MyApp.user.qna.entity.Qna;
-import com.demo.MyApp.user.qna.repository.QnaRepository;
-import com.demo.MyApp.user.qna.dto.QnaDto;
+import com.demo.MyApp.admin.qna.entity.Qna;
+import com.demo.MyApp.admin.qna.repository.QnaRepository;
+import com.demo.MyApp.admin.qna.dto.QnaDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service

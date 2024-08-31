@@ -1,12 +1,9 @@
-package com.demo.MyApp.user.qna.service;
+package com.demo.MyApp.admin.qna.service;
 
-import com.demo.MyApp.user.qna.dto.QnaDto;
-import com.demo.MyApp.user.qna.entity.Qna;
+import com.demo.MyApp.admin.qna.dto.QnaDto;
+import com.demo.MyApp.admin.qna.entity.Qna;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 public interface QnaService {
     void insertQna(QnaDto qnaDto, MultipartFile file) throws Exception;

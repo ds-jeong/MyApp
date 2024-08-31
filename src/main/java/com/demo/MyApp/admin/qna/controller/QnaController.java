@@ -1,16 +1,13 @@
-package com.demo.MyApp.user.qna.controller;
+package com.demo.MyApp.admin.qna.controller;
 
-import com.demo.MyApp.admin.product.dto.ProductDto;
-import com.demo.MyApp.user.qna.entity.Qna;
-import com.demo.MyApp.user.qna.service.QnaServiceImpl;
-import com.demo.MyApp.user.qna.dto.QnaDto;
+import com.demo.MyApp.admin.qna.entity.Qna;
+import com.demo.MyApp.admin.qna.service.QnaServiceImpl;
+import com.demo.MyApp.admin.qna.dto.QnaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user/qna")

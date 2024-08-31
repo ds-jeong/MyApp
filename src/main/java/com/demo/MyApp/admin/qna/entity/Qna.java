@@ -1,6 +1,6 @@
-package com.demo.MyApp.user.qna.entity;
+package com.demo.MyApp.admin.qna.entity;
 
-import com.demo.MyApp.user.qna.dto.QnaDto;
+import com.demo.MyApp.admin.qna.dto.QnaDto;
 import jakarta.persistence.*;
 import lombok.*;
 
