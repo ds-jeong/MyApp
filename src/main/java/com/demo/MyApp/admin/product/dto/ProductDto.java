@@ -17,6 +17,6 @@ public class ProductDto {
     private MultipartFile file;
     private  String fileNm;
     private  String filePath;
-    private  String productKind;
+    private  String category;
 
 }

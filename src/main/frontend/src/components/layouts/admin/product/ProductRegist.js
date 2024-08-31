@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 function ProductRegist() {
     //폼전송
+    const categoryRef = useRef(null);
     const productNmRef = useRef();
     const priceRef = useRef();
     const contentRef = useRef();
     const authorRef = useRef();
-    const productKindRef = useRef();
+    //const productKindRef = useRef();
     const fileRef = useRef();
     const navigate = useNavigate();
 
@@ -18,11 +19,13 @@ function ProductRegist() {
         event.preventDefault();
 
         const formData = new FormData();
+        if (categoryRef.current) {
+            formData.append('category', categoryRef.current.value);
+        }
         formData.append('productNm', productNmRef.current.value);
         formData.append('price', priceRef.current.value);
         formData.append('content', contentRef.current.value);
         formData.append('author', authorRef.current.value);
-        formData.append('productKind', productKindRef.current.value);
         formData.append('file', fileRef.current.files[0]); // 첨부된 이미지 파일 추가
 
         axios.post('/admin/product/insertProduct', formData)
@@ -80,9 +83,9 @@ function ProductRegist() {
                         <Form.Control as="textarea" rows={5} placeholder="상품설명 입력" ref={contentRef} />
                     </Form.Group>
 
-                    <Form.Group controlId="formProductKind">
+                    <Form.Group controlId="formCategory">
                         <Form.Label>상품종류</Form.Label>
-                        <Form.Control as="select" style={{width: '100px', height: '35px'}} ref={productKindRef}>
+                        <Form.Control as="select" style={{width: '100px', height: '35px'}} ref={categoryRef}>
                             <option value="clothing">의류</option>
                             <option value="electronics">전자제품</option>
                             <option value="books">책</option>

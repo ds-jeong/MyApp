@@ -32,9 +32,9 @@ public class Product {
 
     private  String fileNm;
     private  String filePath;
-    private  String productKind; // 추후에 삭제
     private Integer favorite; //좋아요
     private Integer views; //조회수
+    private String category;//카테고리
 
     // 구매율 관련 정보
     private Integer totalSales;  // 총 판매량
@@ -49,9 +49,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RecentlyViewedItem> recentlyViewedItems;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;  // 상품이 속한 카테고리
+//    @ManyToOne
+//    @JoinColumn(name = "category_nm", nullable = false)
+//    private Category category;  // 상품이 속한 카테고리
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductOption> options;  // 상품 옵션
@@ -67,7 +67,6 @@ public class Product {
                 .price(dto.getPrice())
                 .fileNm(dto.getFileNm())
                 .filePath(dto.getFilePath())
-                .productKind(dto.getProductKind())
                 .build();
     }
 

@@ -28,6 +28,6 @@ public class Category {
     @JoinColumn(name = "storeId")
     private Store storeId;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Product> products; // 카테고리에 속한 상품들
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Set<Product> products; // 카테고리에 속한 상품들
 }

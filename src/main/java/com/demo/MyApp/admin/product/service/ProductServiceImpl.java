@@ -1,5 +1,6 @@
 package com.demo.MyApp.admin.product.service;
 
+import com.demo.MyApp.common.entity.Category;
 import com.demo.MyApp.common.utill.service.UtillServiceImpl;
 import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.admin.product.entity.Product;
@@ -98,8 +99,8 @@ public class ProductServiceImpl implements ProductService {
         if (productDto.getContent() != null) {
             product.setContent(productDto.getContent());
         }
-        if (productDto.getProductKind() != null) {
-            product.setProductKind(productDto.getProductKind());
+        if (productDto.getCategory() != null) {
+            product.setCategory(productDto.getCategory());
         }
         if (productDto.getAuthor() != null) {
             product.setAuthor(productDto.getAuthor());
