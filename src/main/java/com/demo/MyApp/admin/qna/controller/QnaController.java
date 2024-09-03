@@ -51,9 +51,9 @@ public class QnaController {
     }
 
     @PostMapping("/updateQna")
-    public String updateQna(@ModelAttribute QnaDto qnaDto,@RequestParam("id") Long id, @RequestParam("file") MultipartFile file) throws Exception{
+    public String updateQna(@ModelAttribute QnaDto qnaDto,@RequestParam("id") Long id, @RequestParam("file") MultipartFile file, @RequestParam("originFilePath") String originFilePath) throws Exception{
         /* 관리자 > Q&A 변경 */
-        qnaService.updateQna(qnaDto, id, file);
+        qnaService.updateQna(qnaDto, id, file, originFilePath);
         return "Post received successfully";
     }
 

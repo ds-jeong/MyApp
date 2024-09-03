@@ -83,7 +83,7 @@ public class QnaServiceImpl implements QnaService{
 
     @Transactional
     @Override
-    public void updateQna(QnaDto qnaDto, Long id, MultipartFile file) throws Exception {
+    public void updateQna(QnaDto qnaDto, Long id, MultipartFile file, String originFilePath) throws Exception {
         Qna qna = qnaRepository.findById(id).orElseThrow();
 
         /* 파일이 저장될 이미지 경로 */
@@ -91,6 +91,9 @@ public class QnaServiceImpl implements QnaService{
 
         /* 파일 null 처리 */
         if (file != null && !file.isEmpty()) {
+            if (originFilePath != null && !originFilePath.isEmpty()) {
+                s3Uploader.deleteImage(originFilePath);
+            }
             /* 이미지 업로드 공통 메소드 */
             uploadImageUrl = s3Uploader.uploadFiles(file, "product/image");
             /* 값셋팅 */
@@ -106,6 +109,12 @@ public class QnaServiceImpl implements QnaService{
         }
         if (qnaDto.getAuthor() != null) {
             qna.setAuthor(qnaDto.getAuthor());
+        }
+        if (qnaDto.getFileNm() != null) {
+            qna.setAuthor(qnaDto.getFileNm());
+        }
+        if (qnaDto.getFilePath() != null) {
+            qna.setAuthor(qnaDto.getFilePath());
         }
 
         qnaRepository.save(qna);

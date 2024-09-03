@@ -14,7 +14,7 @@ public interface QnaService {
 
     QnaDto qnaDetail(Long id) throws Exception;
 
-    void updateQna(QnaDto qnaDto, Long id, MultipartFile file) throws Exception;
+    void updateQna(QnaDto qnaDto, Long id, MultipartFile file, String originFilePath) throws Exception;
 
     void deleteQna(Long id) throws Exception;
 
