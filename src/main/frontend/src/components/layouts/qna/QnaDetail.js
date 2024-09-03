@@ -20,8 +20,9 @@ function QnaDetail() {
     }, []);
 
     const defaultImg = `${process.env.PUBLIC_URL}/404.jpg`;
+    /* 이미지 로드 오류 발생 시 기본 이미지로 교체 */
     const handleImgError = (e) => {
-        e.target.src = defaultImg; // 이미지 로드 오류 발생 시 기본 이미지로 교체
+        e.target.src = defaultImg;
     };
 
     return (
@@ -71,7 +72,7 @@ function QnaDetail() {
                                     <div>
                                         {resArr.filePath && (
                                             <img
-                                                src={`${process.env.PUBLIC_URL}/upload/img/${resArr.fileNm}`}
+                                                src={`${resArr.filePath}`}
                                                 alt="미리보기"
                                                 style={{width: '250px', height: '300px'}}
                                             />

@@ -1,6 +1,7 @@
 package com.demo.MyApp.admin.qna.service;
 
-import com.demo.MyApp.common.utill.service.UtillServiceImpl;
+import com.demo.MyApp.config.aws.s3.S3Uploader;
+import com.demo.MyApp.utill.service.UtillServiceImpl;
 import com.demo.MyApp.admin.qna.entity.Qna;
 import com.demo.MyApp.admin.qna.repository.QnaRepository;
 import com.demo.MyApp.admin.qna.dto.QnaDto;
@@ -17,35 +18,31 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor //생성자 주입코드없이 의존성주입
+@RequiredArgsConstructor /* 생성자 주입코드없이 의존성주입 */
 public class QnaServiceImpl implements QnaService{
 
     @Autowired
     private final QnaRepository qnaRepository;
 
     @Autowired
-    private UtillServiceImpl utillService;
-
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    private S3Uploader s3Uploader;
 
     @Transactional
     @Override
     public void insertQna(QnaDto qnaDto, MultipartFile file) throws Exception {
-        // 파일이 저장될 이미지 경로
-//        String UPLOAD_DIR = "C:\\localProject\\MyApp\\src\\main\\resources\\frontend\\public\\upload\\";
-        String UPLOAD_DIR = uploadDir + "\\upload\\";
+        /* 파일이 저장될 이미지 경로 */
+        String uploadImageUrl = "";
 
-        // 파일 null 처리
+        /* 파일 null 처리 */
         if (file != null && !file.isEmpty()) {
-            // 이미지 업로드 공통 메소드
-            utillService.imgUpload(file);
-            // 값셋팅
+            /* 이미지 업로드 공통 메소드 */
+            uploadImageUrl = s3Uploader.uploadFiles(file, "qna/image");
+            /* 값셋팅 */
             qnaDto.setFileNm(file.getOriginalFilename());
-            qnaDto.setFilePath(UPLOAD_DIR + file.getOriginalFilename());
+            qnaDto.setFilePath(uploadImageUrl);
         }
 
-        // DTO를 Entity로 변환하여 save() 메소드에 담아 데이터 삽입
+        /* DTO를 Entity로 변환하여 save() 메소드에 담아 데이터 삽입 */
         Qna entity = Qna.toEntity(qnaDto);
         qnaRepository.save(entity);
     }
@@ -89,19 +86,18 @@ public class QnaServiceImpl implements QnaService{
     public void updateQna(QnaDto qnaDto, Long id, MultipartFile file) throws Exception {
         Qna qna = qnaRepository.findById(id).orElseThrow();
 
-        // 파일이 저장될 이미지 경로
-//        String UPLOAD_DIR = "C:\\localProject\\MyApp\\src\\main\\resources\\frontend\\public\\upload\\";
-        String UPLOAD_DIR = uploadDir + "\\upload\\";
+        /* 파일이 저장될 이미지 경로 */
+        String uploadImageUrl = "";
 
-        // 파일 null 처리
+        /* 파일 null 처리 */
         if (file != null && !file.isEmpty()) {
-            // 이미지 업로드 공통 메소드
-            utillService.imgUpload(file);
-            // 값셋팅
+            /* 이미지 업로드 공통 메소드 */
+            uploadImageUrl = s3Uploader.uploadFiles(file, "product/image");
+            /* 값셋팅 */
             qna.setFileNm(file.getOriginalFilename());
-            qna.setFilePath(UPLOAD_DIR + file.getOriginalFilename());
+            qna.setFilePath(uploadImageUrl);
         }
-        // DTO를 통해 필드를 업데이트 (값이 null이 아닐 때만)
+        /* DTO를 통해 필드를 업데이트 (값이 null이 아닐 때만) */
         if (qnaDto.getTitle() != null) {
             qna.setTitle(qnaDto.getTitle());
         }

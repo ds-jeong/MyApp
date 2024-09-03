@@ -24,37 +24,13 @@ function QnaRegist() {
 
         axios.post('/user/qna/insertQna', formData)
             .then(response => {
-                // console.log('Post submitted successfully');
                 alert("Q&A가 등록되었습니다.");
-                // useHistory import 안되면 아래 코드로 수정해서 반영
-                // 응답을 받고 제품 등록화면으로 돌아감
+                /* useHistory import 안되면 아래 코드로 수정해서 반영 */
+                /* 응답을 받고 제품 등록화면으로 돌아감 */
                 navigate('/qnaList');
             })
             .catch(error => {
                 console.error('Error submitting post: ', error);
-            });
-    };
-
-    //파일업로드
-    const [selectedFile, setSelectedFile] = useState(null);
-
-    const fileSelectedHandler = event => {
-        setSelectedFile(event.target.files[0]);
-        //console.log(event.target.files[0]);
-    };
-
-    const fileUploadHandler = () => {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-
-        axios.post('/utill/imgUpload', formData)
-            .then(response => {
-                //console.log(response.data);
-                // Handle success, e.g., show a success message
-            })
-            .catch(error => {
-                console.error('Error uploading file: ', error);
-                // Handle error, e.g., show an error message
             });
     };
 
@@ -79,7 +55,7 @@ function QnaRegist() {
 
                     <Form.Group controlId="formImage">
                         <Form.Label>이미지 첨부</Form.Label>
-                        <Form.Control type="file" ref={fileRef} onChange={fileSelectedHandler} />
+                        <Form.Control type="file" ref={fileRef}/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
@@ -87,7 +63,6 @@ function QnaRegist() {
                     </Button>
                 </Form>
             </Container>
-             {/*<button onClick={fileUploadHandler}>Upload</button>*/}
         </div>
     );
 }

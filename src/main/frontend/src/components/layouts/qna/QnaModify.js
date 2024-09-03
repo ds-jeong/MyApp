@@ -6,27 +6,26 @@ import ImageEditor from '../../../js/utils/ImageEditor';
 
 function QnaModify() {
 
-    //const [resArr, setResArr] = useState([]);
     const params = useParams();
 
-    // 입력 필드 값을 상태로 관리
+    /* 입력 필드 값을 상태로 관리 */
     const [inputValue, setInputValue] = useState({
         titlte: '',
         content: '',
         author: '',
         file: '',
     });
+
     const { titlte, content, author,file } = inputValue;
-    // onChange 이벤트 핸들러
     const handleChange = (e) => {
 
-        // input 요소의 name 속성과 value를 가져옵니다
+        /* input 요소의 name 속성과 value를 가져옴 */
         const { name, value } = e.target;
 
-        // price 필드인 경우 formatPrice 함수를 적용하여 값 변환
+        /* value 업데이트 */
         const updatedValue = value;
 
-        // 상태를 업데이트합니다
+        /* 상태를 업데이트 */
         setInputValue({
             ...inputValue,
             [name]: updatedValue
@@ -45,12 +44,13 @@ function QnaModify() {
             .catch(error => console.log(error))
     }, []);
 
+    /* 이미지 로드 오류 발생 시 기본 이미지로 교체 */
     const defaultImg = `${process.env.PUBLIC_URL}/404.jpg`;
     const handleImgError = (e) => {
-        e.target.src = defaultImg; // 이미지 로드 오류 발생 시 기본 이미지로 교체
+        e.target.src = defaultImg;
     };
 
-    const initialImage = `/upload/img/${inputValue.fileNm}`;
+    const initialImage = `${inputValue.filePath}`
 
     const navigate = useNavigate();
 
@@ -62,8 +62,6 @@ function QnaModify() {
         const msg = window.confirm("정말 수정하시겠습니까?");
         const formData = new FormData(e.target);
 
-        const data = Object.fromEntries(formData.entries());
-
         if(!formData.get("title")){
             alert("제목을 입력하세요.");
         }else if(!formData.get("content")){
@@ -72,10 +70,9 @@ function QnaModify() {
             if(msg){
                 axios.post('/user/qna/updateQna', formData)
                     .then(response => {
-                        //console.log('Post submitted successfully');
                         alert("수정되었습니다.");
-                        // useHistory import 안되면 아래 코드로 수정해서 반영
-                        // 응답을 받고 상세화면으로 돌아감
+                        /* useHistory import 안되면 아래 코드로 수정해서 반영 */
+                        /* 응답을 받고 제품 등록화면으로 돌아감 */
                         navigate(`/qnaDetail/${params.id}`);
                     })
                     .catch(error => {
@@ -94,10 +91,9 @@ function QnaModify() {
                     params: {id: params.id}
                 })
                 .then(response => {
-                    //console.log('Post submitted successfully');
                     alert("삭제되었습니다.");
-                    // useHistory import 안되면 아래 코드로 수정해서 반영
-                    // 응답을 받고 리스트 화면으로 돌아감
+                    /* useHistory import 안되면 아래 코드로 수정해서 반영 */
+                    /* 응답을 받고 제품 등록화면으로 돌아감 */
                     navigate(`/qnaList`);
                 })
                 .catch(error => {
