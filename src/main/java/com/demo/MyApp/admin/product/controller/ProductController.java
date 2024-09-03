@@ -44,9 +44,9 @@ public class ProductController {
     }
 
     @PostMapping("/updateProduct")
-    public String updateProduct(@ModelAttribute ProductDto productDto,@RequestParam("id") Long id, @RequestParam("file") MultipartFile file) throws Exception{
+    public String updateProduct(@ModelAttribute ProductDto productDto,@RequestParam("id") Long id, @RequestParam("file") MultipartFile file, @RequestParam("originFilePath") String originFilePath) throws Exception{
         /* 관리자 > 상품변경 */
-        productService.updateProduct(productDto, id, file);
+        productService.updateProduct(productDto, id, file, originFilePath);
         return "Post received successfully";
     }
 

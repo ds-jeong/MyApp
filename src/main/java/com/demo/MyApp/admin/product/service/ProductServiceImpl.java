@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void updateProduct(ProductDto productDto, Long id, MultipartFile file) throws Exception {
+    public void updateProduct(ProductDto productDto, Long id, MultipartFile file, String originFilePath) throws Exception {
        Product product = productRepository.findById(id).orElseThrow();
 
         /* 파일이 저장될 이미지 경로 */
@@ -76,6 +76,9 @@ public class ProductServiceImpl implements ProductService {
 
         /* 파일 null 처리 */
         if (file != null && !file.isEmpty()) {
+            if (originFilePath != null && !originFilePath.isEmpty()) {
+                s3Uploader.deleteImage(originFilePath);
+            }
             /* 이미지 업로드 공통 메소드 */
             uploadImageUrl = s3Uploader.uploadFiles(file, "product/image");
             /* 값셋팅 */
@@ -98,6 +101,12 @@ public class ProductServiceImpl implements ProductService {
         }
         if (productDto.getAuthor() != null) {
             product.setAuthor(productDto.getAuthor());
+        }
+        if (productDto.getFileNm() != null) {
+            product.setFileNm(productDto.getFileNm());
+        }
+        if (productDto.getFilePath() != null) {
+            product.setFilePath(productDto.getFilePath());
         }
         
         productRepository.save(product);

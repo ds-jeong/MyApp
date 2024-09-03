@@ -12,7 +12,7 @@ public interface ProductService {
 
     ProductDto productDetail(Long id) throws Exception;
 
-    void updateProduct(ProductDto productDto, Long id, MultipartFile file) throws Exception;
+    void updateProduct(ProductDto productDto, Long id, MultipartFile file, String originFilePath) throws Exception;
 
     void deleteProduct(Long id) throws Exception;
 }

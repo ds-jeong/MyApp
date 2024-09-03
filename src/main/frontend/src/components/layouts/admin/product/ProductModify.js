@@ -2,20 +2,20 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, Container, Form, Table} from 'react-bootstrap';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from 'axios';
-import ImageEditor from '../../../../js/utils/ImageEditor';
-import {formatPrice, addCommasToPrice} from "../../../../js/utils/formatUtils";
+import {addCommasToPrice} from "../../../../js/utils/formatUtils";
 
 function ProductModify() {
 
     const params = useParams();
 
-    // 입력 필드 값을 상태로 관리
+    /* 입력 필드 값을 상태로 관리 */
     const [inputValue, setInputValue] = useState({
         productNm: '',
         price: '',
         content: '',
         author: '',
         file: '',
+        filePath: '',
     });
 
     const { productNm, price, content, author,file } = inputValue;
@@ -60,9 +60,28 @@ function ProductModify() {
         {value: 'toys', label: '장난감'}
     ];
 
-    const initialImage = `${inputValue.filePath}`
-
+    const initialImage = `${inputValue.filePath}`;
     const navigate = useNavigate();
+
+    /* 이미지 교체 핸들러 */
+    const [image, setImage] = useState(initialImage);
+    const [newImage, setNewImage] = useState(null);
+
+    useEffect(() => {
+        /* 초기 이미지가 변경될 때마다 상태 업데이트 */
+        setImage(initialImage);
+    }, [initialImage]);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setNewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     //수정
     const handleSubmit = (e) => {
@@ -200,7 +219,38 @@ function ProductModify() {
                         <tr>
                             <td><Form.Label>이미지 첨부</Form.Label></td>
                             <td>
-                                <ImageEditor initialImage={initialImage}/>
+                                <div>
+                                    {newImage ? (
+                                        <div>
+                                            <h3>미리보기 새 이미지:</h3>
+                                            <img
+                                                src={newImage}
+                                                alt="미리보기 새 이미지"
+                                                style={{maxWidth: '500px', maxHeight: '500px'}}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <h3>현재 이미지:</h3>
+                                            <img
+                                                src={image}
+                                                alt="현재 이미지"
+                                                style={{maxWidth: '500px', maxHeight: '500px'}}
+                                            />
+                                        </div>
+                                    )}
+                                    <div>
+                                        <h3>새 이미지 업로드:</h3>
+                                        <input
+                                            name="file"
+                                            className="file"
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                        />
+                                        <input type="hidden" value={inputValue.filePath || ''} name="originFilePath"/>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr>

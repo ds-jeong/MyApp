@@ -2,6 +2,7 @@ package com.demo.MyApp.config.aws.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -44,7 +45,7 @@ public class S3Uploader {
         /* 파일 이름 검증 및 변환 */
         String fileName = file.getOriginalFilename().replaceAll("[^a-zA-Z0-9.-]", "_");
         File convertFile = new File(dirPath + "/" + fileName);
-
+        removeNewFile(convertFile);
         try {
             if (convertFile.createNewFile()) {
                 try (FileOutputStream fileOutputStream = new FileOutputStream(convertFile)) {
@@ -62,7 +63,7 @@ public class S3Uploader {
     public String upload(File uploadFile, String filePath) {
         String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
-        //removeNewFile(uploadFile);
+        removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
@@ -74,7 +75,7 @@ public class S3Uploader {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
-    /* 파일 삭제 */
+    /* 임시파일 삭제 */
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
             System.out.println("File delete success");
@@ -83,4 +84,11 @@ public class S3Uploader {
         System.out.println("File delete fail");
     }
 
+    /* 이미지 수정으로 인해 기존 이미지 삭제 */
+    public void deleteImage(String fileUrl) {
+        String splitStr = ".com/";
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf(splitStr) + splitStr.length());
+
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+    }
 }
