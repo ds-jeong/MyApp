@@ -1,15 +1,13 @@
 package com.demo.MyApp.admin.qna.service;
 
-import com.demo.MyApp.config.aws.s3.S3Uploader;
-import com.demo.MyApp.utill.service.UtillServiceImpl;
+import com.demo.MyApp.admin.qna.dto.QnaDto;
 import com.demo.MyApp.admin.qna.entity.Qna;
 import com.demo.MyApp.admin.qna.repository.QnaRepository;
-import com.demo.MyApp.admin.qna.dto.QnaDto;
+import com.demo.MyApp.config.aws.s3.S3Uploader;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
