@@ -19,6 +19,10 @@ java {
 }
 
 dependencies {
+    // AWS S3
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'mysql:mysql-connector-java:8.0.32'
     runtimeOnly 'com.mysql:mysql-connector-j'
