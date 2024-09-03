@@ -7,11 +7,7 @@ import {formatPrice, addCommasToPrice} from "../../../../js/utils/formatUtils";
 
 function ProductModify() {
 
-    //const [resArr, setResArr] = useState([]);
     const params = useParams();
-
-    // 입력 필드 값을 상태로 관리
-    //const [inputValue, setInputValue] = useState('');
 
     // 입력 필드 값을 상태로 관리
     const [inputValue, setInputValue] = useState({
@@ -21,17 +17,16 @@ function ProductModify() {
         author: '',
         file: '',
     });
-    const { productNm, price, content, author,file } = inputValue;
-    // onChange 이벤트 핸들러
-    const handleChange = (e) => {
 
-        // input 요소의 name 속성과 value를 가져옵니다
+    const { productNm, price, content, author,file } = inputValue;
+    const handleChange = (e) => {
+        /* input 요소의 name 속성과 value를 가져옴 */
         const { name, value } = e.target;
 
-        // price 필드인 경우 formatPrice 함수를 적용하여 값 변환
+        /* price 필드인 경우 formatPrice 함수를 적용하여 값 변환 */
         const updatedValue = name === 'price' ? addCommasToPrice(value) : value;
 
-        // 상태를 업데이트합니다
+        /* 상태를 업데이트 */
         setInputValue({
             ...inputValue,
             [name]: updatedValue
@@ -50,9 +45,10 @@ function ProductModify() {
             .catch(error => console.log(error))
     }, []);
 
+    /* 이미지 로드 오류 발생 시 기본 이미지로 교체 */
     const defaultImg = `${process.env.PUBLIC_URL}/404.jpg`;
     const handleImgError = (e) => {
-        e.target.src = defaultImg; // 이미지 로드 오류 발생 시 기본 이미지로 교체
+        e.target.src = defaultImg;
     };
 
     const [productKind, setProductKind] = useState(inputValue.productKind);
@@ -64,7 +60,7 @@ function ProductModify() {
         {value: 'toys', label: '장난감'}
     ];
 
-    const initialImage = `/upload/img/${inputValue.fileNm}`
+    const initialImage = `${inputValue.filePath}`
 
     const navigate = useNavigate();
 
@@ -75,10 +71,8 @@ function ProductModify() {
 
         const msg = window.confirm("정말 수정하시겠습니까?");
         const formData = new FormData(e.target);
-        const price = formData.get("price").replace(/,/g, ""); // g 플래그를 사용하여 모든 쉼표를 제거
-        formData.set("price", price); // price를 수정된 값으로 설정
-
-        const data = Object.fromEntries(formData.entries());
+        const price = formData.get("price").replace(/,/g, ""); /* g 플래그를 사용하여 모든 쉼표를 제거 */
+        formData.set("price", price); /* price를 수정된 값으로 설정 */
 
         if(!formData.get("productNm")){
             alert("제품명을 입력하세요.");
@@ -90,10 +84,9 @@ function ProductModify() {
             if(msg){
                 axios.post('/admin/product/updateProduct', formData)
                     .then(response => {
-                        //console.log('Post submitted successfully');
                         alert("상품이 수정되었습니다.");
-                        // useHistory import 안되면 아래 코드로 수정해서 반영
-                        // 응답을 받고 제품 등록화면으로 돌아감
+                        /* useHistory import 안되면 아래 코드로 수정해서 반영 */
+                        /* 응답을 받고 제품 등록화면으로 돌아감 */
                         navigate(`/productDetail/${params.id}`);
                     })
                     .catch(error => {
@@ -112,10 +105,9 @@ function ProductModify() {
                     params: {id: params.id}
                 })
                 .then(response => {
-                    //console.log('Post submitted successfully');
                     alert("상품이 삭제되었습니다.");
-                    // useHistory import 안되면 아래 코드로 수정해서 반영
-                    // 응답을 받고 제품 등록화면으로 돌아감
+                    /* useHistory import 안되면 아래 코드로 수정해서 반영 */
+                    /* 응답을 받고 제품 등록화면으로 돌아감 */
                     navigate(`/productList`);
                 })
                 .catch(error => {

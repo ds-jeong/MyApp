@@ -9,8 +9,6 @@ import LikeButton from '../../../button/LikeButton';
 
 function ProductList() {
     const token = window.localStorage.getItem('token');
-
-
     const navigate = useNavigate();
     const [resArr, setResArr] = useState([]);
     const [pageCount, setPageCount] = useState(0);
@@ -88,7 +86,7 @@ function ProductList() {
                             <div className="col mb-5" key={index}>
                                 <Card className="h-100">
                                     <CardImg className="cardImg" top="true"
-                                             src={`${process.env.PUBLIC_URL}/upload/img/${item.fileNm}`}
+                                             src={`${item.filePath}`}
                                              alt="Card image cap"
                                              onError={handleImgError}/>
                                     <CardBody>

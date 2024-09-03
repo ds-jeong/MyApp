@@ -21,8 +21,9 @@ function ProductDetail() {
     }, []);
 
     const defaultImg = `${process.env.PUBLIC_URL}/404.jpg`;
+    /* 이미지 로드 오류 발생 시 기본 이미지로 교체 */
     const handleImgError = (e) => {
-        e.target.src = defaultImg; // 이미지 로드 오류 발생 시 기본 이미지로 교체
+        e.target.src = defaultImg;
     };
 
     const [productKind, setProductKind] = useState(resArr.productKind);
@@ -80,15 +81,14 @@ function ProductDetail() {
                                 <Form.Control
                                     as="select"
                                     style={{width: '100px', height: '35px'}}
-                                    value={productKind || ''} // 선택된 값을 상태로 설정
-                                    onChange={(e) => setProductKind(e.target.value)} // 선택된 값 업데이트
+                                    value={productKind || ''} /* 선택된 값을 상태로 설정 */
+                                    onChange={(e) => setProductKind(e.target.value)} /* 선택된 값 업데이트 */
                                     disabled
                                 >
                                     {options.map(option => (
                                         <option
                                             key={option.value}
                                             value={option.value}
-                                            // 선택 상태를 직접 설정할 필요 없음
                                         >
                                             {option.label}
                                         </option>
@@ -114,7 +114,7 @@ function ProductDetail() {
                                     <div>
                                         {resArr.filePath && (
                                             <img
-                                                src={`${process.env.PUBLIC_URL}/upload/img/${resArr.fileNm}`}
+                                                src={`${resArr.filePath}`}
                                                 alt="미리보기"
                                                 style={{width: '250px', height: '300px'}}
                                             />
