@@ -33,7 +33,7 @@ function QnaModify() {
     };
 
     useEffect(() => {
-        axios.get('/user/qna/qnaModify',
+        axios.get('/admin/qna/qnaModify',
             {
                 params: {id: params.id}
             }).then(response => {
@@ -87,7 +87,7 @@ function QnaModify() {
             alert("내용을 입력하세요.");
         }else{
             if(msg){
-                axios.post('/user/qna/updateQna', formData)
+                axios.post('/admin/qna/updateQna', formData)
                     .then(response => {
                         alert("수정되었습니다.");
                         /* useHistory import 안되면 아래 코드로 수정해서 반영 */
@@ -105,7 +105,7 @@ function QnaModify() {
     const handleDelete = () => {
         const msg = window.confirm("정말 삭제하시겠습니까?");
         if (msg){
-            axios.get('/user/qna/deleteQna',
+            axios.get('/admin/qna/deleteQna',
                 {
                     params: {id: params.id}
                 })

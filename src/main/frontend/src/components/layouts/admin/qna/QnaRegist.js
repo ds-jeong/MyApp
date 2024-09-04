@@ -22,7 +22,7 @@ function QnaRegist() {
         formData.append('file', fileRef.current.files[0]); // 첨부된 이미지 파일 추가
 
 
-        axios.post('/user/qna/insertQna', formData)
+        axios.post('/admin/qna/insertQna', formData)
             .then(response => {
                 alert("Q&A가 등록되었습니다.");
                 /* useHistory import 안되면 아래 코드로 수정해서 반영 */

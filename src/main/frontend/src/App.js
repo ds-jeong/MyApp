@@ -9,10 +9,10 @@ import Join from "./common/Join";
 import Footer from "./common/Footer";
 import Main from "./components/Main";
 
-import QnaList from "./components/layouts/qna/QnaList";
-import QnaRegist from "./components/layouts/qna/QnaRegist";
-import QnaDetail from "./components/layouts/qna/QnaDetail";
-import QnaModify from "./components/layouts/qna/QnaModify";
+import QnaList from "./components/layouts/admin/qna/QnaList";
+import QnaRegist from "./components/layouts/admin/qna/QnaRegist";
+import QnaDetail from "./components/layouts/admin/qna/QnaDetail";
+import QnaModify from "./components/layouts/admin/qna/QnaModify";
 
 import ProductList from "./components/layouts/admin/product/ProductList"
 import ProductRegist from "./components/layouts/admin/product/ProductRegist";

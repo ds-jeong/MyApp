@@ -20,7 +20,7 @@ function QnaList() {
     const fetchData = async (page) => {
         try {
             //데이터 호출
-            const response = await axios.get(`/user/qna/qnaList?page=${page}&size=${pageSize}`);
+            const response = await axios.get(`/admin/qna/qnaList?page=${page}&size=${pageSize}`);
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
         } catch (error) {
@@ -35,7 +35,7 @@ function QnaList() {
     const handleTitleClick = async (id) => {
         try {
             // 조회수 증가 요청
-            await axios.get(`/user/qna/addQnaViews?id=${id}`);
+            await axios.get(`/admin/qna/addQnaViews?id=${id}`);
 
             // 페이지 이동
             navigate(`/qnaDetail/${id}`);

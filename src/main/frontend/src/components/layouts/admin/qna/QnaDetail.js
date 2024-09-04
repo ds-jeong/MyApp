@@ -9,7 +9,7 @@ function QnaDetail() {
     const params = useParams();
 
     useEffect(() => {
-        axios.get('/user/qna/qnaDetail',
+        axios.get('/admin/qna/qnaDetail',
             {
                 params: {id: params.id}
             }).then(response => {
