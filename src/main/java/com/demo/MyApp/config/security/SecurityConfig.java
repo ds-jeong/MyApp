@@ -61,6 +61,7 @@ public class SecurityConfig {
                     .permitAll() // 로그아웃은 모든 사용자에게 허용
                     .and()
                 .apply(new JwtSecurityConfig(jwtTokenProvider));
+        http.cors();
         return http.build();
     }
 }
