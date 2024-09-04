@@ -62,7 +62,7 @@ function QnaList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {resArr.map((item, index) => (
+                        {resArr && resArr.map((item, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>
