@@ -7,5 +7,9 @@ public interface UserService {
 
     boolean isUsernameExists(String userNm) throws Exception;
 
+    boolean isPhoneExists(String phone) throws Exception;
+
+    boolean isEmailExists(String phone) throws Exception;
+
     UserDto selectUserInfo(UserDto userDto);
 }

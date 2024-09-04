@@ -1,7 +1,5 @@
 package com.demo.MyApp.common.service;
 
-import com.demo.MyApp.admin.product.dto.ProductDto;
-import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.common.dto.UserDto;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor //생성자 주입코드없이 의존성주입
@@ -39,6 +36,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean isUsernameExists(String userNm) throws Exception {
         return userRepository.findByUserNm(userNm) != null;
+    }
+
+    @Override
+    public boolean isPhoneExists(String phone) throws Exception {
+        return userRepository.findByPhone(phone) != null;
+    }
+
+    @Override
+    public boolean isEmailExists(String email) throws Exception {
+        return userRepository.findByEmail(email) != null;
     }
 
     @Transactional
