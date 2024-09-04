@@ -20,7 +20,7 @@ function QnaList() {
     const fetchData = async (page) => {
         try {
             //데이터 호출
-            const response = await axios.get(`/admin/qna/qnaList?page=${page}&size=${pageSize}`);
+            const response = await axios.get(`http://3.106.69.213:3000/admin/qna/qnaList?page=${page}&size=${pageSize}`);
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
         } catch (error) {
