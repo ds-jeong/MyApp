@@ -5,7 +5,6 @@ import com.demo.MyApp.common.service.UserServiceImpl;
 import com.demo.MyApp.config.security.jwt.JwtFilter;
 import com.demo.MyApp.config.security.jwt.JwtTokenProvider;
 import com.demo.MyApp.config.security.jwt.TokenResponseDto;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -39,11 +36,25 @@ public class UserController {
             return "이미 사용 중인 아이디입니다.";
         }
 
+        String phone = userDto.getPhone();
+        // 가입 중복 체크
+        if (userService.isPhoneExists(phone)) {
+            return "이미 가입된 사용자 입니다.";
+        }
+
+        String email = userDto.getEmail();
+        // 이메일 중복 체크
+        if (userService.isEmailExists(email)) {
+            return "이미 사용 중인 이메일입니다.";
+        }
+
         // 회원가입 처리
         userService.registerUser(userDto);
 
         return "회원가입이 완료되었습니다.";
     }
+
+
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@ModelAttribute UserDto userDto) {
