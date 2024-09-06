@@ -10,8 +10,13 @@ const Header = () => {
     const token = window.localStorage.getItem('token');
 
     useEffect(() => {
-        if (!token.object || !token.array || token.array.length ===0) return setIsAuthenticated(false);
+        if (token) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
     }, []); // 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행
+
 
     //localStorage에 저장된 사용자의 정보
     const userDataStr = window.localStorage.getItem('userData');
