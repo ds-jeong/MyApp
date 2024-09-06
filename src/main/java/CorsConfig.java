@@ -8,7 +8,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://3.106.69.213:8080") // React 개발 서버의 주소
+                .allowedOrigins("http://localhost:3000") // React 개발 서버의 주소
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("Authorization", "Content-Type", "Origin") // 클라이언트 측의 CORS 요청에 허용되는 헤더를 지정
                 .exposedHeaders("Custom-Header") // 클라이언트측 응답에서 노출되는 헤더를 지정
