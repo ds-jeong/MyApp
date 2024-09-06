@@ -134,9 +134,17 @@ const Header = () => {
                                     </Button>
                                 </>
                             ) : (
-                                <Button variant="outline-primary" onClick={handleLogout}>
-                                        로그아웃
-                                </Button>
+                                <>
+                                    <Button variant="outline-primary">
+                                        <Link to={`/myPage`}>
+                                            마이페이지
+                                        </Link>
+                                    </Button>
+                                    &nbsp;&nbsp;
+                                    <Button variant="outline-primary" onClick={handleLogout}>
+                                            로그아웃
+                                    </Button>
+                                </>
                             )}
                         </Form>
                     </Navbar.Collapse>

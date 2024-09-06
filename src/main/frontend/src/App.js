@@ -9,15 +9,17 @@ import Join from "./common/Join";
 import Footer from "./common/Footer";
 import Main from "./components/Main";
 
-import QnaList from "./components/layouts/admin/qna/QnaList";
-import QnaRegist from "./components/layouts/admin/qna/QnaRegist";
-import QnaDetail from "./components/layouts/admin/qna/QnaDetail";
-import QnaModify from "./components/layouts/admin/qna/QnaModify";
+import QnaList from "./components/layouts/user/qna/QnaList";
+import QnaRegist from "./components/layouts/user/qna/QnaRegist";
+import QnaDetail from "./components/layouts/user/qna/QnaDetail";
+import QnaModify from "./components/layouts/user/qna/QnaModify";
 
 import ProductList from "./components/layouts/admin/product/ProductList"
 import ProductRegist from "./components/layouts/admin/product/ProductRegist";
 import ProductDetail from "./components/layouts/admin/product/ProductDetail";
 import ProductModify from "./components/layouts/admin/product/ProductModify";
+
+import MyPage from "./components/layouts/user/mypage/MyPage";
 
 function App() {
     return (
@@ -32,6 +34,8 @@ function App() {
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
+
+                            <Route path="/myPage" element={<MyPage />}/>
 
                             <Route path="/qnaList" element={<QnaList />}/>
                             <Route path="/qnaRegist" element={<QnaRegist />}/>
