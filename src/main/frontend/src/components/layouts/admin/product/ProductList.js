@@ -15,7 +15,6 @@ function ProductList() {
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
 
-
     useEffect(() => {
         fetchData(currentPage);
     }, [currentPage]);
@@ -82,7 +81,7 @@ function ProductList() {
                 <Container>
                     <Button variant="outline-dark" href="/productRegist">글쓰기</Button>
                     <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
-                        {resArr.map((item, index) => (
+                        {resArr && resArr.map((item, index) => (
                             <div className="col mb-5" key={index}>
                                 <Card className="h-100">
                                     <CardImg className="cardImg" top="true"
