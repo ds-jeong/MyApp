@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {Button, Container, Form} from 'react-bootstrap';
+import {KAKAO_AUTH_URL} from "./OAuthRedirectHandler";
 
 const Login = () => {
     const [userId, setUserId] = useState('');
@@ -9,7 +10,6 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
 
@@ -60,6 +60,9 @@ const Login = () => {
                         로그인
                     </Button>
                 </Form>
+                <a href={KAKAO_AUTH_URL} className="kakaoLoginBtn">
+                    <img src={`images/kakao_login_medium_wide`}/>
+                </a>
             </Container>
         </div>
     );
