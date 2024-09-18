@@ -1,5 +1,16 @@
 server:
   port: 8080
+cloud:
+  aws:
+    s3:
+      bucket: e-myapp-bucket
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+    credentials:
+      access-key: AKIAW3MEFWD6VOIKVRPB
+      secret-key: 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
 jwt:
   header: Authorization
   # 특정값을 Base64로 인코딩한 값
@@ -9,9 +20,9 @@ jwt:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.106.69.213:3306/myAppDb?serverTimezone=Asia/Seoul
-    username: dsjeong
-    password: jo0411
+    url: jdbc:mysql://myappdb.ctccqqaw0zho.ap-northeast-2.rds.amazonaws.com:3306/myAppDB?serverTimezone=Asia/Seoul
+    username: ssy
+    password: myappProjectDB0914
     main:
       allow-bean-definition-overriding: true
   jpa:
