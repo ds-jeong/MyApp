@@ -7,11 +7,14 @@ import com.demo.MyApp.user.product.repository.UserProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor //생성자 주입코드없이 의존성주입
@@ -19,6 +22,28 @@ public class UserProductServiceImpl implements UserProductService {
 
     @Autowired
     private final UserProductRepository userProductRepository;
+
+    @Override
+    public Page<Product> userProductList(int page, int size) throws Exception {
+        return userProductRepository.findAll(PageRequest.of(page, size));
+    }
+
+    @Transactional
+    @Override
+    public ProductDto userProductDetail(Long id) throws Exception {
+        Optional<Product> product = userProductRepository.findById(id);
+        ProductDto productDto = ProductDto.builder()
+                .id(product.get().getId())
+                .productNm(product.get().getProductNm())
+                .price(product.get().getPrice())
+                .content(product.get().getContent())
+                .author(product.get().getAuthor())
+                .fileNm(product.get().getFileNm())
+                .filePath(product.get().getFilePath())
+                .build();
+
+        return productDto;
+    }
 
     @Transactional
     @Override

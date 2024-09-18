@@ -1,11 +1,9 @@
-package com.demo.MyApp.common.entity;
+package com.demo.MyApp.user.mypage.cart.entity;
 
 import com.demo.MyApp.admin.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.math.BigDecimal;
 
 @ToString
 @Getter
@@ -19,16 +17,16 @@ import java.math.BigDecimal;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long cartItemId;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     private Integer quantity;  // 장바구니에 담긴 수량
-    private BigDecimal priceAtAdd;  // 장바구니에 추가된 시점의 가격
+    private Integer price;  // 가격
 }

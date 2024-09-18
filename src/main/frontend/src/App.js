@@ -19,6 +19,9 @@ import ProductRegist from "./components/layouts/admin/product/ProductRegist";
 import ProductDetail from "./components/layouts/admin/product/ProductDetail";
 import ProductModify from "./components/layouts/admin/product/ProductModify";
 
+import UserAllProducts from "./components/layouts/user/product/UserAllProducts"
+import UserProductDetail from "./components/layouts/user/product/UserProductDetail"
+
 import MyPage from "./components/layouts/user/mypage/MyPage";
 
 function App() {
@@ -36,6 +39,9 @@ function App() {
                             <Route path="/join" element={<Join />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
+
+                            <Route path="/userAllProducts" element={<UserAllProducts />}/>
+                            <Route path="/userProductDetail/:id" element={<UserProductDetail />} />
 
                             <Route path="/qnaList" element={<QnaList />}/>
                             <Route path="/qnaRegist" element={<QnaRegist />}/>
