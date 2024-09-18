@@ -6,16 +6,17 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @ToString
 @Getter
+@Setter
 @Builder
 @DynamicUpdate
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
+@AllArgsConstructor //전체 필드에 대한 생성자를 생성하여 @builder사용이 가능하도록..
+@NoArgsConstructor //기본 생성자를 생성
+@Entity //선언
 @Table(name = "review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewId;
 
     private String title;
 
@@ -27,7 +28,7 @@ public class Review {
 
     private int views;
 
-    private int like;
+    private int favorite;
 
     private byte rating;
 

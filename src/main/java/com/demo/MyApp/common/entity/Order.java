@@ -9,16 +9,17 @@ import java.util.List;
 
 @ToString
 @Getter
+@Setter
 @Builder
 @DynamicUpdate
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
+@AllArgsConstructor //전체 필드에 대한 생성자를 생성하여 @builder사용이 가능하도록..
+@NoArgsConstructor //기본 생성자를 생성
+@Entity //선언
 @Table(name = "order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderId;
 
     private Long orderNumber;
 
