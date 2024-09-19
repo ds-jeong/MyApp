@@ -77,10 +77,15 @@ const Cart = () => {
 
     /* 장바구니 선택 상품 삭제 */
     const handleDeleteCartItemSelected = async () => {
-        const selectedIds = Object.keys(selectedResArr).filter(key => selectedResArr[key]);
-        await axios.post('/user/cart/deleteCartItemselected', { cartItemIds: selectedIds });
-        setResArr(prev => prev.filter(item => !selectedIds.includes(item.productId.toString())));
-        calculateTotals(resArr);
+        const selectedIds = Object.keys(selectedResArr)
+            .filter(key => selectedResArr[key])
+            .map(id => Number(id)); /* 문자열을 숫자로 변환 */
+        if(window.confirm("선택한 상품을 삭제하시겠습니까?")) {
+            await axios.post('/user/cart/deleteCartItemselected', { cartItemIds: selectedIds });
+            setResArr(prev => prev.filter(item => !selectedIds.includes(item.productId.toString())));
+            calculateTotals(resArr);
+                alert("삭제되었습니다");
+        }
     };
 
     /* order와 같이 진행 */

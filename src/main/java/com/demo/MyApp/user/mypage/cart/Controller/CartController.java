@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/cart")
@@ -34,7 +35,11 @@ public class CartController {
     }
 
     @PostMapping("/deleteCartItemselected")
-    public void deleteCartItemselected(@RequestBody List<Long> cartItemIds) throws Exception {
+    public void deleteCartItemselected(@RequestBody Map<String, List<Long>> dataArr) throws Exception {
+        List<Long> cartItemIds = dataArr.get("cartItemIds");
+        if (cartItemIds == null || cartItemIds.isEmpty()) {
+            throw new IllegalArgumentException("No cart item IDs provided.");
+        }
         /* 사용자 > 장바구니 > 선택 상품 삭제 */
         cartService.deleteCartItemselected(cartItemIds);
     }
