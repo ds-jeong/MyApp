@@ -114,6 +114,7 @@ function ProductList() {
             </section>
             {/* pagination */}
             <div>
+                {pageCount > 0 && (
                 <ReactPaginate
                     pageCount={pageCount}
                     pageRangeDisplayed={5}
@@ -130,6 +131,7 @@ function ProductList() {
                     breakLinkClassName={'page-link'}
                     activeClassName={'active'}
                 />
+                )}
             </div>
             {/* //pagination// */}
         </div>

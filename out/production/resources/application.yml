@@ -27,8 +27,10 @@ spring:
       allow-bean-definition-overriding: true
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
+#    hibernate:
+#      ddl-auto: update
+#    hibernate:
+#      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
