@@ -23,6 +23,7 @@ import UserAllProducts from "./components/layouts/user/product/UserAllProducts"
 import UserProductDetail from "./components/layouts/user/product/UserProductDetail"
 
 import MyPage from "./components/layouts/user/mypage/MyPage";
+import Cart from "./components/layouts/user/mypage/cart/Cart";
 
 function App() {
     return (
@@ -39,6 +40,7 @@ function App() {
                             <Route path="/join" element={<Join />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
+                            <Route path="/cart" element={<Cart />}/>
 
                             <Route path="/userAllProducts" element={<UserAllProducts />}/>
                             <Route path="/userProductDetail/:id" element={<UserProductDetail />} />

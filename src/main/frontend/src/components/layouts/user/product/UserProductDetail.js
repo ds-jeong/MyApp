@@ -2,20 +2,23 @@ import React, {useEffect, useState, useRef} from 'react';
 import {Container, Row, Col, Button, Image, Form, CardImg, FormControl} from 'react-bootstrap';
 import {useParams} from "react-router-dom";
 import {formatPrice} from '../../../../js/utils/formatUtils';
+import CartPopup from './popup/CartPopup';
 import axios from 'axios';
 
 function ProductDetail() {
 
-    const [resArr, setResArr] = useState([]);
-    const params = useParams();
-
-    //localStorage에 저장된 사용자의 정보
+    /* localStorage에 저장된 사용자의 정보 */
     const userDataStr = window.localStorage.getItem('userData');
-    //Json으로 파싱
+
+    /* Json으로 파싱 */
     const userData = JSON.parse(userDataStr);
-    //파싱한 데이터를 변수에 저장
+
+    /* 파싱한 데이터를 변수에 저장 */
     const userInfo = userData?.userInfo;
 
+    /* 상품 조회 */
+    const [resArr, setResArr] = useState([]);
+    const params = useParams();
     useEffect(() => {
         axios.get('/user/product/userProductDetail',
             {
@@ -44,13 +47,16 @@ function ProductDetail() {
         }
     };
 
-    const fetchCartItems = () => {
-        // try {
-        //     const response = await axios.get('/api/cart/items');
-        //     setCartItems(response.data);
-        // } catch (error) {
-        //     console.error('Error fetching cart items:', error);
-        // }
+    /* 장바구니 팝업 */
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const handleOpenPopup = () => {
+        setIsPopupOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
     };
 
     /* 장바구니 담기 */
@@ -74,7 +80,8 @@ function ProductDetail() {
         /* 비동기식 코드지만 요청완료를 기다리지않고 다음 코드를 진행함 */
         axios.post('/user/cart/insertCart', formData)
             .then(response => {
-                //fetchCartItems();
+                //alert("장바구니에 담겼습니다");
+                handleOpenPopup();
                 /* useHistory import 안되면 아래 코드로 수정해서 반영 */
                 /* 응답을 받고 제품 등록화면으로 돌아감 */
             })
@@ -128,6 +135,7 @@ function ProductDetail() {
                     <Button variant="primary" className="mt-3" onClick={() => handleAddCart(`${resArr.id}`)}>
                         장바구니 담기
                     </Button>
+                    <CartPopup isOpen={isPopupOpen} onClose={handleClosePopup} />
                     &nbsp;
                     <Button variant="primary" className="mt-3">
                         바로 구매하기

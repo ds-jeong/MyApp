@@ -17,9 +17,9 @@ function UserAllProducts() {
         fetchData(currentPage);
     }, [currentPage]);
 
-    const fetchData = async (page) => {
+    const fetchData = async (currentPage) => {
         try {
-            const response = await axios.get(`/user/product/userProductList?page=${page}&size=${pageSize}`);
+            const response = await axios.get(`/user/product/userProductList?page=${currentPage}&size=${pageSize}`);
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
         } catch (error) {
@@ -116,7 +116,6 @@ function UserAllProducts() {
                                              alt="Card image cap"
                                              onError={handleImgError}/>
                                     <CardBody>
-
                                         <div className="text-center">
                                             <h5 className="fw-bolder">{item.productNm}</h5>
                                             {formatPrice(item.price)} {/* 공통 함수로 가격 포맷 */}
@@ -144,6 +143,7 @@ function UserAllProducts() {
             </section>
             {/* pagination */}
             <div>
+                {pageCount > 0 && (
                 <ReactPaginate
                     pageCount={pageCount}
                     pageRangeDisplayed={5}
@@ -160,6 +160,7 @@ function UserAllProducts() {
                     breakLinkClassName={'page-link'}
                     activeClassName={'active'}
                 />
+                )}
             </div>
             {/* //pagination// */}
         </div>
