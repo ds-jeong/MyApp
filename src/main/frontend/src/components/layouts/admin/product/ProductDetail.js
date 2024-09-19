@@ -64,6 +64,17 @@ function ProductDetail() {
                             </td>
                         </tr>
                         <tr>
+                            <td><Form.Label>배송비</Form.Label></td>
+                            <td>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="가격 입력"
+                                    value={formatPrice(resArr.shipping)}
+                                    readOnly
+                                />
+                            </td>
+                        </tr>
+                        <tr>
                             <td><Form.Label>상품설명</Form.Label></td>
                             <td>
                                 <Form.Control

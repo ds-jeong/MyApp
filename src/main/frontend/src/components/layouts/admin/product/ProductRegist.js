@@ -8,6 +8,7 @@ function ProductRegist() {
     const categoryRef = useRef(null);
     const productNmRef = useRef();
     const priceRef = useRef();
+    const shippingRef = useRef();
     const contentRef = useRef();
     const authorRef = useRef();
     const fileRef = useRef();
@@ -23,6 +24,7 @@ function ProductRegist() {
         }
         formData.append('productNm', productNmRef.current.value);
         formData.append('price', priceRef.current.value);
+        formData.append('shipping', shippingRef.current.value);
         formData.append('content', contentRef.current.value);
         formData.append('author', authorRef.current.value);
         formData.append('file', fileRef.current.files[0]);
@@ -50,7 +52,12 @@ function ProductRegist() {
 
                     <Form.Group controlId="formPrice">
                         <Form.Label>가격</Form.Label>
-                        <Form.Control type="number" placeholder="가격 입력"  ref={priceRef} />
+                        <Form.Control type="text" placeholder="가격 입력"  ref={priceRef} />
+                    </Form.Group>
+
+                    <Form.Group controlId="formShipping">
+                        <Form.Label>배송비</Form.Label>
+                        <Form.Control type="text" placeholder="가격 입력"  ref={shippingRef} />
                     </Form.Group>
 
                     <Form.Group controlId="formContent">

@@ -118,6 +118,14 @@ function ProductDetail() {
                             ref={priceRef}
                         />
                     </Form.Group>
+                    <Form.Group>
+                        <Form.Label>배송비 : {formatPrice(resArr.shipping)}원</Form.Label>
+                        <Form.Control
+                            type="hidden"
+                            value={`${resArr.shipping}`}
+                            readOnly
+                        />
+                    </Form.Group>
                     <div className="quantity-controls">
                         <Button variant="outline-secondary" onClick={handleDecrease}>
                             -

@@ -36,6 +36,7 @@ public class UserProductServiceImpl implements UserProductService {
                 .id(product.get().getId())
                 .productNm(product.get().getProductNm())
                 .price(product.get().getPrice())
+                .shipping(product.get().getShipping())
                 .content(product.get().getContent())
                 .author(product.get().getAuthor())
                 .fileNm(product.get().getFileNm())

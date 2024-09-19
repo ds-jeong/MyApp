@@ -12,6 +12,7 @@ public class ProductDto {
     private Long id;
     private String productNm;
     private double price;
+    private double shipping;
     private String author;
     private String content;
     private MultipartFile file;

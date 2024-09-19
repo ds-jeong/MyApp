@@ -36,7 +36,7 @@ public class Product {
     private Integer favorite; //좋아요
     private Integer views; //조회수
     private String category;//카테고리
-
+    private double shipping;//배송비
     // 구매율 관련 정보
     private Integer totalSales;  // 총 판매량
     private Double purchaseRate;  // 구매율 (판매량 / 조회수 등으로 계산된 값)

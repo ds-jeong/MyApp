@@ -12,19 +12,23 @@ function ProductModify() {
     const [inputValue, setInputValue] = useState({
         productNm: '',
         price: '',
+        shipping : '',
         content: '',
         author: '',
         file: '',
         filePath: '',
     });
 
-    const { productNm, price, content, author,file } = inputValue;
+    const { productNm, price, shipping, content, author,file } = inputValue;
     const handleChange = (e) => {
         /* input 요소의 name 속성과 value를 가져옴 */
         const { name, value } = e.target;
 
-        /* price 필드인 경우 formatPrice 함수를 적용하여 값 변환 */
-        const updatedValue = name === 'price' ? addCommasToPrice(value) : value;
+        // /* price 필드인 경우 formatPrice 함수를 적용하여 값 변환 */
+        // const updatedValue = name === 'price' ? addCommasToPrice(value) : value;
+
+        /* price or shipping 필드인 경우 formatPrice 함수를 적용하여 값 변환 */
+        const updatedValue = (name === 'price' || name === 'shipping') ? addCommasToPrice(value) : value;
 
         /* 상태를 업데이트 */
         setInputValue({
@@ -91,12 +95,16 @@ function ProductModify() {
         const msg = window.confirm("정말 수정하시겠습니까?");
         const formData = new FormData(e.target);
         const price = formData.get("price").replace(/,/g, ""); /* g 플래그를 사용하여 모든 쉼표를 제거 */
+        const shipping = formData.get("shipping").replace(/,/g, ""); /* g 플래그를 사용하여 모든 쉼표를 제거 */
         formData.set("price", price); /* price를 수정된 값으로 설정 */
+        formData.set("shipping", shipping); /* shipping 수정된 값으로 설정 */
 
         if(!formData.get("productNm")){
             alert("제품명을 입력하세요.");
         }else if(!formData.get("price")){
             alert("가격을 입력하세요.");
+        }else if(!formData.get("shipping")){
+            alert("배송비를 입력하세요.");
         }else if(!formData.get("content")){
             alert("상품설명을 입력하세요.");
         }else{
@@ -163,6 +171,19 @@ function ProductModify() {
                                     type="text"
                                     placeholder="가격을 입력하세요."
                                     value={addCommasToPrice(inputValue.price) || ''}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><Form.Label>배송비</Form.Label></td>
+                            <td>
+                                <Form.Control
+                                    name="shipping"
+                                    className="shipping"
+                                    type="text"
+                                    placeholder="가격을 입력하세요."
+                                    value={addCommasToPrice(inputValue.shipping) || ''}
                                     onChange={handleChange}
                                 />
                             </td>

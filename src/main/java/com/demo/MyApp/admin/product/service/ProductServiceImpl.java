@@ -57,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
                 .id(product.get().getId())
                 .productNm(product.get().getProductNm())
                 .price(product.get().getPrice())
+                .shipping(product.get().getShipping())
                 .content(product.get().getContent())
                 .author(product.get().getAuthor())
                 .fileNm(product.get().getFileNm())
@@ -92,6 +93,9 @@ public class ProductServiceImpl implements ProductService {
         }
         if (productDto.getPrice() > 0) {
             product.setPrice(productDto.getPrice());
+        }
+        if (productDto.getShipping() > 0) {
+            product.setShipping(productDto.getShipping());
         }
         if (productDto.getContent() != null) {
             product.setContent(productDto.getContent());
