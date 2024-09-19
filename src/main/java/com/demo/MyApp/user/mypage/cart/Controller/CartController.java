@@ -1,11 +1,11 @@
 package com.demo.MyApp.user.mypage.cart.Controller;
 
+import com.demo.MyApp.user.mypage.cart.dto.CartItemDto;
 import com.demo.MyApp.user.mypage.cart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/cart")
@@ -15,7 +15,28 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/insertCart")
-    public void insertCart(@RequestParam("id") Long id, @RequestParam("productId") Long productId, @RequestParam("quantity") Integer quantity, @RequestParam("price") Integer price) {
+    public void insertCart(@RequestParam("id") Long id, @RequestParam("productId") Long productId, @RequestParam("quantity") Integer quantity, @RequestParam("price") Integer price) throws Exception {
+        /* 사용자 > 장바구니 담기 */
         cartService.insertCart(id, productId, quantity, price);
     }
+
+    @PostMapping("/cartItemList")
+    public List<CartItemDto> cartItemList(@RequestParam("id") Long id) throws Exception {
+        /* 사용자 > 장바구니 조회 */
+        List<CartItemDto> cartItemList = cartService.cartItemList(id);
+        return cartItemList;
+    }
+
+    @PostMapping("/deleteCartItem")
+    public void deleteCartItem(@RequestParam("cartItemId") Long cartItemId) throws Exception {
+        /* 사용자 > 장바구니 > 개별 상품 삭제 */
+        cartService.deleteCartItem(cartItemId);
+    }
+
+    @PostMapping("/deleteCartItemselected")
+    public void deleteCartItemselected(@RequestBody List<Long> cartItemIds) throws Exception {
+        /* 사용자 > 장바구니 > 선택 상품 삭제 */
+        cartService.deleteCartItemselected(cartItemIds);
+    }
+
 }

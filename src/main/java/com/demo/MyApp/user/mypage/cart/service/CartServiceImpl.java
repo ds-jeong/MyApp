@@ -4,6 +4,7 @@ import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.repository.ProductRepository;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
+import com.demo.MyApp.user.mypage.cart.dto.CartItemDto;
 import com.demo.MyApp.user.mypage.cart.entity.Cart;
 import com.demo.MyApp.user.mypage.cart.entity.CartItem;
 import com.demo.MyApp.user.mypage.cart.repository.CartItemRepository;
@@ -11,6 +12,9 @@ import com.demo.MyApp.user.mypage.cart.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -29,7 +33,7 @@ public class CartServiceImpl implements CartService{
 
     @Transactional
     @Override
-    public void insertCart(Long id, Long productId, Integer quantity, Integer price) {
+    public void insertCart(Long id, Long productId, Integer quantity, Integer price) throws Exception{
 
         /* 회원정보 */
         User user = userRepository.findById(id)
@@ -67,4 +71,53 @@ public class CartServiceImpl implements CartService{
         }
 
     }
+
+    @Transactional
+    @Override
+    public List<CartItemDto> cartItemList(Long id) throws Exception {
+
+        /* 회원정보 */
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("id not found"));
+
+        /* 장바구니 */
+        Cart cart = cartRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("cart not found"));
+
+        /* 장바구니 상세*/
+        List<CartItem> cartItems = cartItemRepository.findByCart(cart);
+
+        /* CartItemDto 를 만들어서 상품 정보를 추가 */
+        List<CartItemDto> cartItemDto = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
+            Product product = productRepository.findById(cartItem.getProduct().getId())
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            /* DTO 생성 */
+            CartItemDto dto = new CartItemDto();
+            dto.setCartItemId(cartItem.getCartItemId());
+            dto.setProductId(cartItem.getProduct().getId());
+            dto.setQuantity(cartItem.getQuantity());
+            dto.setProductNm(product.getProductNm());
+            dto.setPrice(product.getPrice());
+
+            cartItemDto.add(dto);
+        }
+
+
+        return cartItemDto;
+    }
+
+    @Override
+    public void deleteCartItem(Long cartItemId) throws Exception {
+        cartItemRepository.deleteById(cartItemId);
+    }
+
+    @Override
+    public void deleteCartItemselected(List<Long> cartItemIds) throws Exception {
+        for(long cartItemId : cartItemIds){
+            cartItemRepository.deleteById(cartItemId);
+        }
+    }
+
 }

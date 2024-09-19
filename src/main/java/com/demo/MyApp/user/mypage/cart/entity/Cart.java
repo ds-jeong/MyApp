@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Set;
 
-@ToString
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor //기본 생성자를 생성
 @Entity //선언
 @Table(name = "cart")
+@EqualsAndHashCode(callSuper = false, exclude = "user")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "id", unique = true)
+    @ToString.Exclude
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)

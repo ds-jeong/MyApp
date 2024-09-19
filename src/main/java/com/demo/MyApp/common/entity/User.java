@@ -5,11 +5,9 @@ import com.demo.MyApp.user.mypage.cart.entity.Cart;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.util.List;
 import java.util.Set;
 
-@ToString
 @Getter
 @Setter
 @Builder
@@ -39,7 +37,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Wishlist> wishlists;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
