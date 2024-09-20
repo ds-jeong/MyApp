@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link, useLocation} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {Container, Navbar, Nav, NavItem, NavLink, Button, NavbarBrand, NavDropdown, Form} from 'react-bootstrap';
 import Slider from './slick/Slider';
 
@@ -10,22 +10,23 @@ const Header = () => {
     const token = window.localStorage.getItem('token');
 
     useEffect(() => {
+        /* token 값의 유무로 권한주입 */
         if (token) {
             setIsAuthenticated(true);
         } else {
             setIsAuthenticated(false);
         }
-    }, []); // 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행
+    }, []); /* 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행 */
 
 
-    //localStorage에 저장된 사용자의 정보
+    /* localStorage에 저장된 사용자의 정보 */
     const userDataStr = window.localStorage.getItem('userData');
-    //Json으로 파싱
+    /* Json으로 파싱 */
     const userData = JSON.parse(userDataStr);
-    //파싱한 데이터를 변수에 저장
+    /* 파싱한 데이터를 변수에 저장 */
     const userInfo = userData?.userInfo;
 
-    //변수에 맞게 값 할당
+    /* 변수에 맞게 값 할당 */
     const id = userInfo?.id;
     const userId = userInfo?.userId;
     const userNm = userInfo?.userNm;
@@ -42,12 +43,13 @@ const Header = () => {
     // console.log('role: ' + role);
     // console.log('이메일 : ' + email);
 
-    // 현재 URL
+    /* 현재 URL */
     const location = useLocation();
     const currentPath = location.pathname;
 
     let title, subtitle;
-    // URL에 따라 다른 문구 설정
+
+    /* URL에 따라 다른 문구 설정 */
     if (location.pathname === '/allProduct') {
         title = 'All Products';
     } else if (location.pathname === '/top') {
@@ -63,24 +65,33 @@ const Header = () => {
 
     const handleLogout = async () => {
         try {
-            // 서버에 로그아웃 요청 보내기
+            /* 서버에 로그아웃 요청 보내기 */
             if (token) {
                 await axios.post('/api/logout', null, {
                     params: {token}
                 });
             }
 
-            // localStorage에서 JWT 토큰 삭제
+            /* localStorage에서 JWT 토큰 삭제 */
             window.localStorage.removeItem('token');
-            window.localStorage.removeItem('userData'); // 필요에 따라 추가적인 사용자 데이터도 삭제
+            window.localStorage.removeItem('userData');
 
-            // 로그아웃 후 로그인 페이지로 리디렉션
+            /* 로그아웃 후 로그인 페이지로 리디렉션 */
             window.location.replace('/login');
 
         } catch (error) {
             console.error('Logout error:', error);
         }
     }
+
+    const navigate = useNavigate();
+    const handleCart = () => {
+        navigate('/cart');
+    };
+    const handleMyPage = () => {
+        navigate('/myPage');
+    };
+
     return (
         <div className="header">
             <Navbar bg="light" expand="lg">
@@ -106,7 +117,6 @@ const Header = () => {
                                 <NavDropdown.Item href="/top">Top</NavDropdown.Item>
                                 <NavDropdown.Item href="/bottom">Bottom</NavDropdown.Item>
                                 <NavDropdown.Item href="/acc">Acc</NavDropdown.Item>
-                                {/*<NavDropdown.Divider/>*/}
                             </NavDropdown>
                             <NavItem>
                                 <NavLink href="/qnaList">Q&A</NavLink>
@@ -116,9 +126,9 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">
-                            <Button variant="outline-dark">
-                                <i className="bi-cart-fill me-1">Cart</i>
-                                <span className="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <Button variant="outline-primary" onClick={handleCart}>
+                                장바구니
+                                {/*<span className="badge bg-dark text-white ms-1 rounded-pill">0</span>*/}
                             </Button>
                             &nbsp;&nbsp;
                             {!isAuthenticated ? (
@@ -129,21 +139,19 @@ const Header = () => {
                                         </Link>
                                     </Button>
                                     <Button variant="outline-primary">
-                                    <Link to={`/join`}>
-                                        회원가입
-                                    </Link>
+                                        <Link to={`/join`}>
+                                            회원가입
+                                        </Link>
                                     </Button>
                                 </>
                             ) : (
                                 <>
-                                    <Button variant="outline-primary">
-                                        <Link to={`/myPage`}>
-                                            마이페이지
-                                        </Link>
+                                    <Button variant="outline-primary" onClick={handleMyPage}>
+                                        마이페이지
                                     </Button>
                                     &nbsp;&nbsp;
                                     <Button variant="outline-primary" onClick={handleLogout}>
-                                            로그아웃
+                                        로그아웃
                                     </Button>
                                 </>
                             )}

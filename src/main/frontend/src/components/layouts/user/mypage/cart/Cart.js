@@ -36,6 +36,7 @@ const Cart = () => {
     const [totalShipping, setTotalShipping] = useState(0);
     const [totalPayment, setTotalPayment] = useState(0);
 
+    /* 총 금액 계산 */
     const calculateTotals = (items) => {
         let amount = 0;
         let shipping = 0;
@@ -49,6 +50,7 @@ const Cart = () => {
         setTotalPayment(amount + shipping);
     };
 
+    /* 체크박스에 item id 값 할당 */
     const handleSelectItem = (cartItemId) => {
         setSelectedResArr(prev => ({
             ...prev,
@@ -56,6 +58,7 @@ const Cart = () => {
         }));
     };
 
+    /* 수량 변경  */
     const handleQuantityChange = (cartItemId, quantity) => {
         setResArr(prev =>
             prev.map(item =>
@@ -88,7 +91,7 @@ const Cart = () => {
         }
     };
 
-    /* order와 같이 진행 */
+    /* 장바구니 선택 상품 주문  */
     const handleOrderAll = async () => {
         await axios.post('/user/cart/order', { productIds: resArr.map(item => item.productId) }); // 전체 상품 주문 API 호출
         alert("전체 상품이 주문되었습니다.");
