@@ -1,6 +1,6 @@
-package com.demo.MyApp.user.mypage.cart.service;
+package com.demo.MyApp.user.cart.service;
 
-import com.demo.MyApp.user.mypage.cart.dto.CartItemDto;
+import com.demo.MyApp.user.cart.dto.CartItemDto;
 
 import java.util.List;
 
@@ -13,4 +13,5 @@ public interface CartService {
     void deleteCartItem(Long cartItemId) throws Exception;
 
     void deleteCartItemselected(List<Long> cartItemIds) throws Exception;
+
 }

@@ -1,10 +1,13 @@
-package com.demo.MyApp.common.entity;
+package com.demo.MyApp.admin.order.entity;
 
+import com.demo.MyApp.common.entity.ChangeOrder;
+import com.demo.MyApp.common.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ToString
@@ -23,7 +26,8 @@ public class Order {
 
     private Long orderNumber;
 
-    private LocalDate orderDate;
+    @CreatedDate
+    private LocalDateTime orderDate;
 
     private int sum;
 

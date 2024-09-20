@@ -2,7 +2,7 @@ package com.demo.MyApp.admin.product.entity;
 
 import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.common.entity.*;
-import com.demo.MyApp.user.mypage.cart.entity.CartItem;
+import com.demo.MyApp.user.cart.entity.CartItem;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

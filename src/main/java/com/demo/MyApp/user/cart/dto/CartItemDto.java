@@ -1,4 +1,4 @@
-package com.demo.MyApp.user.mypage.cart.dto;
+package com.demo.MyApp.user.cart.dto;
 
 import lombok.*;
 

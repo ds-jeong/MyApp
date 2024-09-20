@@ -5,7 +5,7 @@ import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-boot
 import {formatPrice} from '../../../../js/utils/formatUtils';
 import ReactPaginate from "react-paginate";
 
-function UserAllProducts() {
+function UserProductList() {
     const token = window.localStorage.getItem('token');
     const navigate = useNavigate();
     const [resArr, setResArr] = useState([]);
@@ -167,4 +167,4 @@ function UserAllProducts() {
     );
 }
 
-export default UserAllProducts;
+export default UserProductList;

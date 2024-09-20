@@ -1,5 +1,6 @@
 package com.demo.MyApp.common.entity;
 
+import com.demo.MyApp.admin.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

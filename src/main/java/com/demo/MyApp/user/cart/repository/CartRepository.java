@@ -1,7 +1,7 @@
-package com.demo.MyApp.user.mypage.cart.repository;
+package com.demo.MyApp.user.cart.repository;
 
 import com.demo.MyApp.common.entity.User;
-import com.demo.MyApp.user.mypage.cart.entity.Cart;
+import com.demo.MyApp.user.cart.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

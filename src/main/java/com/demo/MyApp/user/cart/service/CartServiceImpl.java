@@ -1,14 +1,14 @@
-package com.demo.MyApp.user.mypage.cart.service;
+package com.demo.MyApp.user.cart.service;
 
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.repository.ProductRepository;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
-import com.demo.MyApp.user.mypage.cart.dto.CartItemDto;
-import com.demo.MyApp.user.mypage.cart.entity.Cart;
-import com.demo.MyApp.user.mypage.cart.entity.CartItem;
-import com.demo.MyApp.user.mypage.cart.repository.CartItemRepository;
-import com.demo.MyApp.user.mypage.cart.repository.CartRepository;
+import com.demo.MyApp.user.cart.dto.CartItemDto;
+import com.demo.MyApp.user.cart.entity.Cart;
+import com.demo.MyApp.user.cart.entity.CartItem;
+import com.demo.MyApp.user.cart.repository.CartItemRepository;
+import com.demo.MyApp.user.cart.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

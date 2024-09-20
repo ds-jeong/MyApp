@@ -19,11 +19,12 @@ import ProductRegist from "./components/layouts/admin/product/ProductRegist";
 import ProductDetail from "./components/layouts/admin/product/ProductDetail";
 import ProductModify from "./components/layouts/admin/product/ProductModify";
 
-import UserAllProducts from "./components/layouts/user/product/UserAllProducts"
+import UserProductList from "./components/layouts/user/product/UserProductList"
 import UserProductDetail from "./components/layouts/user/product/UserProductDetail"
 
 import MyPage from "./components/layouts/user/mypage/MyPage";
-import Cart from "./components/layouts/user/mypage/cart/Cart";
+import Cart from "./components/layouts/user/cart/Cart";
+import UserOrder from "./components/layouts/user/order/UserOrder";
 
 function App() {
     return (
@@ -41,8 +42,9 @@ function App() {
 
                             <Route path="/myPage" element={<MyPage />}/>
                             <Route path="/cart" element={<Cart />}/>
+                            <Route path="/userOrder" element={<UserOrder />}/>
 
-                            <Route path="/userAllProducts" element={<UserAllProducts />}/>
+                            <Route path="/userProductList" element={<UserProductList />}/>
                             <Route path="/userProductDetail/:id" element={<UserProductDetail />} />
 
                             <Route path="/qnaList" element={<QnaList />}/>

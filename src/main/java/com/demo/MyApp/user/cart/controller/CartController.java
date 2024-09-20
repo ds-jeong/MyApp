@@ -1,12 +1,11 @@
-package com.demo.MyApp.user.mypage.cart.Controller;
+package com.demo.MyApp.user.cart.controller;
 
-import com.demo.MyApp.user.mypage.cart.dto.CartItemDto;
-import com.demo.MyApp.user.mypage.cart.service.CartService;
+import com.demo.MyApp.user.cart.dto.CartItemDto;
+import com.demo.MyApp.user.cart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user/cart")
@@ -35,8 +34,7 @@ public class CartController {
     }
 
     @PostMapping("/deleteCartItemselected")
-    public void deleteCartItemselected(@RequestBody Map<String, List<Long>> dataArr) throws Exception {
-        List<Long> cartItemIds = dataArr.get("cartItemIds");
+    public void deleteCartItemselected(@RequestBody List<Long> cartItemIds) throws Exception {
         if (cartItemIds == null || cartItemIds.isEmpty()) {
             throw new IllegalArgumentException("No cart item IDs provided.");
         }

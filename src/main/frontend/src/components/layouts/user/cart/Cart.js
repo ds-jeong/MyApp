@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Form, Table} from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import './Cart.css';
 import axios from "axios";
 
@@ -50,22 +51,31 @@ const Cart = () => {
         setTotalPayment(amount + shipping);
     };
 
-    /* 체크박스에 item id 값 할당 */
-    const handleSelectItem = (cartItemId) => {
-        setSelectedResArr(prev => ({
-            ...prev,
-            [cartItemId]: !prev[cartItemId],
-        }));
+    const [selectedIds, setSelectedIds] = useState([]);
+
+    /* 체크박스 상태관리 */
+    const handleChangeCheck = (checked, item) => {
+        if (checked) {
+            /* 체크박스가 선택된 경우: item을 배열에 추가 */
+            setSelectedIds((prev) => [...prev, item.cartItemId]);
+        } else {
+            /* 체크박스가 선택 해제된 경우: item을 배열에서 제거 */
+            setSelectedIds((prev) => prev.filter((id) => id !== item.cartItemId));
+        }
     };
 
     /* 수량 변경  */
     const handleQuantityChange = (cartItemId, quantity) => {
-        setResArr(prev =>
-            prev.map(item =>
+        setResArr(prev => {
+            const updatedItems = prev.map(item =>
                 item.cartItemId === cartItemId ? { ...item, quantity } : item
-            )
-        );
-        calculateTotals(resArr);
+            );
+
+            /* 총합 계산 */
+            calculateTotals(updatedItems); /* 수정된 배열을 사용하여 총합 계산 */
+
+            return updatedItems; /* 변경된 배열 반환 */
+        });
     };
 
     /* 장바구니 개별 상품 삭제 */
@@ -75,33 +85,36 @@ const Cart = () => {
             setResArr(prev => prev.filter(item => item.cartItemId !== cartItemId));
             calculateTotals(resArr);
             alert("삭제되었습니다");
+            window.location.replace("/");
         }
     };
 
     /* 장바구니 선택 상품 삭제 */
     const handleDeleteCartItemSelected = async () => {
-        const selectedIds = Object.keys(selectedResArr)
-            .filter(key => selectedResArr[key])
-            .map(id => Number(id)); /* 문자열을 숫자로 변환 */
         if(window.confirm("선택한 상품을 삭제하시겠습니까?")) {
-            await axios.post('/user/cart/deleteCartItemselected', { cartItemIds: selectedIds });
+            await axios.post('/user/cart/deleteCartItemselected', selectedIds, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }});
             setResArr(prev => prev.filter(item => !selectedIds.includes(item.productId.toString())));
             calculateTotals(resArr);
-                alert("삭제되었습니다");
+            alert("삭제되었습니다");
+            window.location.replace("/");
         }
     };
 
-    /* 장바구니 선택 상품 주문  */
+    /* 장바구니 전체 상품 주문  */
     const handleOrderAll = async () => {
-        await axios.post('/user/cart/order', { productIds: resArr.map(item => item.productId) }); // 전체 상품 주문 API 호출
+        await axios.post('/user/cart/order', { productIds: resArr.map(item => item.productId) });
         alert("전체 상품이 주문되었습니다.");
     };
 
-    /* order와 같이 진행 */
-    const handleOrderSelected = async () => {
-        const selectedIds = Object.keys(selectedResArr).filter(key => selectedResArr[key]);
-        await axios.post('/user/cart/order-selected', { productIds: selectedIds }); // 선택한 상품 주문 API 호출
-        alert("선택한 상품이 주문되었습니다.");
+    /* 장바구니 선택 상품 주문 */
+    const navigate = useNavigate();
+    const handleOrderCartItemSelected = async () => {
+
+        navigate(`/userOrder?id=${id}&cartItemIds=${selectedIds.join(',')}`);
+
     };
 
     return (
@@ -124,10 +137,8 @@ const Cart = () => {
                         <td>
                             <Form.Check
                                 type="checkbox"
-                                checked={selectedResArr[item.cartItemId] || false}
-                                onChange={() => handleSelectItem(item.cartItemId)}
-                                // checked={selectedResArr[item.productId] || false}
-                                // onChange={() => handleSelectItem(item.id)}
+                                checked={selectedIds.includes(item.cartItemId)}
+                                onChange={(e) => handleChangeCheck(e.target.checked, item)}
                             />
                         </td>
                         <td>{item.productNm}</td>
@@ -138,14 +149,11 @@ const Cart = () => {
                                 value={item.quantity}
                                 min="1"
                                 onChange={(e) => handleQuantityChange(item.cartItemId, Number(e.target.value))}
-                                // min="1"
-                                // onChange={(e) => handleQuantityChange(item.productId, Number(e.target.value))}
                             />
                         </td>
                         <td>{item.shippingFee} 원</td>
                         <td>
                             <Button variant="danger" onClick={() => handleDeleteCartItem(item.cartItemId)}>삭제</Button>
-                            {/*<Button variant="danger" onClick={() => handleDeleteSelected(item.productId)}>삭제</Button>*/}
                         </td>
                     </tr>
                 ))}
@@ -164,11 +172,8 @@ const Cart = () => {
             </div>
             <div className="order-buttons">
                 <Button variant="primary" className="mr-2" onClick={handleOrderAll}>전체 상품 주문</Button>
-                <Button variant="success" className="mr-2" onClick={handleOrderSelected}>선택 상품 주문</Button>
+                <Button variant="success" className="mr-2" onClick={handleOrderCartItemSelected}>선택 상품 주문</Button>
                 <Button variant="danger" onClick={handleDeleteCartItemSelected}>선택 상품 삭제</Button>
-                {/*<Button variant="primary" className="mr-2">전체 상품 주문</Button>*/}
-                {/*<Button variant="success" className="mr-2">선택 상품 주문</Button>*/}
-                {/*<Button variant="danger" onClick={handleDeleteSelected}>선택 상품 삭제</Button>*/}
             </div>
         </div>
     );

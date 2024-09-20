@@ -1,4 +1,4 @@
-package com.demo.MyApp.user.mypage.cart.entity;
+package com.demo.MyApp.user.cart.entity;
 
 import com.demo.MyApp.common.entity.User;
 import jakarta.persistence.*;

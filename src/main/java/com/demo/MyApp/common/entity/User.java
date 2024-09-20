@@ -1,7 +1,8 @@
 package com.demo.MyApp.common.entity;
 
+import com.demo.MyApp.admin.order.entity.Order;
 import com.demo.MyApp.common.dto.UserDto;
-import com.demo.MyApp.user.mypage.cart.entity.Cart;
+import com.demo.MyApp.user.cart.entity.Cart;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

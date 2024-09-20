@@ -1,9 +1,11 @@
-package com.demo.MyApp.user.mypage.cart.entity;
+package com.demo.MyApp.admin.order.entity;
 
 import com.demo.MyApp.admin.product.entity.Product;
+import com.demo.MyApp.common.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+
 
 @ToString
 @Getter
@@ -13,20 +15,22 @@ import org.hibernate.annotations.DynamicUpdate;
 @AllArgsConstructor //전체 필드에 대한 생성자를 생성하여 @builder사용이 가능하도록..
 @NoArgsConstructor //기본 생성자를 생성
 @Entity //선언
-@Table(name = "cartItem")
-public class CartItem {
+@Table(name = "orderDetail")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartItemId;
+    private Long orderDetailId;
+
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
-    private Integer quantity;  // 장바구니에 담긴 수량
-    private Integer price;  // 가격
+    @OneToOne(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Review review;
 }

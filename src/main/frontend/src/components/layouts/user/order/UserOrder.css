@@ -1,0 +1,13 @@
+.order-page {
+    padding: 2rem;
+}
+
+h1, h5 {
+    margin-bottom: 1rem;
+}
+
+.total-summary {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
