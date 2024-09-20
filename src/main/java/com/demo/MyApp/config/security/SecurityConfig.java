@@ -70,8 +70,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://3.106.69.213:3000");
+        configuration.addAllowedOrigin("http://localhost:3000");
+//        configuration.addAllowedOrigin("http://3.106.69.213:3000");
         configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
         configuration.addAllowedHeader("*"); // 모든 헤더 허용
         configuration.setAllowCredentials(true);

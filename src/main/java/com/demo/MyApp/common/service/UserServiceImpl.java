@@ -7,10 +7,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-
-@Service
+@Service @Transactional
 @RequiredArgsConstructor //생성자 주입코드없이 의존성주입
 public class UserServiceImpl implements UserService{
 
@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean isEmailExists(String email) throws Exception {
         return userRepository.findByEmail(email) != null;
+    }
+
+    @Override
+    public boolean isUserRegistered(String Id) {
+        // provider와 providerId로 소셜 로그인 사용자 확인
+        return userRepository.findByUserId(Id) != null;
     }
 
     @Transactional

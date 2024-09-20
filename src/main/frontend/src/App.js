@@ -8,6 +8,7 @@ import Login from "./common/Login";
 import Join from "./common/Join";
 import Footer from "./common/Footer";
 import Main from "./components/Main";
+import OAuthRedirectHandler from "./common/OAuthRedirectHandler";
 
 import QnaList from "./components/layouts/admin/qna/QnaList";
 import QnaRegist from "./components/layouts/admin/qna/QnaRegist";
@@ -34,7 +35,7 @@ function App() {
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
-                            <Route path="/oauth/callback/kakao" element={<OAuthRedirectHandler />}
+                            <Route path="/oauth/callback/kakao" element={<OAuthRedirectHandler />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
 

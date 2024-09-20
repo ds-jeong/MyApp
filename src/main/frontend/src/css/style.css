@@ -46,3 +46,11 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* 포커스 시 효과 설정 */
 }
 
+.kakaoLoginBtn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FEE500;
+    border-radius: 5px;
+    text-align: center;
+}
+

@@ -53,12 +53,17 @@ public class JwtTokenProvider implements InitializingBean {
         long now = new Date().getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
-        return Jwts.builder()
-                .setSubject(authentication.getName()) // 페이로드 주제 정보
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(validity)
-                .compact();
+        try {
+           return Jwts.builder()
+                    .setSubject(authentication.getName()) // 페이로드 주제 정보
+                    .claim(AUTHORITIES_KEY, authorities)
+                    .signWith(key, SignatureAlgorithm.HS512)
+                    .setExpiration(validity)
+                    .compact();
+        }catch (Exception e) {
+            log.error("JWT 토큰 생성 실패", e);
+            throw new JwtException("JWT 생성 실패");
+        }
     }
 
     /**

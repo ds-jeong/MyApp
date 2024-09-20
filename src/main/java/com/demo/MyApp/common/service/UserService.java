@@ -1,6 +1,7 @@
 package com.demo.MyApp.common.service;
 
 import com.demo.MyApp.common.dto.UserDto;
+import org.springframework.stereotype.Service;
 
 public interface UserService {
     void registerUser(UserDto userDto) throws Exception;
@@ -12,4 +13,6 @@ public interface UserService {
     boolean isEmailExists(String phone) throws Exception;
 
     UserDto selectUserInfo(UserDto userDto);
+
+    boolean isUserRegistered(String Id);
 }

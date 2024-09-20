@@ -1,19 +1,40 @@
 package com.demo.MyApp.common.service;
 
+import com.demo.MyApp.config.security.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.Authentication;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 public class OAuthService {
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Value("${client.id}")
+    private String clientId;
+
+    @Value("${client.redirect-uri}")
+    private String redirectUri;
 
     public String getKaKaoAccessToken(String code) {
 
@@ -31,8 +52,8 @@ public class OAuthService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-//            sb.append("&client_id=" + clientId);
-//            sb.append("&redirect_uri=" + redirectUri);
+            sb.append("&client_id=" + clientId);
+            sb.append("&redirect_uri=" + redirectUri);
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -94,18 +115,24 @@ public class OAuthService {
             JsonElement element = parser.parse(result);
 
             String id = element.getAsJsonObject().get("id").getAsString();
-
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            System.out.println("kakao_account  : " + kakao_account);
 
-            String nickname = properties.get("nickname").getAsString();
-            if(kakao_account.getAsJsonObject().get("email") != null) {
-                String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            //연동로그인시 마이페이지에 아이디,이름,전화번호,이메일 자동채워짐
+            String email = kakao_account.get("email").getAsString();
+            String name = kakao_account.get("name").getAsString();
+            String phone_number = kakao_account.get("phone_number").getAsString();
+
+            if(email != null) {
+                userInfo.put("id", id);
+//                userInfo.put("properties", properties);
                 userInfo.put("email", email);
+                userInfo.put("name", name);
+                userInfo.put("phone_number", phone_number);
             }
 
-            userInfo.put("nickname", nickname);
-            userInfo.put("id", id);
+            System.out.println("account_userinfo : " + id + "   " + email + "   " + name + "  " + phone_number);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,17 +140,17 @@ public class OAuthService {
         return userInfo;
     }
 
-//    public UserKakaoLoginResponseDto kakaoLogin(String access_token) {
-//        UserKakaoSignupRequestDto userKakaoSignupRequestDto
-//                = getUserKaKaoSignupRequestDto(getUserKakaoInfo(access_token));
-//
-//        UserResponseDto userResponseDto = findByUserKakaoIdentifier(userKakaoSignupRequestDto.getUserKakaoIdentifier());
-//
-//        if(userResponseDto == null) {
-//            signUp(userKakaoSignupRequestDto);
-//            userResponseDto = find
-//        }
-//    }
+
+    public String kakaoLogin(String id) {
+        // 권한 목록을 가져와서 SimpleGrantedAuthority로 변환
+        List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+
+        // UsernamePasswordAuthenticationToken 생성
+        Authentication authentication = new UsernamePasswordAuthenticationToken(id, "-1", authorities);
+        String jwtToken = jwtTokenProvider.createToken(authentication);
+
+        return jwtToken;
+    }
 
 
 }

@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor //전체 필드에 대한 생성자를 생성하여 @builder사용이 가능하도록..
 @NoArgsConstructor //기본 생성자를 생성
 @Entity //선언
-@Table(name = "user")
+@Table(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,9 @@ public class User {
 
     @Column(nullable=false, unique=true) //unique=true 해야함.
     private String email;
+
+//    private String provider;
+//    private Long providerId;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserProfile userProfile;

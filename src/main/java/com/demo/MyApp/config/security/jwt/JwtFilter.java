@@ -32,8 +32,11 @@ public class JwtFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+
         String jwtToken = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
+
+        System.out.println("##jwtToken  "  + jwtToken + "requestURI" + requestURI);
 
         if(StringUtils.hasText(jwtToken) && tokenProvider.validateToken(jwtToken)) {
             //토큰 값에서 Authentication 값으로 가공해서 반환 후 저장
