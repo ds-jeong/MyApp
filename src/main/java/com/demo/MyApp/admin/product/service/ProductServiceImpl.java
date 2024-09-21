@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto productDetail(Long id) throws Exception {
         Optional<Product> product = productRepository.findById(id);
         ProductDto productDto = ProductDto.builder()
-                .id(product.get().getId())
+                .productId(product.get().getProductId())
                 .productNm(product.get().getProductNm())
                 .price(product.get().getPrice())
                 .shipping(product.get().getShipping())

@@ -1,7 +1,10 @@
 package com.demo.MyApp.admin.product.entity;
 
+import com.demo.MyApp.admin.order.entity.Order;
 import com.demo.MyApp.admin.product.dto.ProductDto;
-import com.demo.MyApp.common.entity.*;
+import com.demo.MyApp.common.entity.ProductOption;
+import com.demo.MyApp.common.entity.RecentlyViewedItem;
+import com.demo.MyApp.common.entity.Wishlist;
 import com.demo.MyApp.user.cart.entity.CartItem;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Set;
 
-@ToString
 @Getter
 @Setter
 @Builder
@@ -22,7 +24,8 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Long id;
+//    private Long id;
+    private Long productId;
 
     private String productNm;
     private double price;
@@ -57,11 +60,16 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductOption> options;  // 상품 옵션
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @ToString.Exclude
+    private Order order;
+
     // Entity는 암묵적으로 Setter를 사용하지않음(정말 필요할때만 쓰기)
     // Setter 대신 데이터를 가공할때 호출할 메소드
     public static Product toEntity(ProductDto dto) {
         return Product.builder()
-                .id(dto.getId())
+                .productId(dto.getProductId())
                 .productNm(dto.getProductNm())
                 .content(dto.getContent())
                 .author(dto.getAuthor())

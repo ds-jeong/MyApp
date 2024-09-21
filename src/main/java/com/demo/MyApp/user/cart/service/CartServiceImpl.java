@@ -90,13 +90,13 @@ public class CartServiceImpl implements CartService{
         /* CartItemDto 를 만들어서 상품 정보를 추가 */
         List<CartItemDto> cartItemDto = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
-            Product product = productRepository.findById(cartItem.getProduct().getId())
+            Product product = productRepository.findById(cartItem.getProduct().getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
             /* DTO 생성 */
             CartItemDto dto = new CartItemDto();
             dto.setCartItemId(cartItem.getCartItemId());
-            dto.setProductId(cartItem.getProduct().getId());
+            dto.setProductId(cartItem.getProduct().getProductId());
             dto.setQuantity(cartItem.getQuantity());
             dto.setProductNm(product.getProductNm());
             dto.setPrice(product.getPrice());

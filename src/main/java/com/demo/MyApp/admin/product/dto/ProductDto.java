@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class ProductDto {
-    private Long id;
+    private Long productId;
     private String productNm;
     private double price;
     private double shipping;

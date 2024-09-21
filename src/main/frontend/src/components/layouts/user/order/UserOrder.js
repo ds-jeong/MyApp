@@ -5,6 +5,7 @@ import './UserOrder.css';
 import axios from "axios";
 
 const Order = () => {
+    
     const [resArr, setResArr] = useState([]);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -30,72 +31,87 @@ const Order = () => {
         }
     };
 
-    const [shippingInfo, setShippingInfo] = useState({
-        name: '',
-        address: '',
-        phone: '',
-    });
-
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setShippingInfo((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        setFormData({
+            ...formData,
+            [name]: value  /* 각 입력 필드의 name 속성을 키로 사용하여 값을 설정 */
+        });
     };
 
-    const handleSubmit = () => {
-        // 결제 처리 로직
-        console.log('결제 처리:', shippingInfo);
+    /* 총 결제금액*/
+    const totalPayment = resArr.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    /* formData 셋팅 */
+    const [formData, setFormData] = useState({
+        orderer: '',
+        tel: '',
+        phone: '',
+        email: '',
+        recipient: '',
+        recipientPhone: '',
+        totalPayment: '',
+        id: id,
+        orderDetails: [],
+    });
+
+    const handleSubmit = event => {
+        event.preventDefault();
+
+        formData.totalPayment = totalPayment;
+        formData.orderDetails = resArr
+
+        axios.post('/user/order/insertOrder', formData)
+            .then(response => {
+                alert("주문확인!");
+                // useHistory import 안되면 아래 코드로 수정해서 반영
+                // 응답을 받고 제품 등록화면으로 돌아감
+                // navigate('/productList');
+            })
+            .catch(error => {
+                console.error('Error submitting post: ', error);
+            });
     };
-
-    const orderDetails = [
-        {id: 1, name: '상품 1', price: 20000, quantity: 2},
-        {id: 2, name: '상품 2', price: 30000, quantity: 1},
-    ];
-
-    const totalPayment = orderDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     return (
         <Container className="order-page">
-            <h2 className="text-center">주문 정보 입력</h2>
             <Form onSubmit={handleSubmit}>
+
+                {/* 주문 정보 */}
+                <h2 className="text-center">주문 정보</h2>
                 <Form.Group controlId="formName">
                     <Form.Label>주문자 이름</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="이름을 입력하세요"
-                        name="name"
+                        name="orderer"
                         // value={formData.name}
                         onChange={handleChange}
                         required
                     />
                 </Form.Group>
-
                 <Form.Group controlId="formHomePhone">
                     <Form.Label>일반 전화</Form.Label>
                     <Form.Control
                         type="tel"
                         placeholder="전화번호를 입력하세요"
-                        name="homePhone"
+                        name="tel"
                         // value={formData.homePhone}
                         onChange={handleChange}
                         required
                     />
                 </Form.Group>
-
                 <Form.Group controlId="formMobilePhone">
                     <Form.Label>휴대 전화</Form.Label>
                     <Form.Control
                         type="tel"
                         placeholder="휴대전화 번호를 입력하세요"
-                        name="mobilePhone"
+                        name="phone"
                         // value={formData.mobilePhone}
                         onChange={handleChange}
                         required
                     />
                 </Form.Group>
-
                 <Form.Group controlId="formEmail">
                     <Form.Label>이메일</Form.Label>
                     <Form.Control
@@ -108,45 +124,38 @@ const Order = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
-                    주문하기
-                </Button>
-                <Row className="mb-4">
-                    <Col>
-                        <h5>배송 정보</h5>
-
-                        <Form.Group controlId="formName">
-                            <Form.Label>받는 사람</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                // value={shippingInfo.name}
-                                onChange={handleChange}
-                                placeholder="이름을 입력하세요"
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formAddress">
-                            <Form.Label>배송 주소</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="address"
-                                // value={shippingInfo.address}
-                                onChange={handleChange}
-                                placeholder="주소를 입력하세요"
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formPhone">
-                            <Form.Label>전화번호</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="phone"
-                                // value={shippingInfo.phone}
-                                onChange={handleChange}
-                                placeholder="전화번호를 입력하세요"
-                            />
-                        </Form.Group>
-                    </Col>
-                </Row>
+                {/* 배송 정보 */}
+                <h2 className="text-center">배송 정보</h2>
+                <Form.Group controlId="formName">
+                    <Form.Label>받는 사람</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="recipient"
+                        // value={shippingInfo.name}
+                        onChange={handleChange}
+                        placeholder="이름을 입력하세요"
+                    />
+                </Form.Group>
+                <Form.Group controlId="formAddress">
+                    <Form.Label>배송 주소</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="address"
+                        // value={shippingInfo.address}
+                        onChange={handleChange}
+                        placeholder="주소를 입력하세요"
+                    />
+                </Form.Group>
+                <Form.Group controlId="formPhone">
+                    <Form.Label>연락처</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="recipientPhone"
+                        // value={shippingInfo.phone}
+                        onChange={handleChange}
+                        placeholder="전화번호를 입력하세요"
+                    />
+                </Form.Group>
             </Form>
 
             <h5>주문 내역</h5>

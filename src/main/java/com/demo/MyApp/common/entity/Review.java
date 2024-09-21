@@ -33,9 +33,9 @@ public class Review {
 
     private byte rating;
 
-    @OneToOne
-    @JoinColumn(name = "order_detail_id")  // 외래 키 컬럼
-    private OrderDetail orderDetail;
+//    @OneToOne
+//    @JoinColumn(name = "order_detail_id")  // 외래 키 컬럼
+//    private OrderDetail orderDetail;
 }
 
 

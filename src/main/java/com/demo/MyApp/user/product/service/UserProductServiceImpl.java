@@ -33,7 +33,7 @@ public class UserProductServiceImpl implements UserProductService {
     public ProductDto userProductDetail(Long id) throws Exception {
         Optional<Product> product = userProductRepository.findById(id);
         ProductDto productDto = ProductDto.builder()
-                .id(product.get().getId())
+                .productId(product.get().getProductId())
                 .productNm(product.get().getProductNm())
                 .price(product.get().getPrice())
                 .shipping(product.get().getShipping())
@@ -53,7 +53,7 @@ public class UserProductServiceImpl implements UserProductService {
         List<UserProductDto> productDtoList = new ArrayList<>();
         for (Product product : products) {
             UserProductDto productDto = UserProductDto.builder()
-                    .id(product.getId())
+                    .id(product.getProductId())
                     .productNm(product.getProductNm())
                     .price(product.getPrice())
                     .content(product.getContent())

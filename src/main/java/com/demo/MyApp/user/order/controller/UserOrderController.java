@@ -1,11 +1,12 @@
 package com.demo.MyApp.user.order.controller;
 
+import com.demo.MyApp.admin.order.entity.Order;
+import com.demo.MyApp.admin.product.dto.ProductDto;
+import com.demo.MyApp.user.order.dto.UserOrderDto;
 import com.demo.MyApp.user.order.service.UserOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,5 +35,10 @@ public class UserOrderController {
         return userOrderService.orderCartItemDetail(id, cartItemIdList);
     }
 
+    @PostMapping("/insertOrder")
+    public void insertOrder(@RequestBody UserOrderDto userOrderDto) throws Exception{
+        /* 사용자 > 주문하기 */
+        userOrderService.insertOrder(userOrderDto);
+    }
 
 }
