@@ -98,7 +98,7 @@ function ProductList() {
                                     <CardFooter className="p-4 pt-0 border-top-0 bg-transparent">
                                         <div className="text-center">
                                             <Button variant="outline-dark">
-                                                <Link to={`/productDetail/${item.id}`}>
+                                                <Link to={`/productDetail/${item.productId}`}>
                                                     View options1
                                                 </Link>
                                             </Button>

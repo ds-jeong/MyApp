@@ -1,12 +1,9 @@
 package com.demo.MyApp.user.order.controller;
 
-import com.demo.MyApp.admin.order.entity.Order;
-import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.user.order.dto.UserOrderDto;
 import com.demo.MyApp.user.order.service.UserOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.demo.MyApp.user.order.dto;
 
-import com.demo.MyApp.admin.order.entity.OrderDetail;
 import lombok.*;
 
 import java.time.LocalDateTime;

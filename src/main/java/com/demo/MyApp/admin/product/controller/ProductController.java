@@ -17,10 +17,9 @@ public class ProductController {
     private ProductServiceImpl productService;
 
     @PostMapping("/insertProduct")
-    public String insertProduct(@ModelAttribute ProductDto productDto, @RequestParam("file") MultipartFile file) throws Exception{
+    public void insertProduct(@ModelAttribute ProductDto productDto, @RequestParam("file") MultipartFile file) throws Exception{
         /* 관리자 > 상품등록 */
         productService.insertProduct(productDto, file);
-        return "Post received successfully";
     }
 
     @GetMapping("/productList")
@@ -50,7 +49,7 @@ public class ProductController {
         return "Post received successfully";
     }
 
-    @GetMapping("/deleteProduct")
+    @PostMapping("/deleteProduct")
     public String deleteProduct(@ModelAttribute ProductDto productDto, @RequestParam("id") Long id) throws Exception{
         /* 관리자 > 상품삭제 */
         productService.deleteProduct(id);

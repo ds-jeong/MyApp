@@ -127,7 +127,7 @@ function ProductModify() {
     const handleDelete = () => {
         const msg = window.confirm("정말 삭제하시겠습니까?");
         if (msg){
-            axios.get('/admin/product/deleteProduct',
+            axios.post('/admin/product/deleteProduct',
                 {
                     params: {id: params.id}
                 })

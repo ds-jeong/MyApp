@@ -1,14 +1,9 @@
 package com.demo.MyApp.admin.order.entity;
 
 import com.demo.MyApp.admin.product.entity.Product;
-import com.demo.MyApp.common.entity.Review;
-import com.demo.MyApp.common.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @ToString
