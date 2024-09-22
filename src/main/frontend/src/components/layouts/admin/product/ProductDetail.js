@@ -138,7 +138,7 @@ function ProductDetail() {
                                     목록
                                 </Button>
                                 &nbsp;&nbsp;
-                                <Button variant="primary" type="button" href={`/productModify/${resArr.id}`}>
+                                <Button variant="primary" type="button" href={`/productModify/${resArr.productId}`}>
                                     수정
                                 </Button>
                             </td>

@@ -38,10 +38,7 @@ function ProductModify() {
     };
 
     useEffect(() => {
-        axios.get('/admin/product/productModify',
-            {
-                params: {id: params.id}
-            }).then(response => {
+        axios.get(`/admin/product/productModify?id=${params.id}`).then(response => {
                 //setResArr(response.data);
                 setInputValue(response.data);
             }
