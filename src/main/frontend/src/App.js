@@ -3,28 +3,27 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 
 import Header from "./common/Header";
-import Main_bak from "./components/layouts/Main_bak";
 import Login from "./common/Login";
 import Join from "./common/Join";
 import Footer from "./common/Footer";
-import Main from "./components/Main";
+import Main from "./pages/Main";
 
-import QnaList from "./components/layouts/admin/qna/QnaList";
-import QnaRegist from "./components/layouts/admin/qna/QnaRegist";
-import QnaDetail from "./components/layouts/admin/qna/QnaDetail";
-import QnaModify from "./components/layouts/admin/qna/QnaModify";
+import QnaList from "./pages/admin/qna/QnaList";
+import QnaRegist from "./pages/admin/qna/QnaRegist";
+import QnaDetail from "./pages/admin/qna/QnaDetail";
+import QnaModify from "./pages/admin/qna/QnaModify";
 
-import ProductList from "./components/layouts/admin/product/ProductList"
-import ProductRegist from "./components/layouts/admin/product/ProductRegist";
-import ProductDetail from "./components/layouts/admin/product/ProductDetail";
-import ProductModify from "./components/layouts/admin/product/ProductModify";
+import ProductList from "./pages/admin/product/ProductList"
+import ProductRegist from "./pages/admin/product/ProductRegist";
+import ProductDetail from "./pages/admin/product/ProductDetail";
+import ProductModify from "./pages/admin/product/ProductModify";
 
-import UserProductList from "./components/layouts/user/product/UserProductList"
-import UserProductDetail from "./components/layouts/user/product/UserProductDetail"
+import UserProductList from "./pages/user/product/UserProductList"
+import UserProductDetail from "./pages/user/product/UserProductDetail"
 
-import MyPage from "./components/layouts/user/mypage/MyPage";
-import Cart from "./components/layouts/user/cart/Cart";
-import UserOrder from "./components/layouts/user/order/UserOrder";
+import MyPage from "./pages/user/mypage/MyPage";
+import Cart from "./pages/user/cart/Cart";
+import UserOrder from "./pages/user/order/UserOrder";
 
 function App() {
     return (
@@ -35,7 +34,6 @@ function App() {
                     <Header/>
                     <div className="contentWrapper">
                         <Routes>
-                            <Route path="/mainHtml" element={<Main_bak />}/>
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>

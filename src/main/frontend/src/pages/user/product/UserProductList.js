@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-bootstrap";
-import {formatPrice} from '../../../../js/utils/formatUtils';
+import {formatPrice} from '../../../js/utils/formatUtils';
 import ReactPaginate from "react-paginate";
 
 function UserProductList() {

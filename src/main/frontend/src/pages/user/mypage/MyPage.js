@@ -1,9 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
-import {Button, Container, Form, Table} from "react-bootstrap";
+import React from 'react';
+import {Button, Container, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ReactPaginate from "react-paginate";
 
 function MyPage() {
     return (

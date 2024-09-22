@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Container, Form, Table} from 'react-bootstrap';
 import {useParams} from "react-router-dom";
 import axios from 'axios';
-import {formatPrice} from "../../../../js/utils/formatUtils";
+import {formatPrice} from "../../../js/utils/formatUtils";
 
 function ProductDetail() {
 

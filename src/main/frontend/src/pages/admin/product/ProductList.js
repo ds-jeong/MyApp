@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-bootstrap";
-import {formatPrice} from '../../../../js/utils/formatUtils';
+import {formatPrice} from '../../../js/utils/formatUtils';
 import {Link} from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import LikeButton from '../../../button/LikeButton';
+// import LikeButton from '../../../components/button/LikeButton';
 
 function ProductList() {
     const token = window.localStorage.getItem('token');
@@ -102,7 +102,7 @@ function ProductList() {
                                                     View options1
                                                 </Link>
                                             </Button>
-                                            <LikeButton like={like} productId={item.id} onClick={handleToggleLike}/>
+                                            {/*<LikeButton like={like} productId={item.id} onClick={handleToggleLike}/>*/}
                                         </div>
                                     </CardFooter>
                                 </Card>
