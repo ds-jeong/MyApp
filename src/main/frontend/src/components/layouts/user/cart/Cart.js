@@ -51,6 +51,7 @@ const Cart = () => {
         setTotalPayment(amount + shipping);
     };
 
+    /* 선택 된 item */
     const [selectedIds, setSelectedIds] = useState([]);
 
     /* 체크박스 상태관리 */
@@ -103,18 +104,22 @@ const Cart = () => {
         }
     };
 
+    const navigate = useNavigate();
+
+    /* 장바구니 모든 item */
+    const [allCartItemIds, setAllProductIds] = useState([]);
+
     /* 장바구니 전체 상품 주문  */
-    const handleOrderAll = async () => {
-        await axios.post('/user/cart/order', { productIds: resArr.map(item => item.productId) });
-        alert("전체 상품이 주문되었습니다.");
+    const handleOrderCartItemAll = async () => {
+        resArr.forEach(item => {
+            allCartItemIds.push(item.cartItemId);
+        });
+        navigate(`/userOrder?id=${id}&cartItemIds=${allCartItemIds.join(',')}`);
     };
 
     /* 장바구니 선택 상품 주문 */
-    const navigate = useNavigate();
     const handleOrderCartItemSelected = async () => {
-
         navigate(`/userOrder?id=${id}&cartItemIds=${selectedIds.join(',')}`);
-
     };
 
     return (
@@ -171,7 +176,7 @@ const Cart = () => {
                 </div>
             </div>
             <div className="order-buttons">
-                <Button variant="primary" className="mr-2" onClick={handleOrderAll}>전체 상품 주문</Button>
+                <Button variant="primary" className="mr-2" onClick={handleOrderCartItemAll}>전체 상품 주문</Button>
                 <Button variant="success" className="mr-2" onClick={handleOrderCartItemSelected}>선택 상품 주문</Button>
                 <Button variant="danger" onClick={handleDeleteCartItemSelected}>선택 상품 삭제</Button>
             </div>
