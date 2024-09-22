@@ -16,12 +16,13 @@ public class UserOrderDto {
     /* 주문정보 */
     private String orderNumber; //주문번호
     private String orderer; //주문자
-    private Long phone; //연락처
+    private String phone; //연락처
     private String email; //이메일
 
     /* 배송정보 */
     private String recipient; //받는사람
-    private Long recipientPhone; //받는사람 연락처
+    private String recipientPhone; //받는사람 연락처
+    private String zonecode; //우편번호
     private String addr; //배송주소
 
     /* 상태값 */

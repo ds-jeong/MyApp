@@ -11,3 +11,9 @@ h1, h5 {
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+/* EmailForm.css */
+.email-form-container {
+    display: flex;
+    align-items: center;
+}

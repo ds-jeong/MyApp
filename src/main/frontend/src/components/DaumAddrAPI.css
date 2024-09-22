@@ -1,0 +1,33 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.popup-content {
+    width: 500px; /* 팝업의 너비 */
+    max-width: 90%; /* 최대 너비 */
+    min-height: 500px;
+    padding: 20px;
+    position: relative;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #888;
+    float: right; /* 오른쪽으로 정렬 */
+    margin-bottom: 10px; /* 아래쪽 여백 추가 */
+}
+
+.close-btn:hover {
+    color: #000;
+}

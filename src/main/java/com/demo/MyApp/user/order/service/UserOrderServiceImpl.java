@@ -6,7 +6,6 @@ import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.repository.ProductRepository;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.repository.UserRepository;
-import com.demo.MyApp.user.cart.entity.Cart;
 import com.demo.MyApp.user.cart.entity.CartItem;
 import com.demo.MyApp.user.cart.repository.CartItemRepository;
 import com.demo.MyApp.user.order.dto.UserOrderDetailDto;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,6 +116,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         order.setOrderNumber(orderNumber);
         order.setState("주문완료");
         order.setOrderer(userOrderDto.getOrderer());
+        order.setZonecode(userOrderDto.getZonecode());
         order.setAddr(userOrderDto.getAddr());
         order.setPhone(userOrderDto.getPhone());
         order.setEmail(userOrderDto.getEmail());
