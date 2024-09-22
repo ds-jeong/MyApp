@@ -114,12 +114,20 @@ const Cart = () => {
         resArr.forEach(item => {
             allCartItemIds.push(item.cartItemId);
         });
-        navigate(`/userOrder?id=${id}&cartItemIds=${allCartItemIds.join(',')}`);
+        if (allCartItemIds.length <= 0){
+            alert("장바구니에 상품을 담아주세요.");
+        }else{
+            navigate(`/userOrder?id=${id}&cartItemIds=${allCartItemIds.join(',')}`);
+        }
     };
 
     /* 장바구니 선택 상품 주문 */
     const handleOrderCartItemSelected = async () => {
-        navigate(`/userOrder?id=${id}&cartItemIds=${selectedIds.join(',')}`);
+        if(selectedIds.length <= 0){
+            alert("상품을 선택해주세요.");
+        }else{
+            navigate(`/userOrder?id=${id}&cartItemIds=${selectedIds.join(',')}`);
+        }
     };
 
     return (
