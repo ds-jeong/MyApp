@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {Container, Row, Col, Button, Image, Form, CardImg, FormControl} from 'react-bootstrap';
 import {useParams} from "react-router-dom";
-import {formatPrice} from '../../../js/utils/formatUtils';
+import {formatPrice} from '../../../utils/formatUtils';
 import CartPopup from './popup/CartPopup';
 import axios from 'axios';
 

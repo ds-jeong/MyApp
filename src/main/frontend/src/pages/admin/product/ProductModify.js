@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, Container, Form, Table} from 'react-bootstrap';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from 'axios';
-import {addCommasToPrice} from "../../../js/utils/formatUtils";
+import {addCommasToPrice} from "../../../utils/formatUtils";
 
 function ProductModify() {
 

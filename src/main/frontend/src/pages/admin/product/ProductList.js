@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-bootstrap";
-import {formatPrice} from '../../../js/utils/formatUtils';
+import {formatPrice} from '../../../utils/formatUtils';
 import {Link} from "react-router-dom";
 import ReactPaginate from "react-paginate";
 // import LikeButton from '../../../components/button/LikeButton';

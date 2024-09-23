@@ -1,319 +1,240 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
 import {useLocation} from 'react-router-dom';
 import {Button, Col, Container, Form, Row, Table} from 'react-bootstrap';
-import {ValidateEmail, ValidatePhone} from 'components/Validation';
-import DaumAddrAPI from 'components/DaumAddrAPI';
+import {ValidateEmail, ValidatePhone} from 'utils/Validation';
+import {FormatPhoneNumber} from 'utils/FormatPhoneNumber';
+import DaumAddrAPI from 'components/daumAddrApi/DaumAddrAPI';
 import axios from "axios";
 import './UserOrder.css';
 
-
 const Order = () => {
-
-    const [resArr, setResArr] = useState([]);
+    const {register, handleSubmit, setValue, setError, clearErrors, formState: {errors}} = useForm();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
     const cartItemIds = queryParams.get('cartItemIds');
+    const [resArr, setResArr] = React.useState([]);
+    const [domain, setDomain] = useState('gmail.com');
+    const [customDomain, setCustomDomain] = useState(''); /* 직접 입력된 도메인 상태 */
 
     /* 선택한 장바구니 상품 조회 */
     useEffect(() => {
-        fetchData(id, cartItemIds);
-    }, [id, cartItemIds]);
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/user/order/orderCartItemDetail', {
+                    params: {id, cartItemIds},
+                });
+                setResArr(response.data);
+                setValue('id', id); // Set the order ID
+            } catch (error) {
+                console.error("Error fetching fetchData", error);
+            }
+        };
+        fetchData();
+    }, [id, cartItemIds, setValue]);
 
-    const fetchData = async (id, cartItemIds) => {
-        try {
-            const response = await axios.get('/user/order/orderCartItemDetail', {
-                params: {
-                    id: id,
-                    cartItemIds: cartItemIds
-                },
-            });
-            setResArr(response.data);
-        } catch (error) {
-            console.error("Error fetching fetchData", error);
+    /* 연락처 포맷팅 */
+    const handlePhoneChange = (e) => {
+        const {name, value} = e.target;
+        const formattedValue = FormatPhoneNumber(value);
+        setValue(name, formattedValue);
+    };
+
+    /* 이메일 도메인 동적 처리 */
+    const handleDomainChange = (e) => {
+        const selectedDomain = e.target.value;
+        setDomain(selectedDomain);
+        clearErrors('emailDomain'); /* 도메인 에러 삭제 */
+
+        /* 선택된 도메인에 따라 입력 필드 값 업데이트 */
+        if (selectedDomain !== 'custom') {
+            setCustomDomain(selectedDomain); /* 선택된 도메인 설정 */
+            setValue('emailDomain', selectedDomain);
+        } else {
+            setCustomDomain(''); /* 직접 입력일 경우 비워줌 */
+            setValue('emailDomain', ''); /* 빈값으로 초기화 */
         }
     };
 
     /* 총 결제금액*/
     const totalPayment = resArr.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    /* formData 셋팅 */
-    const [formData, setFormData] = useState({
-        orderer: '',
-        tel: '',
-        phone: '',
-        email: '',
-        emailId: '',
-        customDomain: 'gmail.com',
-        recipient: '',
-        recipientPhone: '',
-        totalPayment: '',
-        zonecode: '',
-        addr: '',
-        address1: '',
-        address2: '',
-        id: id,
-        orderDetails: [],
-    });
+    const onSubmit = async (data) => {
+        clearErrors();
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
+        const email = `${data.emailId}@${data.emailDomain || domain}`;
+        const addr = `${data.address1} ${data.address2}`;
 
-        /* 연락처 포맷팅 */
-        let formattedValue = value;
-
-        if (name === 'phone' || name === 'recipientPhone') {
-            /* 숫자만 남기기 */
-            const numericValue = value.replace(/\D/g, '');
-            /* 포맷팅 */
-            if (numericValue.length < 3) {
-                formattedValue = numericValue; // 첫 3자리
-            } else if (numericValue.length <= 7) {
-                formattedValue = `${numericValue.slice(0, 3)}-${numericValue.slice(3)}`; /* 3-4자리 */
-
-            } else {
-                formattedValue = `${numericValue.slice(0, 3)}-${numericValue.slice(3, 7)}-${numericValue.slice(7, 11)}`; /* 전체 포맷 */
-            }
+        /* 입력값 유효성 검사 */
+        if (!data.orderer) {
+            setError("orderer", {type: "manual", message: "주문자를 입력해주십시오."});
+            return;
         }
-        setFormData({
-            ...formData,
-            [name]: formattedValue,  /* 포맷된 값을 설정 */
-        });
-    };
-
-    /* 이메일 도메인 동적 처리 */
-    const [domain, setDomain] = useState('gmail.com');
-    const handleDomainChange = (e) => {
-        const selectedDomain = e.target.value;
-        setDomain(selectedDomain);
-
-        /* "직접 입력"이 선택되면 입력값 초기화 */
-        if (selectedDomain === 'custom') {
-            formData.customDomain = '';
-        } else {
-            /* 선택된 도메인을 입력 박스에 표시 */
-            formData.customDomain = selectedDomain;
+        if (!data.phone) {
+            setError("phone", {type: "manual", message: "연락처는 필수입니다."});
+            return;
         }
-    };
-
-    /* 주소 API에서 전달받은 결과값 */
-    const handleAddressChange = (zonecode, address) => {
-        /* 우편번호 */
-        formData.zonecode = zonecode;
-        /* 주소 */
-        formData.address1 = address;
-    };
-
-    const [ordererError, setOrdererError] = useState('');
-    const [phoneError, setPhoneError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [recipientError, setRecipientError] = useState('');
-    const [addressError, setAddressError] = useState('');
-    const [recipientPhoneError, setRecipientPhoneError] = useState('');
-
-    const refs = {
-        ordererRef: useRef(null),
-        phoneRef: useRef(null),
-        emailRef: useRef(null),
-        recipientRef: useRef(null),
-        address2Ref: useRef(null),
-        recipientPhoneRef: useRef(null),
-    };
-    const handleSubmit = event => {
-        event.preventDefault();
-
-        /* 이메일 */
-        formData.email = formData.emailId + '@' + formData.customDomain;
-        /* 파싱한 주소와 상세주소를 합쳐서 주소에 저장 */
-        formData.addr = formData.address1 + ' ' + formData.address2;
-        /* 결제가격 */
-        formData.totalPayment = totalPayment;
-        /* 주문상세 */
-        formData.orderDetails = resArr
-
-        /* 주문자 */
-        if (!formData.orderer) {
-            setOrdererError("주문자를 입력해주십시오.");
-            refs.ordererRef.current.focus(); /* 입력란에 포커스 맞추기 */
-            return false;
+        if (!ValidatePhone(data.phone)) {
+            setError("phone", {type: "manual", message: "연락처를 다시 입력해주십시오. (ex: 010-1234-5678)"});
+            return;
+        }
+        if (!ValidateEmail(email)) {
+            setError("email", {type: "manual", message: "이메일 주소를 다시 입력해주십시오."});
+            return;
+        }
+        if (!data.recipient) {
+            setError("recipient", {type: "manual", message: "받는분은 필수입니다."});
+            return;
+        }
+        if (!data.zonecode) {
+            setError("address", {type: "manual", message: "주소는 필수입니다."});
+            return;
+        }
+        if (!data.recipientPhone) {
+            setError("recipientPhone", {type: "manual", message: "받는분의 연락처는 필수입니다."});
+            return;
+        }
+        if (!ValidatePhone(data.recipientPhone)) {
+            setError("recipientPhone", {type: "manual", message: "받는분의 연락처를 다시 입력해주십시오. (ex: 010-1234-5678)"});
+            return;
         }
 
-        /* 연락처 */
-        if (!formData.phone) {
-            setPhoneError("연락처는 필수로 입력해주십시오.");
-            refs.phoneRef.current.focus();
-            return false;
-        } else if (!ValidatePhone(formData.phone)) {
-            setPhoneError("연락처를 다시 입력해주십시오. (ex: 010-1234-5678)");
-            refs.phoneRef.current.focus();
-            return false;
-        }
-
-        /* 이메일 */
-        if (!ValidateEmail(formData.email)) {
-            setEmailError("이메일 주소를 다시 입력해주십시오.");
-            refs.emailRef.current.focus();
-            return false;
-        }
-
-        /* 받는분 */
-        if (!formData.recipient) {
-            setRecipientError("받는분는 필수입니다.");
-            refs.phoneRef.current.focus();
-            return false;
-        }
-
-        /* 주소 */
-        if (!formData.zonecode) { /* API와의 연동으로 우편번호의 유무로 판단 */
-            setAddressError("주소는 필수입니다.");
-            refs.address2Ref.current.focus();
-            return false;
-        }
-
-        /* 받는분 연락처 */
-        if (!formData.recipientPhone) {
-            setRecipientPhoneError("받는분의 연락처는 필수입니다.");
-            refs.recipientPhoneRef.current.focus();
-            return false;
-        }else if (!ValidatePhone(formData.recipientPhone)) {
-            setRecipientPhoneError("연락처를 다시 입력해주십시오. (ex: 010-1234-5678)");
-            refs.recipientPhoneRef.current.focus();
-            return false;
-        }
-
-        /* 결제 */
-        axios.post('/user/order/insertOrder', formData)
-            .then(response => {
-                alert("주문이 완료되었습니다.");
-                // useHistory import 안되면 아래 코드로 수정해서 반영
-                // 응답을 받고 제품 등록화면으로 돌아감
-                // navigate('/productList');
-            })
-            .catch(error => {
-                console.error('Error submitting post: ', error);
+        try {
+            await axios.post('/user/order/insertOrder', {
+                ...data,
+                email,
+                addr,
+                totalPayment,
+                orderDetails: resArr,
             });
+            alert("주문이 완료되었습니다.");
+            // navigate('/productList');
+        } catch (error) {
+            console.error('Error submitting post: ', error);
+        }
     };
 
     return (
         <Container className="order-page">
-            <Form onSubmit={handleSubmit}>
-
-                {/* 주문 정보 */}
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-center">주문서</h2>
+
                 <Form.Group as={Row} controlId="formName">
                     <Form.Label column sm={2}>주문자</Form.Label>
                     <Col sm={10}>
                         <Form.Control
                             type="text"
                             placeholder="이름을 입력하세요"
-                            value={formData.orderer}
-                            name="orderer"
-                            onChange={handleChange}
-                            required
-                            ref={refs.ordererRef}
+                            {...register("orderer", {required: "주문자를 입력해주십시오."})}
                         />
-                        {ordererError && <p style={{color: 'red'}}>{ordererError}</p>}
+                        {errors.orderer && <p style={{color: 'red'}}>{errors.orderer.message}</p>}
                     </Col>
                 </Form.Group>
+
                 <Form.Group as={Row} controlId="formMobilePhone">
                     <Form.Label column sm={2}>연락처</Form.Label>
                     <Col sm={10}>
                         <Form.Control
                             type="tel"
                             placeholder="휴대전화 번호를 입력하세요"
-                            value={formData.phone}
-                            name="phone"
-                            onChange={handleChange}
-                            required
-                            ref={refs.phoneRef}
+                            {...register("phone", {required: "연락처는 필수입니다."})}
+                            onChange={handlePhoneChange}
                         />
-                        {phoneError && <p style={{color: 'red'}}>{phoneError}</p>}
+                        {errors.phone && <p style={{color: 'red'}}>{errors.phone.message}</p>}
                     </Col>
                 </Form.Group>
+
                 <Form.Group as={Row} controlId="formEmail">
-                    <Form.Label column sm={2}>이메일</Form.Label>
-                    <Col sm={10}>
-                        <div className="email-form-container">
-                            <Form.Control
-                                type="text"
-                                placeholder="이메일을 입력하세요"
-                                value={formData.emailId}
-                                name="emailId"
-                                onChange={handleChange}
-                                required
-                                ref={refs.emailRef}
-                            />
-                            @
-                            <Form.Control
-                                type="text"
-                                placeholder="도메인 입력"
-                                value={domain === 'custom' ? formData.customDomain : domain}
-                                name="customDomain"
-                                onChange={handleChange}
-                                className="domain-input"
-                            />
-                            <Form.Control
-                                as="select"
-                                value={domain}
-                                onChange={handleDomainChange}>
-                                <option value="gmail.com">gmail.com</option>
-                                <option value="naver.com">naver.com</option>
-                                <option value="daum.net">daum.net</option>
-                                <option value="yahoo.com">yahoo.com</option>
-                                <option value="outlook.com">outlook.com</option>
-                                <option value="custom">직접 입력</option>
-                                {/* 직접 입력 옵션 추가 */}
-                            </Form.Control>
-                        </div>
-                        {emailError && <p style={{color: 'red'}}>{emailError}</p>}
-                    </Col>
+                    <div className="email-form-container">
+                        <Form.Label column sm={2}>이메일</Form.Label>
+                        {/*<Col sm={3}>*/}
+                        <Form.Control
+                            type="text"
+                            placeholder="이메일 아이디를 입력하세요"
+                            {...register("emailId", {required: "이메일 아이디는 필수입니다."})}
+                        />
+                        {errors.emailId && <p style={{color: 'red'}}>{errors.emailId.message}</p>}
+                        @
+                        {/*</Col>*/}
+                        {/*<Col sm={3}>*/}
+                        <Form.Control
+                            type="text"
+                            placeholder="도메인을 입력하세요"
+                            {...register("customDomain", {required: domain === 'custom' ? "도메인을 입력하세요." : false})}
+                            onChange={(e) => setCustomDomain(e.target.value)}
+                            value={domain === 'custom' ? customDomain : customDomain || domain}
+                        />
+                        {errors.customDomain && <p style={{color: 'red'}}>{errors.customDomain.message}</p>}
+                        {/*</Col>*/}
+                        {/*<Col sm={4}>*/}
+                        <Form.Control
+                            as="select"
+                            {...register("emailDomain", {required: "도메인은 필수입니다."})}
+                            onChange={handleDomainChange}
+                            value={domain}
+                        >
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="yahoo.com">yahoo.com</option>
+                            <option value="outlook.com">outlook.com</option>
+                            <option value="custom">직접 입력</option>
+                        </Form.Control>
+                        {errors.emailDomain && <p style={{color: 'red'}}>{errors.emailDomain.message}</p>}
+                        {/*</Col>*/}
+                    </div>
                 </Form.Group>
 
-
-                {/* 배송 정보 */}
                 <h2 className="text-center">배송지</h2>
                 <Form.Group as={Row} controlId="formName">
                     <Form.Label column sm={2}>받는분</Form.Label>
                     <Col sm={10}>
                         <Form.Control
                             type="text"
-                            name="recipient"
-                            onChange={handleChange}
+                            {...register("recipient", {required: "받는분은 필수입니다."})}
                             placeholder="이름을 입력하세요"
-                            ref={refs.recipientRef}
                         />
-                        {recipientError && <p style={{color: 'red'}}>{recipientError}</p>}
+                        {errors.recipient && <p style={{color: 'red'}}>{errors.recipient.message}</p>}
                     </Col>
                 </Form.Group>
+
                 <Form.Group controlId="formAddress">
                     <Form.Group as={Row} controlId="formGridAddress">
                         <Form.Label column sm={2}>주소</Form.Label>
                         <Col sm={10}>
-                            <DaumAddrAPI onChange={handleAddressChange}/>
+                            <DaumAddrAPI onChange={(zonecode, address) => {
+                                setValue('zonecode', zonecode);
+                                setValue('address1', address);
+                            }}/>
                             <Form.Control
                                 type="text"
-                                name="address2"
-                                onChange={handleChange}
-                                placeholder="싱세주소"
-                                ref={refs.address2Ref}
+                                {...register("address2", {required: "주소는 필수입니다."})}
+                                placeholder="상세주소"
                             />
-                            {addressError && <p style={{color: 'red'}}>{addressError}</p>}
+                            {errors.address2 && <p style={{color: 'red'}}>{errors.address2.message}</p>} {}
                         </Col>
                     </Form.Group>
                 </Form.Group>
+
                 <Form.Group as={Row} controlId="formPhone">
                     <Form.Label column sm={2}>배송 연락처</Form.Label>
                     <Col sm={10}>
                         <Form.Control
                             type="text"
-                            name="recipientPhone"
-                            onChange={handleChange}
+                            {...register("recipientPhone", {required: "받는분의 연락처는 필수입니다."})}
                             placeholder="전화번호를 입력하세요"
-                            ref={refs.recipientPhoneRef}
+                            onChange={handlePhoneChange}
                         />
-                        {recipientPhoneError && <p style={{color: 'red'}}>{recipientPhoneError}</p>}
+                        {errors.recipientPhone && <p style={{color: 'red'}}>{errors.recipientPhone.message}</p>}
                     </Col>
                 </Form.Group>
+
+                <div className="text-center">
+                    <Button variant="success" type="submit">
+                        결제하기
+                    </Button>
+                </div>
             </Form>
 
             <h5>주문 내역</h5>
@@ -327,7 +248,7 @@ const Order = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {resArr && resArr.map((item) => (
+                {resArr.map((item) => (
                     <tr key={item.productId}>
                         <td>{item.productNm}</td>
                         <td>{item.price.toLocaleString()} 원</td>
@@ -340,12 +261,6 @@ const Order = () => {
 
             <div className="total-summary">
                 <h5>결제 예정 금액: {totalPayment.toLocaleString()} 원</h5>
-            </div>
-
-            <div className="text-center">
-                <Button variant="success" onClick={handleSubmit}>
-                    결제하기
-                </Button>
             </div>
         </Container>
     );
