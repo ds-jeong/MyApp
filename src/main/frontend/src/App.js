@@ -35,7 +35,7 @@ function App() {
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
-                            <Route path="/oauth/callback/kakao" element={<OAuthRedirectHandler />}/>
+                            <Route path="/oauth/callback/kakaologin" element={<OAuthRedirectHandler />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
 
