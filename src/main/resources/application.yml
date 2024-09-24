@@ -36,6 +36,7 @@ spring:
         format_sql: true
   profiles:
     active: prod
+#    active: local
 
 file:
   upload-dir: ${IMAGE_UPLOAD_DIR}

@@ -29,6 +29,9 @@ public class User {
     private String address;
     private String role;
 
+    //    private String provider;
+//    private Long providerId;
+
     @Column(nullable=false, unique=true) //unique=true 해야함.
     private String email;
 
