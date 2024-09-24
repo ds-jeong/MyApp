@@ -24,6 +24,7 @@ import UserProductDetail from "./pages/user/product/UserProductDetail"
 import MyPage from "./pages/user/mypage/MyPage";
 import Cart from "./pages/user/cart/Cart";
 import UserOrder from "./pages/user/order/UserOrder";
+import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 
 function App() {
     return (
@@ -37,6 +38,7 @@ function App() {
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
+                            <Route path="/oauth/callback/kakaologin" element={<KakaoRedirectHandler />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
                             <Route path="/cart" element={<Cart />}/>
