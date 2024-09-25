@@ -40,4 +40,29 @@ public class UserProductController {
         return list;
     }
 
+    @GetMapping("/lowerPriceProductList")
+    public List<UserProductDto> lowerPriceProductList(Model model) throws Exception{
+        /* 사용자 > 메인페이지 슬라이더 */
+        List<UserProductDto> list = userProductService.lowerPriceProductList();
+        model.addAllAttributes(list);
+        return list;
+    }
+
+    @GetMapping("/higherViewsProductList")
+    public List<UserProductDto> higherViewsProductList(Model model) throws Exception{
+        /* 사용자 > 메인페이지 슬라이더 */
+        List<UserProductDto> list = userProductService.higherViewsProductList();
+        model.addAllAttributes(list);
+        return list;
+    }
+
+    @GetMapping("/higherTotalSalesProductList")
+    public List<UserProductDto> higherTotalSalesProductList(Model model) throws Exception{
+        /* 사용자 > 메인페이지 슬라이더 */
+        List<UserProductDto> list = userProductService.higherTotalSalesProductList();
+        model.addAllAttributes(list);
+        return list;
+    }
+
+
 }

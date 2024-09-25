@@ -66,4 +66,20 @@ public class UserServiceImpl implements UserService{
 
         return userDto;
     }
+
+    @Transactional
+    @Override
+    public UserDto selectUserInfoByEmail(String email){
+        User user = userRepository.findByUserNm(email);
+
+        UserDto userDto = UserDto.builder()
+                .id(user.getId())
+                .userNm(user.getUserNm())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .build();
+
+        return userDto;
+    }
 }

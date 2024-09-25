@@ -1,39 +1,45 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
 
-
-const KakaoCallback = (props) => {
+const KakaoCallback = () => {
     const navigate = useNavigate();
     const code = new URL(window.location.href).searchParams.get("code");
 
-//인가코드 백으로 보내는 코드
     useEffect(() => {
         const kakaoLogin = async () => {
-            await axios({
-                method: "GET",
-                url: `${process.env.REACT_APP_REDIRECT_URL}/?code=${code}`,
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8", //json형태로 데이터를 보내겠다는뜻
-                    "Access-Control-Allow-Origin": "*"
-                },
-            }).then((res) => { //백에서 완료후 우리사이트 전용 토큰 넘겨주는게 성공했다면
-                // JWT 토큰 저장 (로컬 스토리지나 쿠키)
-                localStorage.setItem('jwtToken', res.data.token);
-                // 이후 토큰이 필요할 때 사용할 수 있음
-                console.log('JWT Token:', res.data.token);
-                //로그인이 성공하면 이동할 페이지
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_REDIRECT_URL}/?code=${code}`, {
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8",
+                    },
+                });
+
+                //로그인한 사용자 정보
+                const userInfo =response.data.userInfo;
+                //로그인한 사용자 정보를 받아 객체에 저장
+                const dataToSave = {userInfo};
+                //전역에서 사용할수 있도록 localStorage에 저장
+                window.localStorage.setItem('token', response.data.token);
+                window.localStorage.setItem('userData', JSON.stringify(dataToSave));
+
+                // Navigate to home page after storing the token
                 navigate("/");
-            }).catch((err) => {
-                console.log("err  :  " + err);
-            });
+
+            } catch (error) {
+                console.error("Error during Kakao login:", error);
+            }
         };
-        kakaoLogin();
-    }, [props.history]);
+
+        // Only trigger the login if the code is available
+        if (code) {
+            kakaoLogin();
+        }
+    }, [code, navigate]);
 
     return (
-        <div className="LoginHandeler">
-            <p>로그인 중입니다.</p>
+        <div className="LoginHandler">
+            <p>로그인 중입니다...</p>
         </div>
     );
 };
