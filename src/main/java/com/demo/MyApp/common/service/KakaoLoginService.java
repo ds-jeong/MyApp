@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -138,15 +139,20 @@ public class KakaoLoginService {
     }
 
 
-    public String kakaoLogin(String id) {
+    public String createToken(String id) {
         // 권한 목록을 가져와서 SimpleGrantedAuthority로 변환
         List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 
         // UsernamePasswordAuthenticationToken 생성
         Authentication authentication = new UsernamePasswordAuthenticationToken(id, "-1", authorities);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String jwtToken = jwtTokenProvider.createToken(authentication);
 
+
         return jwtToken;
+
     }
 
 

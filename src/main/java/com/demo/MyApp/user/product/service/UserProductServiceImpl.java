@@ -67,4 +67,67 @@ public class UserProductServiceImpl implements UserProductService {
         return productDtoList;
     }
 
+    @Transactional
+    @Override
+    public List<UserProductDto> lowerPriceProductList() throws Exception {
+        List<Product> products = userProductRepository.findAllByOrderByPriceAsc();
+        List<UserProductDto> productDtoList = new ArrayList<>();
+        for (Product product : products) {
+            UserProductDto productDto = UserProductDto.builder()
+                    .id(product.getProductId())
+                    .productNm(product.getProductNm())
+                    .price(product.getPrice())
+                    .content(product.getContent())
+                    .author(product.getAuthor())
+                    .fileNm(product.getFileNm())
+                    .filePath(product.getFilePath())
+                    .build();
+            productDtoList.add(productDto);
+        }
+
+        return productDtoList;
+    }
+
+    @Transactional
+    @Override
+    public List<UserProductDto> higherViewsProductList() throws Exception {
+        List<Product> products = userProductRepository.findAllByOrderByViewDesc();
+        List<UserProductDto> productDtoList = new ArrayList<>();
+        for (Product product : products) {
+            UserProductDto productDto = UserProductDto.builder()
+                    .id(product.getProductId())
+                    .productNm(product.getProductNm())
+                    .price(product.getPrice())
+                    .content(product.getContent())
+                    .author(product.getAuthor())
+                    .fileNm(product.getFileNm())
+                    .filePath(product.getFilePath())
+                    .build();
+            productDtoList.add(productDto);
+        }
+
+        return productDtoList;
+    }
+
+    @Transactional
+    @Override
+    public List<UserProductDto> higherTotalSalesProductList() throws Exception {
+        List<Product> products = userProductRepository.findAllByOrderByTotalSalesDesc();
+        List<UserProductDto> productDtoList = new ArrayList<>();
+        for (Product product : products) {
+            UserProductDto productDto = UserProductDto.builder()
+                    .id(product.getProductId())
+                    .productNm(product.getProductNm())
+                    .price(product.getPrice())
+                    .content(product.getContent())
+                    .author(product.getAuthor())
+                    .fileNm(product.getFileNm())
+                    .filePath(product.getFilePath())
+                    .build();
+            productDtoList.add(productDto);
+        }
+
+        return productDtoList;
+    }
+
 }
