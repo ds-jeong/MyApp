@@ -12,4 +12,6 @@ public interface UserService {
     boolean isEmailExists(String phone) throws Exception;
 
     UserDto selectUserInfo(UserDto userDto);
+
+    UserDto selectUserInfoByEmail(String email);
 }

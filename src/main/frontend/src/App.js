@@ -24,6 +24,7 @@ import UserProductDetail from "./pages/user/product/UserProductDetail"
 import MyPage from "./pages/user/mypage/MyPage";
 import Cart from "./pages/user/cart/Cart";
 import UserOrder from "./pages/user/order/UserOrder";
+import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 
 function App() {
     return (
@@ -37,6 +38,7 @@ function App() {
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
+                            <Route path="/oauth/callback/kakao" element={<KakaoRedirectHandler />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
                             <Route path="/cart" element={<Cart />}/>
@@ -44,6 +46,11 @@ function App() {
 
                             <Route path="/userProductList" element={<UserProductList />}/>
                             <Route path="/userProductDetail/:id" element={<UserProductDetail />} />
+                            <Route path="/userProductList/favoriteProductList" element={<UserProductList />} />
+                            <Route path="/userProductList/lowerPriceProductList" element={<UserProductList />} />
+                            <Route path="/userProductList/higherViewsProductList" element={<UserProductList />} />
+                            <Route path="/userProductList/higherTotalSalesProductList" element={<UserProductList />} />
+
 
                             <Route path="/qnaList" element={<QnaList />}/>
                             <Route path="/qnaRegist" element={<QnaRegist />}/>

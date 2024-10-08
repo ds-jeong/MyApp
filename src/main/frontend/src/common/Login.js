@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {Button, Container, Form} from 'react-bootstrap';
+const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
+const REDIRECT_URI  = process.env.REACT_APP_REDIRECT_URL;
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=account_email,name,phone_number`;
 
 const Login = () => {
     const [userId, setUserId] = useState('');
@@ -59,6 +62,13 @@ const Login = () => {
                     <Button variant="primary" type="submit">
                         로그인
                     </Button>
+                    <div className="kakaoLoginBtn">
+                        <a href={KAKAO_AUTH_URL}>
+                            <img src={process.env.PUBLIC_URL + '/assets/images/kakao_login_medium_wide.png'}
+                                 alt="카카오 로그인"/>
+                        </a>
+
+                    </div>
                 </Form>
             </Container>
         </div>

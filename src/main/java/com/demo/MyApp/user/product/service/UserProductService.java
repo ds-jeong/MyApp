@@ -14,4 +14,11 @@ public interface UserProductService {
     ProductDto userProductDetail(Long id) throws Exception;
 
     List<UserProductDto> favoriteProductList() throws Exception;
+
+    List<UserProductDto> lowerPriceProductList() throws Exception;
+
+    List<UserProductDto> higherViewsProductList() throws Exception;
+
+    List<UserProductDto> higherTotalSalesProductList() throws Exception;
+
 }

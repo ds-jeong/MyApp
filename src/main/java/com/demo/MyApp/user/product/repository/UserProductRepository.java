@@ -8,4 +8,11 @@ import java.util.List;
 public interface UserProductRepository extends JpaRepository<Product,Long> {
 
     List<Product>  findAllByOrderByFavoriteDesc() throws Exception;
+
+    List<Product> findAllByOrderByPriceAsc() throws Exception;
+
+    List<Product> findAllByOrderByViewDesc() throws Exception;
+
+    List<Product> findAllByOrderByTotalSalesDesc() throws Exception;
+
 }
