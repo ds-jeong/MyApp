@@ -91,7 +91,7 @@ public class UserProductServiceImpl implements UserProductService {
     @Transactional
     @Override
     public List<UserProductDto> higherViewsProductList() throws Exception {
-        List<Product> products = userProductRepository.findAllByOrderByViewDesc();
+        List<Product> products = userProductRepository.findAllByOrderByViewsDesc();
         List<UserProductDto> productDtoList = new ArrayList<>();
         for (Product product : products) {
             UserProductDto productDto = UserProductDto.builder()

@@ -24,9 +24,14 @@ import UserProductDetail from "./pages/user/product/UserProductDetail"
 import MyPage from "./pages/user/mypage/MyPage";
 import Cart from "./pages/user/cart/Cart";
 import UserOrder from "./pages/user/order/UserOrder";
+
+import useIAMPORT from "./pages/user/payment/Iamport";
+import Payment from "./pages/user/payment/Payment";
+
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 
 function App() {
+    const imp = useIAMPORT();
     return (
         <div className="body">
             <div className='wrapper'>
@@ -43,6 +48,7 @@ function App() {
                             <Route path="/myPage" element={<MyPage />}/>
                             <Route path="/cart" element={<Cart />}/>
                             <Route path="/userOrder" element={<UserOrder />}/>
+                            <Route path="/user/order/payment" element={<Payment imp={imp} />}/>
 
                             <Route path="/userProductList" element={<UserProductList />}/>
                             <Route path="/userProductDetail/:id" element={<UserProductDetail />} />

@@ -10,6 +10,8 @@ sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
+    // iamport
+    maven {url 'https://jitpack.io'}
 }
 
 java {
@@ -48,6 +50,9 @@ dependencies {
 
     //gson
     implementation 'com.google.code.gson:gson:2.8.9'
+
+    //import
+    implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.23'
 
 }
 
