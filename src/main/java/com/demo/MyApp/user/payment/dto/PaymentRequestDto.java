@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class PaymentRequestDto {
     private String imp_uid;      // Iamport에서 발급된 고유 ID
     private String merchant_uid; // 주문 고유 번호
+    private Long order_id;
     private String status;       // 결제 상태 (예: "paid", "failed" 등)
     private String buyer_email;  // 구매자 이메일
     private String buyer_name;   // 구매자 이름

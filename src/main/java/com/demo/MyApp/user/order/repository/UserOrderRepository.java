@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserOrderRepository extends JpaRepository<Order,Long> {
 
+    Long getOrderIdByOrderNumber(String orderNumber);
 }

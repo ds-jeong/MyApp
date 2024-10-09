@@ -18,7 +18,9 @@ function ProductDetail() {
 
     /* 상품 조회 */
     const [resArr, setResArr] = useState([]);
+
     const params = useParams();
+
     useEffect(() => {
         axios.get(`/user/product/userProductDetail?id=${params.id}`).then(response => {
                 setResArr(response.data);
