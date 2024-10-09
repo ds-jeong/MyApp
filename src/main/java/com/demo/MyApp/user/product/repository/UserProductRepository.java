@@ -11,7 +11,7 @@ public interface UserProductRepository extends JpaRepository<Product,Long> {
 
     List<Product> findAllByOrderByPriceAsc() throws Exception;
 
-    List<Product> findAllByOrderByViewDesc() throws Exception;
+    List<Product> findAllByOrderByViewsDesc() throws Exception;
 
     List<Product> findAllByOrderByTotalSalesDesc() throws Exception;
 

@@ -14,19 +14,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="myAppDb@3.106.69.213" uuid="8a8dcbce-1122-4b91-a5bf-9956d8627e84">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://3.106.69.213:3306/myAppDb</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" />
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="com.intellij.clouds.kubernetes.db.container.port" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="myAppDB@myappdb.ctccqqaw0zho.ap-northeast-2.rds.amazonaws.com" uuid="f26470cc-8ef0-4b9f-bb75-8b50eef3ace9">
+    <data-source source="LOCAL" name="myAppDB@myappdb.ctccqqaw0zho.ap-northeast-2.rds.amazonaws.com" uuid="9ebfa970-c4f4-4c1f-a7d8-033f0c39d4b4">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

@@ -9,7 +9,18 @@ spring:
 #      max-file-size: 50MB
 #      max-request-size: 50MB
 server:
-  port: 8081
+  port: 8080
+cloud:
+  aws:
+    s3:
+      bucket: e-myapp-bucket
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+    credentials:
+      access-key: AKIAW3MEFWD6VOIKVRPB
+      secret-key: 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
 jwt:
   header: Authorization
   # 특정값을 Base64로 인코딩한 값
@@ -19,3 +30,8 @@ jwt:
 client:
   id: "e13b5816e34807e9c3ef76b9652b60a9"
   redirect-uri: "http://localhost:8081/oauth/callback/kakao"
+file:
+  upload-dir: ${IMAGE_UPLOAD_DIR}
+iamport:
+  apikey: "3345152447410084"
+  secretkey: "0l1cSVbjsp6YKeVJ6vwNhM89Daf6LLeQf8nOMhTmhubEb7zs072595tjbck4OvnMevG8n3UOy3z6yt7l"
