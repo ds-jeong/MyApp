@@ -7,6 +7,8 @@ import {FormatPhoneNumber} from 'utils/FormatPhoneNumber';
 import DaumAddrAPI from 'components/daumAddrApi/DaumAddrAPI';
 import axios from "axios";
 import './UserOrder.css';
+import UseIamport from "../payment/Iamport";
+import Payment from "../payment/Payment";
 
 const Order = () => {
     const {register, handleSubmit, setValue, setError, clearErrors, formState: {errors}} = useForm();
@@ -101,13 +103,19 @@ const Order = () => {
         }
 
         try {
-            await axios.post('/user/order/insertOrder', {
+            const response = await axios.post('/user/order/insertOrder', {
                 ...data,
                 email,
                 addr,
                 totalPayment,
                 orderDetails: resArr,
             });
+
+            const orderId = response.data.orderId;
+
+            UseIamport();
+            Payment(orderId);
+
             alert("주문이 완료되었습니다.");
             // navigate('/productList');
         } catch (error) {

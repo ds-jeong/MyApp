@@ -102,7 +102,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     @Transactional
     @Override
-    public void insertOrder(UserOrderDto userOrderDto) throws Exception {
+    public Long insertOrder(UserOrderDto userOrderDto) throws Exception {
 
         /* 회원정보 */
         User user = userRepository.findById(userOrderDto.getId())
@@ -142,5 +142,6 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrderDetailRepository.save(orderDetail);
         }
 
+        return userOrderRepository.getOrderIdByOrderNumber(orderNumber);
     }
 }

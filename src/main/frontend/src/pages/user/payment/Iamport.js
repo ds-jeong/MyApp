@@ -1,21 +1,26 @@
-import { useState, useEffect } from 'react';
+// src/utils/useIamport.js
 
-const useIAMPORT = () => {
-    const [imp, setImp] = useState(null);
+import { useEffect } from 'react';
 
+const UseIamport = () => {
     useEffect(() => {
+        if (window.IMP) return; // 이미 로드된 경우
+
         const script = document.createElement('script');
         script.src = 'https://cdn.iamport.kr/js/iamport.payment-1.1.5.js';
-        document.body.appendChild(script);
+        script.async = true;
         script.onload = () => {
-            setImp(window.IMP);
+            console.log('Iamport script loaded');
         };
+        script.onerror = () => {
+            console.error('Failed to load Iamport script');
+        };
+        document.body.appendChild(script);
+
         return () => {
             document.body.removeChild(script);
         };
     }, []);
-
-    return imp;
 };
 
-export default useIAMPORT;
+export default UseIamport;

@@ -18,7 +18,9 @@ function ProductDetail() {
 
     /* 상품 조회 */
     const [resArr, setResArr] = useState([]);
+
     const params = useParams();
+
     useEffect(() => {
         axios.get(`/user/product/userProductDetail?id=${params.id}`).then(response => {
                 setResArr(response.data);
@@ -137,7 +139,7 @@ function ProductDetail() {
                             +
                         </Button>
                     </div>
-                    <Button variant="primary" className="mt-3" onClick={() => handleAddCart(`${resArr.id}`)}>
+                    <Button variant="primary" className="mt-3" onClick={() => handleAddCart(`${resArr.productId}`)}>
                         장바구니 담기
                     </Button>
                     <CartPopup isOpen={isPopupOpen} onClose={handleClosePopup} />
