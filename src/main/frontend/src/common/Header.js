@@ -126,11 +126,6 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">
-                            <Button variant="outline-primary" onClick={handleCart}>
-                                장바구니
-                                {/*<span className="badge bg-dark text-white ms-1 rounded-pill">0</span>*/}
-                            </Button>
-                            &nbsp;&nbsp;
                             {!isAuthenticated ? (
                                 <>
                                     <Button variant="outline-primary">
@@ -146,6 +141,11 @@ const Header = () => {
                                 </>
                             ) : (
                                 <>
+                                    <Button variant="outline-primary" onClick={handleCart}>
+                                        장바구니
+                                        {/*<span className="badge bg-dark text-white ms-1 rounded-pill">0</span>*/}
+                                    </Button>
+                                    &nbsp;&nbsp;
                                     <Button variant="outline-primary" onClick={handleMyPage}>
                                         마이페이지
                                     </Button>
