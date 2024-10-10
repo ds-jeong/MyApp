@@ -64,7 +64,7 @@ const Login = () => {
                     </Button>
                     <div className="kakaoLoginBtn">
                         <a href={KAKAO_AUTH_URL}>
-                            <img src={process.env.PUBLIC_URL + '/assets/images/kakao_login_medium_wide.png'}
+                            <img src={process.env.PUBLIC_URL + '/images/kakao_login_medium_wide.png'}
                                  alt="카카오 로그인"/>
                         </a>
 

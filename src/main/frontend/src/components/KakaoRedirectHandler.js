@@ -1,47 +1,52 @@
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import axios from 'axios';
 
-const KakaoCallback = () => {
+const KakaoLoginCallback = () => {
     const navigate = useNavigate();
-    const code = new URL(window.location.href).searchParams.get("code");
+    const [isLoading, setIsLoading] = useState(true);  // Track loading state
 
     useEffect(() => {
-        const kakaoLogin = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_REDIRECT_URL}/?code=${code}`, {
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8",
-                    },
-                });
+        const handleLogin = async () => {
+            const code = new URL(window.location.href).searchParams.get('code');
+            if (code) {
+                try {
+                    // Make the request to your Spring Boot API
+                    const backendUrl = 'http://localhost:8081';
+                    const response = await fetch(`${backendUrl}/login/kakao/callback?code=${code}`, {
+                        headers: {
+                            "Content-Type": "application/json;charset=utf-8",
+                        }
+                    });
 
-                //로그인한 사용자 정보
-                const userInfo =response.data.userInfo;
-                //로그인한 사용자 정보를 받아 객체에 저장
-                const dataToSave = {userInfo};
-                //전역에서 사용할수 있도록 localStorage에 저장
-                window.localStorage.setItem('token', response.data.token);
-                window.localStorage.setItem('userData', JSON.stringify(dataToSave));
+                    if (!response.ok) {
+                        throw new Error('Login failed');
+                    }
 
-                // Navigate to home page after storing the token
-                navigate("/");
+                    const data = await response.json();
 
-            } catch (error) {
-                console.error("Error during Kakao login:", error);
+                    // Store JWT in local storage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userData', JSON.stringify(data.userInfo));
+
+                    // Redirect to the main page
+                    setIsLoading(false);
+                    navigate('/');  // Assuming your main page route is '/'
+                } catch (error) {
+                    console.error('Error during Kakao login:', error);
+                    setIsLoading(false);
+                }
             }
         };
 
-        // Only trigger the login if the code is available
-        if (code) {
-            kakaoLogin();
-        }
-    }, [code, navigate]);
+        handleLogin();
+    }, [navigate]);
 
+    // Display loading message while login is in progress
     return (
         <div className="LoginHandler">
-            <p>로그인 중입니다...</p>
+            {isLoading ? <p>Logging in...</p> : <p>Redirecting...</p>}
         </div>
     );
 };
 
-export default KakaoCallback;
+export default KakaoLoginCallback;
