@@ -27,16 +27,16 @@ public class KakaoLoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/oauth/callback/kakao")
+    @GetMapping("/login/kakao/callback")
     public ResponseEntity<?> kakaoCallback(@RequestParam(value = "code", required = false) String code) throws Exception {
         String access_token = kakaoLoginService.getKaKaoAccessToken(code);
-
         HashMap<String, Object> userKakaoInfo = kakaoLoginService.getUserKakaoInfo(access_token);
+
         String id = (String) userKakaoInfo.get("id"); //kakao id는 userID와 대치
         String email = (String) userKakaoInfo.get("email"); //kakao id는 userID와 대치
         String name = (String) userKakaoInfo.get("name"); //kakao id는 userID와 대치
         String phone_number = (String) userKakaoInfo.get("phone_number"); //kakao id는 userID와 대치
-        System.out.println(id + "  " + "email" + email + "  " + "name" + name + "  " + "phone_number" + phone_number);
+        System.out.println("id   " + id + "  " + "email" + email + "  " + "name" + name + "  " + "phone_number" + phone_number);
 
         // 회원가입 여부 확인
         if (userService.isUsernameExists(email)) {
@@ -53,6 +53,7 @@ public class KakaoLoginController {
         } else { //첫 로그인
             UserDto userInfo = new UserDto();
 
+            userInfo.setUserId(id); //카카오에서 받은 id
             userInfo.setUserNm(email);
             userInfo.setPw("-1");
             userInfo.setEmail(email);

@@ -150,9 +150,7 @@ public class KakaoLoginService {
 
         String jwtToken = jwtTokenProvider.createToken(authentication);
 
-
         return jwtToken;
-
     }
 
 

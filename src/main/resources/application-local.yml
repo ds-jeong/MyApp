@@ -9,7 +9,7 @@ spring:
 #      max-file-size: 50MB
 #      max-request-size: 50MB
 server:
-  port: 8080
+  port: 8081
 cloud:
   aws:
     s3:
@@ -29,7 +29,7 @@ jwt:
   token-validity-in-seconds: 1800000
 client:
   id: "e13b5816e34807e9c3ef76b9652b60a9"
-  redirect-uri: "http://localhost:8081/oauth/callback/kakao"
+  redirect-uri: "http://localhost:3000/login/kakao"
 file:
   upload-dir: ${IMAGE_UPLOAD_DIR}
 iamport:
