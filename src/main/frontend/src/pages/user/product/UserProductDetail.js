@@ -64,14 +64,23 @@ function ProductDetail() {
     const priceRef = useRef(0);
 
     const handleAddCart = (productId) => {
-         // console.log('id : ', userInfo?.id);
-         // console.log('productId : ', productId);
-         // console.log('price: ', priceRef.current.value);
-         // console.log('Quantity:', quantity);
+
+        const id = userInfo?.id;
+
+        // id가 없으면 경고 메시지 출력
+        if (!id) {
+            alert("로그인 후 이용하세요.");
+            return; // 로그인하지 않은 경우 함수 종료
+        }
+
+        // console.log('id : ', id);
+        // console.log('productId : ', productId);
+        // console.log('price: ', priceRef.current.value);
+        // console.log('Quantity:', quantity);
 
         const formData = new FormData();
 
-        formData.append('id', userInfo?.id);
+        formData.append('id', id);
         formData.append('productId', productId);
         formData.append('price', priceRef.current.value);
         formData.append('quantity', quantityRef.current.value);
