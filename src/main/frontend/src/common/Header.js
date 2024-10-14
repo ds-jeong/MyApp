@@ -3,11 +3,14 @@ import axios from "axios";
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {Container, Navbar, Nav, NavItem, NavLink, Button, NavbarBrand, NavDropdown, Form} from 'react-bootstrap';
 import Slider from './slick/Slider';
-
+const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
+const REDIRECT_URI  = process.env.REACT_APP_LOGOUT_REDIRECT_URL;
 
 const Header = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
     const token = window.localStorage.getItem('token');
+    const type = window.localStorage.getItem('type');
+    const state = window.localStorage.getItem('state');
 
     useEffect(() => {
         /* token 값의 유무로 권한주입 */
@@ -56,7 +59,7 @@ const Header = () => {
         title = 'Top';
         // subtitle = 'Learn more about our shop';
     } else if (location.pathname === '/bottom') {
-        title = 'Botoom';
+        title = 'Bottom';
     } else if (location.pathname === '/acc') {
         title = 'Acc';
     } else if (location.pathname === '/qna') {
@@ -65,6 +68,22 @@ const Header = () => {
 
     const handleLogout = async () => {
         try {
+            // 카카오 로그아웃
+            if(type === 'kakao') {
+                const response = await axios.get('http://localhost:8081/logout/kakao');
+                console.log('Logout successful:', response.data);
+
+                if(response.data !== 302) {
+                    alert('로그아웃에 실패했습니다.')
+                }
+                else {
+                    alert('로그아웃 되었습니다.')
+                    window.localStorage.removeItem('token');
+                    window.localStorage.removeItem('userData');
+                    setIsAuthenticated(false);  // 상태 업데이트
+                }
+                window.location.replace('/');
+            }
             /* 서버에 로그아웃 요청 보내기 */
             if (token) {
                 await axios.post('/api/logout', null, {

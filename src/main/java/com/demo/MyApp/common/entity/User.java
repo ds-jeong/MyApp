@@ -21,7 +21,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    //id -> 식별id, username -> 회원가입시 아이디
     private String userId;
     private String pw;
     private String userNm;

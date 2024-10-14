@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {Button, Container, Form} from 'react-bootstrap';
+import kakaoImage from '../images/kakao_login_medium_narrow.png';
+
 const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
-const REDIRECT_URI  = process.env.REACT_APP_REDIRECT_URL;
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=account_email,name,phone_number`;
+const REDIRECT_URI  = process.env.REACT_APP_LOGIN_REDIRECT_URL;
+const uuid = crypto.randomUUID();
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=account_email,name,phone_number&state=${uuid}`;
 
 const Login = () => {
     const [userId, setUserId] = useState('');
@@ -62,12 +65,10 @@ const Login = () => {
                     <Button variant="primary" type="submit">
                         로그인
                     </Button>
-                    <div className="kakaoLoginBtn">
+                    <div style={{display: 'inline-block', marginLeft: '10px'}}>
                         <a href={KAKAO_AUTH_URL}>
-                            <img src={process.env.PUBLIC_URL + '/images/kakao_login_medium_wide.png'}
-                                 alt="카카오 로그인"/>
+                            <img src={kakaoImage} alt="카카오 로그인" style={{width: '160px', marginBottom: '5px', display:'inline-block'}}/>
                         </a>
-
                     </div>
                 </Form>
             </Container>
