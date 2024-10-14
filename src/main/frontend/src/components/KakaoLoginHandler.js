@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/style.css';
 
 const KakaoLoginCallback = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);  // Track loading state
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     useEffect(() => {
         const handleLogin = async () => {
             const code = new URL(window.location.href).searchParams.get('code');
+            const state = new URL(window.location.href).searchParams.get('state');
+
             if (code) {
                 try {
-                    // Make the request to your Spring Boot API
-                    const backendUrl = 'http://localhost:8081';
-                    const response = await fetch(`${backendUrl}/login/kakao/callback?code=${code}`, {
+                    const response = await fetch(`http://localhost:8081/login/kakao/callback?code=${code}`, {
                         headers: {
                             "Content-Type": "application/json;charset=utf-8",
                         }
@@ -26,11 +28,14 @@ const KakaoLoginCallback = () => {
 
                     // Store JWT in local storage
                     localStorage.setItem('token', data.token);
+                    localStorage.setItem('type', 'kakao');
+                    localStorage.setItem('state', state);
                     localStorage.setItem('userData', JSON.stringify(data.userInfo));
+                    setIsAuthenticated(true);  // 상태 업데이트
 
                     // Redirect to the main page
                     setIsLoading(false);
-                    navigate('/');  // Assuming your main page route is '/'
+                    window.location.replace('/');
                 } catch (error) {
                     console.error('Error during Kakao login:', error);
                     setIsLoading(false);
@@ -44,7 +49,7 @@ const KakaoLoginCallback = () => {
     // Display loading message while login is in progress
     return (
         <div className="LoginHandler">
-            {isLoading ? <p>Logging in...</p> : <p>Redirecting...</p>}
+            {isLoading ? <p>로그인 중 입니다.</p> : <p>Redirecting...</p>}
         </div>
     );
 };

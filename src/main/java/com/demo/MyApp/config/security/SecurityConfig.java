@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/api/logout") // 로그아웃 URL 설정
                         .logoutSuccessHandler((request, response, authentication) -> {
+
                             response.setStatus(200); // 로그아웃 성공 시 상태 코드 200
                         })
                         .permitAll() // 로그아웃은 모든 사용자에게 허용

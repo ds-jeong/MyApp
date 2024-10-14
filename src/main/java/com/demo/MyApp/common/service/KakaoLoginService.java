@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +32,17 @@ public class KakaoLoginService {
     @Value("${client.id}")
     private String clientId;
 
-    @Value("${client.redirect-uri}")
-    private String redirectUri;
+    @Value("${client.login-redirect-uri}")
+    private String loginRedirectUri;
+
+    @Value("${client.logout-redirect-uri}")
+    private String logoutRedirectUri;
+
+//    private final WebConfig webConfig;
+//
+//    public KakaoLoginService(WebConfig webConfig) {
+//        this.webConfig = webConfig;
+//    }
 
     public String getKaKaoAccessToken(String code) {
 
@@ -43,7 +53,6 @@ public class KakaoLoginService {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
@@ -51,7 +60,8 @@ public class KakaoLoginService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=" + clientId);
-            sb.append("&redirect_uri=" + redirectUri);
+            sb.append("&redirect_uri=" + loginRedirectUri);
+            sb.append("&scope=account_email,name,phone_number");
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -153,5 +163,32 @@ public class KakaoLoginService {
         return jwtToken;
     }
 
+    public int processLogout() {
+        String reqUrl = "https://kauth.kakao.com/oauth/logout";
+        int responseCode = 0;
+        try {
+            StringBuilder sb = new StringBuilder(reqUrl);
+            sb.append("?client_id=").append(URLEncoder.encode(clientId, "UTF-8"));
+            sb.append("&logout_redirect_uri=").append(URLEncoder.encode(logoutRedirectUri, "UTF-8"));
+
+            URL url = new URL(sb.toString());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            responseCode = conn.getResponseCode();
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return responseCode;
+    }
 
 }
