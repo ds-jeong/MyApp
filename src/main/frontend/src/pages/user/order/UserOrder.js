@@ -13,22 +13,36 @@ import Payment from "../payment/Payment";
 const Order = () => {
     const {register, handleSubmit, setValue, setError, clearErrors, formState: {errors}} = useForm();
     const location = useLocation();
+
+    /* 장바구니에서 전달 된 파라미터 */
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
-    const cartItemIds = queryParams.get('cartItemIds');
+    const cartItemIds = queryParams.get('cartItemIds'); /* 장바구니에 담긴 상품 */
+
     const [resArr, setResArr] = React.useState([]);
     const [domain, setDomain] = useState('gmail.com');
     const [customDomain, setCustomDomain] = useState(''); /* 직접 입력된 도메인 상태 */
 
-    /* 선택한 장바구니 상품 조회 */
+    /* 구매하기에서 전달 된 데이터 */
+    const buyProduct = { ...location.state };
+
+    /* 장바구니 상품 조회 */
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/user/order/orderCartItemDetail', {
-                    params: {id, cartItemIds},
-                });
-                setResArr(response.data);
-                setValue('id', id); // Set the order ID
+                /* 장바구니 */
+                if(cartItemIds) {
+                    const response = await axios.get('/user/order/orderCartItemDetail', {
+                        params: {id, cartItemIds},
+                    });
+                    setResArr(response.data);
+                    setValue('id', id); // Set the order ID
+                }
+                /* 구매하기 */
+                //if (Object.keys(buyProduct).length > 0) {
+                if (buyProduct){
+                    setResArr([buyProduct]); /* 배열 형태로 저장 */
+                }
             } catch (error) {
                 console.error("Error fetching fetchData", error);
             }
@@ -250,15 +264,19 @@ const Order = () => {
                 <thead>
                 <tr>
                     <th>상품명</th>
+                    <th>색상</th>
+                    <th>사이즈</th>
                     <th>가격</th>
                     <th>수량</th>
                     <th>총액</th>
                 </tr>
                 </thead>
                 <tbody>
-                {resArr.map((item) => (
+                {resArr && resArr.map((item) => (
                     <tr key={item.productId}>
                         <td>{item.productNm}</td>
+                        <td>{item.color}</td>
+                        <td>{item.size}</td>
                         <td>{item.price.toLocaleString()} 원</td>
                         <td>{item.quantity}</td>
                         <td>{(item.price * item.quantity).toLocaleString()} 원</td>
