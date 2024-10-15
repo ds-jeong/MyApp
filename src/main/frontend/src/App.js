@@ -28,7 +28,7 @@ import UserOrder from "./pages/user/order/UserOrder";
 import useIAMPORT from "./pages/user/payment/Iamport";
 import Payment from "./pages/user/payment/Payment";
 
-import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
+import KakaoLoginHandler from "./components/KakaoLoginHandler";
 
 function App() {
     const imp = useIAMPORT();
@@ -43,7 +43,7 @@ function App() {
                             <Route path="/" element={<Main />}/>
                             <Route path="/login" element={<Login />}/>
                             <Route path="/join" element={<Join />}/>
-                            <Route path="/login/kakao" element={<KakaoRedirectHandler />}/>
+                            <Route path="/login/kakao" element={<KakaoLoginHandler />}/>
 
                             <Route path="/myPage" element={<MyPage />}/>
                             <Route path="/cart" element={<Cart />}/>

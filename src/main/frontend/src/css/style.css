@@ -46,10 +46,12 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* 포커스 시 효과 설정 */
 }
 
-.kakaoLoginBtn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #FEE500;
-    border-radius: 5px;
-    text-align: center;
+.LoginHandler {
+    display: flex;                  /* Flexbox를 사용하여 중앙 정렬 */
+    justify-content: center;        /* 수평 중앙 정렬 */
+    align-items: center;            /* 수직 중앙 정렬 */
+    height: 80vh;                 /* 전체 화면 높이 */
+    font-size: 24px;               /* 글씨 크기 설정 (필요에 따라 조정 가능) */
+    font-weight: bold;              /* 글씨 두께를 굵게 설정 */
+    text-align: center;             /* 텍스트 중앙 정렬 */
 }

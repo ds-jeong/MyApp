@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
-@Controller
+@RestController
 public class KakaoLoginController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class KakaoLoginController {
     private UserRepository userRepository;
 
     @GetMapping("/login/kakao/callback")
-    public ResponseEntity<?> kakaoCallback(@RequestParam(value = "code", required = false) String code) throws Exception {
+    public ResponseEntity<?> kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
         String access_token = kakaoLoginService.getKaKaoAccessToken(code);
         HashMap<String, Object> userKakaoInfo = kakaoLoginService.getUserKakaoInfo(access_token);
 
@@ -68,8 +68,12 @@ public class KakaoLoginController {
 
             return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(new TokenResponseDto(jwtToken, userInfo));
         }
+    }
 
-
+    @GetMapping("/logout/kakao")
+    public ResponseEntity<Integer> kakaoLogout() {
+        int responseCode = kakaoLoginService.processLogout();
+        return ResponseEntity.ok(responseCode);
     }
 
 }
