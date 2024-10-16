@@ -160,8 +160,8 @@ function ProductDetail() {
             state: {
                 id: id,
                 productId: productId,
-                size: sizeRef.current.value,
-                color: colorRef.current.value,
+                // size: sizeRef.current.value,
+                // color: colorRef.current.value,
                 productNm: productNmRef.current.value,
                 price: priceRef.current.value,
                 quantity: quantityRef.current.value,

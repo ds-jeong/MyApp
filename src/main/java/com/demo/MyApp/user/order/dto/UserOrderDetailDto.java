@@ -16,4 +16,6 @@ public class UserOrderDetailDto {
     private Long orderId;
     private Long productId;
     private int quantity;
+    private double price;
+    private String productNm;
 }

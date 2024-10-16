@@ -33,9 +33,10 @@ public class UserOrderController {
     }
 
     @PostMapping("/insertOrder")
-    public Long insertOrder(@RequestBody UserOrderDto userOrderDto) throws Exception{
+    public void insertOrder(@RequestBody UserOrderDto userOrderDto) throws Exception{
         /* 사용자 > 주문하기 */
-        return userOrderService.insertOrder(userOrderDto);
+        userOrderService.insertOrder(userOrderDto);
+//        return userOrderService.insertOrder(userOrderDto);
     }
 
 }

@@ -9,5 +9,5 @@ public interface UserOrderService {
 
     List<Map<String,Object>> orderCartItemDetail(Long id, List<Long> cartItemIdList) throws Exception;
 
-    Long insertOrder(UserOrderDto userOrderDto) throws Exception;
+    void insertOrder(UserOrderDto userOrderDto) throws Exception;
 }
