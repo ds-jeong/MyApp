@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +127,10 @@ public class UserProductServiceImpl implements UserProductService {
         }
 
         return productDtoList;
+    }
+
+    public String getProductName(Long productId) throws Exception {
+        return userProductRepository.findProductNmByProductId(productId);
     }
 
 }

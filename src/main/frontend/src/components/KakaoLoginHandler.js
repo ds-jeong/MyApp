@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/style.css';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+
 const KakaoLoginCallback = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);  // Track loading state
@@ -14,7 +17,7 @@ const KakaoLoginCallback = () => {
 
             if (code) {
                 try {
-                    const response = await fetch(`http://localhost:8081/login/kakao/callback?code=${code}`, {
+                    const response = await fetch(`${BACKEND_URL}/login/kakao/callback?code=${code}`, {
                         headers: {
                             "Content-Type": "application/json;charset=utf-8",
                         }

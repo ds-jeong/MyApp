@@ -16,12 +16,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor //생성자 주입코드없이 의존성주입
@@ -102,7 +100,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     @Transactional
     @Override
-    public Long insertOrder(UserOrderDto userOrderDto) throws Exception {
+    public Order insertOrder(UserOrderDto userOrderDto) throws Exception {
 
         /* 회원정보 */
         User user = userRepository.findById(userOrderDto.getId())
@@ -142,6 +140,31 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrderDetailRepository.save(orderDetail);
         }
 
-        return userOrderRepository.getOrderIdByOrderNumber(orderNumber);
+        return userOrderRepository.findOrderByOrderNumber(orderNumber);
     }
+
+    public List<OrderDetail> getOrderDetails(@RequestParam("orderId") Long orderId) throws Exception{
+        return userOrderDetailRepository.findByOrder_orderId(orderId);
+    }
+
+    public Long getOrderId(String orderNumber) throws Exception {
+        return userOrderRepository.findOrderIdByOrderNumber(orderNumber);
+    }
+
+    public Order getOrderInfo(Long orderId) throws Exception {
+        Order o = userOrderRepository.findOrderByOrderId(orderId);
+        if (o  == null) {
+            System.out.println("Service: No order found for orderId: " + orderId);
+        } else {
+            System.out.println("Service: Order found: " + o);
+        }
+        return o;
+    }
+
+    public List<Long> getProductIdList(Long orderId) throws Exception {
+        return userOrderDetailRepository.findProductIdByOrder_orderId(orderId);
+    }
+
+
+
 }
