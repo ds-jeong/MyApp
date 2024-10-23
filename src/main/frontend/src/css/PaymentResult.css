@@ -1,0 +1,55 @@
+/* Container 스타일 */
+.container {
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    padding: 20px; /* 여백 */
+}
+
+/* 헤더 스타일 */
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007acc; /* 하늘색 텍스트 */
+    margin-bottom: 20px; /* 아래 여백 */
+}
+
+/* 정보 섹션 스타일 */
+.infoSection {
+    background-color: #ffffff; /* 흰색 배경 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    width: 100%; /* 전체 너비 */
+    max-width: 500px; /* 최대 너비 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 각 정보 항목 스타일 */
+.infoSection p {
+    font-size: 16px;
+    margin: 10px 0; /* 위아래 여백 */
+}
+
+/* 버튼 섹션 스타일 */
+.buttons {
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #007acc; /* 하늘색 버튼 */
+    color: #ffffff; /* 흰색 글자 */
+    border: none;
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 10px 20px; /* 여백 */
+    font-size: 16px;
+    cursor: pointer; /* 포인터 커서 */
+    margin: 10px; /* 버튼 간의 여백 */
+    transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+button:hover {
+    background-color: #005f99; /* 호버 시 어두운 하늘색 */
+}

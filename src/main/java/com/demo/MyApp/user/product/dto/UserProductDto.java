@@ -12,6 +12,8 @@ public class UserProductDto {
     private Long id;
     private String productNm;
     private double price;
+    private int quantity;
+
     private String author;
     private String content;
     private MultipartFile file;
@@ -19,4 +21,8 @@ public class UserProductDto {
     private  String filePath;
     private  String productKind;
 
+    public UserProductDto(String productNm, int quantity) {
+        this.productNm = productNm;
+        this.quantity = quantity;
+    }
 }

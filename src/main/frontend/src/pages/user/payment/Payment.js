@@ -1,58 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
+import '../../../css/PaymentResult.css';
 import axios from "axios";
-import {useParams} from "react-router-dom";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-export const Payment = (orderId) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const { formData } = useParams();
+const Payment = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const { state } = useLocation();
+    const { orderData } = state || {};  // Safely access state and orderData
+    const navigate = useNavigate();
 
-    const imp = window.IMP;
-    if (!imp) {
-        console.error('Iamport가 로드되지 않았습니다.');
-        alert('결제 모듈을 로드하는 데 실패했습니다. 잠시 후 다시 시도해주세요.');
-        return;
-    }
-
-    setIsLoading(true);
-
-    // 결제 요청 정보 설정 (예시)
-    const req = {
-        pg: "html5_inicis",
-        pay_method: "card",
-        // merchant_uid: `payment-${formData.id}`, // 주문 고유 번호
-        merchant_uid: `payment-${orderId}`, // 주문 고유 번호
-        name: formData.orderDetails.map(item => item.productNm).join(", ") + " 외 " + formData.orderDetails.length + "건",
-        amount: formData.totalPayment.toLocaleString(),
-        buyer_email: formData.email,
-        buyer_name: formData.orderer,
-        buyer_tel: formData.tel,
-        buyer_addr: formData.addr + formData.address1 + formData.address2,
-        buyer_postcode: formData.zonecode,
-    };
-
-    // 결제 요청
-    imp.request_pay(req, (response) => {
-        setIsLoading(false);
-        // 결제 결과 처리
-        if (response.error_code != null) {
-            return alert(`결제에 실패하였습니다. 에러 내용: ${response.error_msg}`);
+    useEffect(() => {
+        if (!window.IMP) {
+            console.error('Iamport가 로드되지 않았습니다.');
+            alert('결제 모듈을 로드하는 데 실패했습니다. 잠시 후 다시 시도해주세요.');
+            return;
         }
 
-        axios.post(`/user/order/payment/process/${orderId}`, {
-            imp_uid: response.imp_uid,
-            merchant_uid: response.merchant_uid,
-            id: orderId
-        })
+        /* 1. 가맹점 식별하기 */
+        const { IMP } = window;
+        IMP.init("imp00224460");
 
-    });
+        /*2. 결제 데이터 정의하기*/
+        const data = {
+            pg: 'html5_inicis',                           // PG사
+            pay_method: 'card',                           // 결제수단
+            merchant_uid: `mid_${orderData.orderNumber}`,   // 주문번호
+            amount: 1,                                     // 결제금액(TEST용 1원)
+            name: `${new Date().getTime()}자 상품 주문`, // 주문명
+            buyer_name: orderData.orderer,                // 구매자 이름
+            buyer_tel: orderData.phone,                   // 구매자 전화번호
+            buyer_email: orderData.email,                 // 구매자 이메일
+            buyer_addr: orderData.address,                 // 구매자 주소
+            buyer_postcode: orderData.zonecode,           // 구매자 우편번호
+        }
+
+        /* 4. 결제 창 호출하기 */
+        IMP.request_pay(data, callback);
+
+        /* 3. 콜백 함수 정의하기 */
+        function callback(response) {
+            const {
+                success,
+                imp_uid,
+                merchant_uid,
+                paid_at,
+                paid_amount,
+                error_msg,
+            } = response;
+
+            if (success) {
+                alert('결제 성공');
+
+                /* 결제내역 저장 */
+                axios.post(`${BACKEND_URL}/user/payment/save`, {
+                    imp_uid: imp_uid,
+                    merchant_uid: merchant_uid,
+                    paid_at: paid_at,
+                    paid_amount: paid_amount,
+                })
+                    .then(response => {
+                        navigate('/payment/success', {
+                            state: {
+                                paymentInfo: {
+                                    merchant_uid,
+                                    paid_at,
+                                    paid_amount,
+                                },
+                            },
+                        });
+                    })
+                    .catch(error => console.log(error));
+            } else {
+                alert(`결제 실패: ${error_msg}`);
+                navigate('/');
+            }
+        }
+
+        setIsLoading(false); // 로딩 완료
+
+    }, [orderData, navigate]); // dependencies에 orderData와 navigate 추가
+
+    if (isLoading) {
+        return <div>Loading payment module...</div>; // 로딩 중일 때 표시할 내용
+    }
+
     return (
-        <div>
-            결제진행중
-        </div>
-        // <button disabled={isLoading} onClick={handlePayment}>
-        //     {isLoading ? '결제 진행 중...' : '결제하기'}
-        // </button>
+        <p>결제 중 입니다.</p>
     );
 }
 
