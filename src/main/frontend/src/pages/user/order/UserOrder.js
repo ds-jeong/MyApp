@@ -7,7 +7,6 @@ import {FormatPhoneNumber} from 'utils/FormatPhoneNumber';
 import DaumAddrAPI from 'components/daumAddrApi/DaumAddrAPI';
 import axios from "axios";
 import './UserOrder.css';
-import payment from "../payment/Payment";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 

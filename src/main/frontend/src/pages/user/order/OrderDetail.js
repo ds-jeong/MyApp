@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import '../../../css/OrderDetail.css';
 import axios from "axios";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const OrderDetails = () => {
+const OrderDetail = () => {
     // 쿼리 파라미터에서 orderId 값을 추출
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const orderId = queryParams.get('orderId');
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const orderId = searchParams.get('orderId');
     const paidAmount = location.state?.paid_amount;
 
     const [loading, setLoading] = useState(true);      // 로딩 상태
@@ -26,7 +27,6 @@ const OrderDetails = () => {
                 if (orderInfoResponse.status === 200) {
                     setOrderInfo(orderInfoResponse.data);
                     console.log(orderInfoResponse.data);
-
                 } else {
                     throw new Error('Failed to fetch order info');
                 }
@@ -51,8 +51,15 @@ const OrderDetails = () => {
         fetchData();
     }, [orderId]);
 
+    const handleOrderCancelClick = () => {
+        navigate(`/order/cancel?orderId=${orderId}`); // 주문 취소 페이지로 이동
+    };
 
+    const handleGotoMainClick = () => {
+        navigate('/');
+    };
 
+    // Loading 상태일 때 렌더링
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -76,24 +83,25 @@ const OrderDetails = () => {
             </div>
             <div className="order-items">
                 <h3 align="center">주문 상품</h3>
-                    <ul>
-                        {orderDetails.length > 0 ? (
-                            orderDetails.map((item, index) => (
-                                <li key={index}>
-                                    {item.productNm} - {item.quantity}개
-                                </li>
-                            ))
-                        ) : (
-                            <p>No order details available.</p> // Handle the case where there are no order details
-                        )}
-                    </ul>
+                <ul>
+                    {orderDetails.length > 0 ? (
+                        orderDetails.map((item, index) => (
+                            <li key={index} className="orderItem">
+                                {item.productNm} - {item.quantity}개
+                            </li>
+                        ))
+                    ) : (
+                        <p>No order details available.</p> // Handle the case where there are no order details
+                    )}
+                </ul>
             </div>
-            <div className="buttons">
-                <button className="btn">주문 취소</button>
+
+            <div className="btnsSection">
+                <button className="btns" onClick={handleOrderCancelClick}>주문 취소</button>
+                <button className="btns" onClick={handleGotoMainClick}>메인으로 가기</button>
             </div>
         </div>
     );
 };
 
-export default OrderDetails;
-
+export default OrderDetail;
