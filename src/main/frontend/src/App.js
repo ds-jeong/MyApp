@@ -24,13 +24,15 @@ import UserProductDetail from "./pages/user/product/UserProductDetail"
 import MyPage from "./pages/user/mypage/MyPage";
 import Cart from "./pages/user/cart/Cart";
 import UserOrder from "./pages/user/order/UserOrder";
+import OrderDetail from "./pages/user/order/OrderDetail";
+import OrderCancel from "./pages/user/order/OrderCancel";
 
 import Payment from "./pages/user/payment/Payment";
 import PaymentSuccess from "./pages/user/payment/PaymentSuccess";
 
 
+
 import KakaoLoginHandler from "./components/KakaoLoginHandler";
-import OrderDetail from "./pages/user/order/OrderDetail";
 
 function App() {
     return (
@@ -52,6 +54,8 @@ function App() {
                             <Route path="/payment" element={<Payment />}/>
                             <Route path="/payment/success" element={<PaymentSuccess />}/>
                             <Route path="/order/detail" element={<OrderDetail />}/>
+                            <Route path="/order/cancel" element={<OrderCancel />}/>
+
 
 
                             <Route path="/userProductList" element={<UserProductList />}/>

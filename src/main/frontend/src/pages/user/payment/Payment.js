@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import '../../../css/PaymentResult.css';
 import axios from "axios";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -87,7 +86,7 @@ const Payment = () => {
     }
 
     return (
-        <p>결제 중 입니다.</p>
+        <p>Loading payment module...</p>
     );
 }
 

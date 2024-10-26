@@ -36,6 +36,8 @@ public class Payment {
     @Column(nullable = false)
     private String status;               // 결제 상태 (예: "paid", "failed", "cancelled")
 
+    private int checksum; // 결제 검증용
+
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;

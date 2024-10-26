@@ -19,10 +19,17 @@ public class PaymentDto {
     private Long paid_at;
     private int paid_amount;
     private String status;       // 결제 상태 (예: "paid", "failed" 등)
+    private int checksum;
 
     // Convert Unix timestamp to LocalDateTime
     public LocalDateTime getPaidAtAsLocalDateTime() {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(paid_at), ZoneId.systemDefault());
+    }
+
+    public PaymentDto(String imp_uid, int paid_amount, int checksum) {
+        this.imp_uid = imp_uid;
+        this.paid_amount = paid_amount;
+        this.checksum = checksum;
     }
 
 

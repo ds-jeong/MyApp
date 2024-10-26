@@ -31,7 +31,6 @@ const PaymentSuccess = () => {
     };
 
     const handleDetailClick = () => {
-        // 상세내역 페이지로 이동
         const orderNumber = paymentInfo.merchant_uid.substring(4); // "on"부터 잘라낸 값
         console.log(orderNumber);
 
@@ -41,15 +40,15 @@ const PaymentSuccess = () => {
             },
         })
             .then(response => {
-                // 성공적으로 데이터를 받아온 경우 처리
                 console.log(response.data);
-                // 필요한 추가 작업을 수행할 수 있습니다.
-                navigate(`/order/detail?orderId=${response.data}`, {state: {paid_amount: paymentInfo.paid_amount}});
+                // Ensure you are using a complete path
+                navigate(`/order/detail?orderId=${response.data}`, { state: { paid_amount: paymentInfo.paid_amount } });
             })
             .catch(error => {
                 console.error('Error fetching order details:', error);
             });
     };
+
 
     const handleContinueShoppingClick = () => {
         // 쇼핑 계속하기 페이지로 이동
