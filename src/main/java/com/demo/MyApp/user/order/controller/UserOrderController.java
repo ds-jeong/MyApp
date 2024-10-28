@@ -7,7 +7,7 @@ import com.demo.MyApp.user.order.dto.UserOrderDto;
 import com.demo.MyApp.user.order.service.UserOrderService;
 import com.demo.MyApp.user.product.dto.UserProductDto;
 import com.demo.MyApp.user.product.service.UserProductService;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class UserOrderController {
     private UserProductService userProductService;
 
     @GetMapping("/orderCartItemDetail")
-    public List<Map<MysqlxDatatypes.Scalar.String,Object>> orderCartItemDetail(@RequestParam("id") Long id, @RequestParam("cartItemIds") String cartItemIds) throws Exception{
+    public List<Map<String,Object>> orderCartItemDetail(@RequestParam("id") Long id, @RequestParam("cartItemIds") String cartItemIds) throws Exception{
 
         if (cartItemIds == null || cartItemIds.isEmpty()) {
             throw new IllegalArgumentException("No cart item IDs provided.");
