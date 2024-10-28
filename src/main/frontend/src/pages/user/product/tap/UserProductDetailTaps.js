@@ -10,7 +10,7 @@ const UserProductDetailTaps = () => {
             case 'details':
                 return <div>상품 상세보기 내용</div>;
             case 'reviews':
-                return <div>상품 리뷰 내용</div>;
+                return <div><h2>리뷰</h2></div>;
             default:
                 return null;
         }
