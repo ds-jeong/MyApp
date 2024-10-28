@@ -1,11 +1,12 @@
 package com.demo.MyApp.user.product.controller;
 
 import com.demo.MyApp.admin.product.dto.ProductDto;
-import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.user.product.dto.UserProductDto;
 import com.demo.MyApp.user.product.service.UserProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,18 @@ public class UserProductController {
     private UserProductServiceImpl userProductService;
 
     @GetMapping("/userProductList")
-    public Page<Product> userProductList(Model model
+    public Page<UserProductDto> userProductList(Model model
             , @RequestParam("page") int page
             , @RequestParam("size") int size) throws Exception{
+        Pageable pageable = PageRequest.of(page, size);
         /* 사용자 > 상품리스트 */
-        return userProductService.userProductList(page, size);
+        return userProductService.userProductList(pageable);
     }
+//    @PostMapping("/userProductList")
+//    public List<UserProductDto> userProductList() throws Exception{
+//        /* 사용자 > 상품리스트 */
+//        return userProductService.userProductList();
+//    }
 
     @GetMapping("/userProductDetail")
     public ProductDto userProductDetail(@ModelAttribute ProductDto productDto, @RequestParam("id") Long id) throws Exception{

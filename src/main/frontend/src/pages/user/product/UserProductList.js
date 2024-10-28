@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 function UserProductList() {
     const token = window.localStorage.getItem('token');
     const navigate = useNavigate();
-    const [resArr, setResArr] = useState([]);
+    const [resArr, setResArr] = useState(['']);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
@@ -22,6 +22,8 @@ function UserProductList() {
             const response = await axios.get(`/user/product/userProductList?page=${currentPage}&size=${pageSize}`);
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
+            // const response = await axios.post(`/user/product/userProductList`);
+            // setResArr(response.data);
         } catch (error) {
             console.error("Error fetching fetchData", error);
         }

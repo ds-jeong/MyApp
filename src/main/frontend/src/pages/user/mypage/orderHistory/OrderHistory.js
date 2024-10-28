@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './OrderHistory.css';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 // 주문번호 별로 상품 그룹화 함수
 const groupByOrderId = (arr) => {
@@ -46,6 +47,11 @@ const OrderHistory = () => {
     // 주문번호별로 상품 그룹화
     const groupedOrders = groupByOrderId(resArr);
 
+    const navigate = useNavigate();
+    const handleProductDetail = (productId) => {
+        navigate(`/userProductDetail/${productId}`);
+    };
+
     return (
         <div>
             {Object.entries(groupedOrders).map(([orderId, items], index) => (
@@ -64,7 +70,7 @@ const OrderHistory = () => {
                     <div className="order-items">
                         <div>주문번호: {orderId}</div>
                         {items.map((item) => (
-                            <div key={item.productId} className="order-card">
+                            <div key={item.productId} className="order-card" onClick={() => handleProductDetail(item.productId)}>
                                 <div className="order-item">{item.orderDate}</div>
                                 <div className="order-item">
                                     <img src={item.filePath} alt={item.productNm} className="order-image"/>
