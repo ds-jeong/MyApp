@@ -126,7 +126,7 @@ function UserProductList() {
                                     <CardFooter className="p-4 pt-0 border-top-0 bg-transparent">
                                         <div className="text-center">
                                             <Button variant="outline-dark">
-                                                <Link to={`/userProductDetail/${item.productId}`}>
+                                                <Link to={`/userProductDetail/${item.id}`}>
                                                     View options1
                                                 </Link>
                                             </Button>
