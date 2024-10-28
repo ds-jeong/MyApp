@@ -1,0 +1,95 @@
+/* 결제 취소 컨테이너 스타일 */
+.cancel-payment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: #ffffff; /* 흰색 배경 */
+    border-radius: 12px; /* 둥근 모서리 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    max-width: 500px; /* 최대 너비 */
+    margin: 40px auto; /* 중앙 정렬 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+/* 헤더 스타일 */
+.cancel-payment-header {
+    font-size: 28px; /* 글씨 크기 */
+    font-weight: bold; /* 굵게 */
+    color: #007acc; /* 하늘색 */
+    margin-bottom: 25px; /* 아래 여백 */
+}
+
+/* 라벨 스타일 */
+.cancel-payment-label {
+    font-size: 16px; /* 글씨 크기 */
+    color: #333; /* 어두운 텍스트 */
+    width: 100%; /* 전체 너비 */
+    margin-bottom: 8px; /* 아래 여백 */
+    font-weight: 500; /* 중간 굵기 */
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+/* 셀렉트 박스 스타일 */
+.cancel-payment-select {
+    width: 100%; /* 전체 너비 */
+    padding: 12px; /* 여백 */
+    border-radius: 6px; /* 둥근 모서리 */
+    border: 1px solid #cccccc; /* 테두리 */
+    font-size: 16px; /* 글씨 크기 */
+    margin-bottom: 20px; /* 아래 여백 */
+    background-color: #f9f9f9; /* 연한 회색 배경 */
+    cursor: pointer; /* 포인터 커서 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 */
+    transition: border-color 0.3s ease; /* 테두리 색상 전환 */
+}
+
+.cancel-payment-select:focus {
+    border-color: #007acc; /* 포커스 시 하늘색 테두리 */
+    outline: none; /* 아웃라인 제거 */
+}
+
+/* 기타 사유 입력란 스타일 */
+.cancel-payment-input {
+    width: 100%; /* 전체 너비 */
+    padding: 12px; /* 여백 */
+    border-radius: 6px; /* 둥근 모서리 */
+    border: 1px solid #cccccc; /* 테두리 */
+    font-size: 16px; /* 글씨 크기 */
+    margin-top: 10px; /* 위쪽 여백 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 */
+    transition: border-color 0.3s ease; /* 테두리 색상 전환 */
+}
+
+.cancel-payment-input:focus {
+    border-color: #007acc; /* 포커스 시 하늘색 테두리 */
+    outline: none; /* 아웃라인 제거 */
+}
+
+/* 버튼 컨테이너 스타일 */
+.cancel-payment-buttons {
+    display: flex;
+    justify-content: center; /* 버튼 중앙 정렬 */
+    gap: 20px; /* 버튼 간 간격 */
+    margin-top: 25px; /* 위쪽 여백 */
+}
+
+/* 버튼 스타일 */
+.cancel-payment-btn {
+    background-color: #007acc; /* 하늘색 */
+    color: #ffffff; /* 흰색 글자 */
+    border: none; /* 테두리 없음 */
+    border-radius: 6px; /* 둥근 모서리 */
+    padding: 12px 30px; /* 여백 */
+    font-size: 16px; /* 글씨 크기 */
+    font-weight: bold; /* 굵게 */
+    cursor: pointer; /* 포인터 커서 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 배경색 및 크기 전환 */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* 부드러운 그림자 */
+}
+
+.cancel-payment-btn:hover {
+    background-color: #005f99; /* 호버 시 어두운 하늘색 */
+    transform: translateY(-2px); /* 위로 이동 효과 */
+}

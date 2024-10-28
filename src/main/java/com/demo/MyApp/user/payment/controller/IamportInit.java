@@ -1,20 +1,15 @@
 package com.demo.MyApp.user.payment.controller;
 
 //import com.demo.MyApp.user.payment.dto.Payment;
-import com.demo.MyApp.user.payment.dto.PaymentRequestDto;
-import com.demo.MyApp.user.payment.service.PaymentService;
+import com.demo.MyApp.user.payment.dto.PaymentDto;
+import com.demo.MyApp.user.payment.service.PaymentServiceImpl;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,14 +27,14 @@ public class IamportInit {
 
     private IamportClient iamportClient;
 
-    private PaymentService paymentService;
+    private PaymentServiceImpl paymentServiceImpl;
     @PostConstruct
     public void init() {
         this.iamportClient = new IamportClient(apiKey, secretKey);
     }
 
     @PostMapping("/order/payment/{imp_uid}")
-    public IamportResponse<Payment> validateIamport(@PathVariable String imp_uid, @RequestBody PaymentRequestDto request) throws IamportResponseException, IOException {
+    public IamportResponse<Payment> validateIamport(@PathVariable String imp_uid, @RequestBody PaymentDto request) throws IamportResponseException, IOException {
 
         IamportResponse<Payment> payment = iamportClient.paymentByImpUid(imp_uid);
 

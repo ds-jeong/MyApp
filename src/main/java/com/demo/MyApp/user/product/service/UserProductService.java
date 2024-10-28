@@ -21,4 +21,6 @@ public interface UserProductService {
 
     List<UserProductDto> higherTotalSalesProductList() throws Exception;
 
+    String getProductName(Long productId) throws Exception;
+
 }

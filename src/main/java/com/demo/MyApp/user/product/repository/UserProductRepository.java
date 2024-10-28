@@ -15,4 +15,5 @@ public interface UserProductRepository extends JpaRepository<Product,Long> {
 
     List<Product> findAllByOrderByTotalSalesDesc() throws Exception;
 
+    String findProductNmByProductId(Long productId) throws Exception;
 }

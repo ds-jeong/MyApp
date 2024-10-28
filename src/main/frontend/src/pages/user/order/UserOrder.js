@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Col, Container, Form, Row, Table} from 'react-bootstrap';
 import {ValidateEmail, ValidatePhone} from 'utils/Validation';
 import {FormatPhoneNumber} from 'utils/FormatPhoneNumber';
 import DaumAddrAPI from 'components/daumAddrApi/DaumAddrAPI';
 import axios from "axios";
 import './UserOrder.css';
-import UseIamport from "../payment/Iamport";
-import Payment from "../payment/Payment";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 const Order = () => {
     const {register, handleSubmit, setValue, setError, clearErrors, formState: {errors}} = useForm();
@@ -27,6 +27,8 @@ const Order = () => {
     const [resArr, setResArr] = React.useState([]);
     const [domain, setDomain] = useState('gmail.com');
     const [customDomain, setCustomDomain] = useState(''); /* 직접 입력된 도메인 상태 */
+    const navigate = useNavigate();
+
 
 
     /* 장바구니 상품 조회 */
@@ -121,7 +123,7 @@ const Order = () => {
         }
 
         try {
-            const response = await axios.post('/user/order/insertOrder', {
+            const response = await axios.post(`${BACKEND_URL}/user/order/insertOrder`, {
                 ...data,
                 email,
                 addr,
@@ -129,13 +131,9 @@ const Order = () => {
                 orderDetails: resArr,
             });
 
-            const orderId = response.data.orderId;
+            navigate('/payment', { state: { orderData: response.data } });
 
-            // UseIamport();
-            // Payment(orderId);
-
-            alert("주문이 완료되었습니다.");
-            // navigate('/productList');
+            alert("결제 화면으로 넘어갑니다.");
         } catch (error) {
             console.error('Error submitting post: ', error);
         }

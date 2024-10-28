@@ -1,26 +1,36 @@
 package com.demo.MyApp.user.payment.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Getter
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class PaymentDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long price;
-    private PaymentStatus status;
+    private String imp_uid;      // Iamport에서 발급된 고유 ID
+    private String merchant_uid; // 주문 고유 번호
+    private Long paid_at;
+    private int paid_amount;
+    private String status;       // 결제 상태 (예: "paid", "failed" 등)
+    private int checksum;
 
-//    @Builder
-//    public Payment(Long price, PaymentStatus status) {
-//        this.price = price;
-//        this.status = status;
-//    }
+    // Convert Unix timestamp to LocalDateTime
+    public LocalDateTime getPaidAtAsLocalDateTime() {
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(paid_at), ZoneId.systemDefault());
+    }
+
+    public PaymentDto(String imp_uid, int paid_amount, int checksum) {
+        this.imp_uid = imp_uid;
+        this.paid_amount = paid_amount;
+        this.checksum = checksum;
+    }
+
 
 }

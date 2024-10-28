@@ -3,6 +3,7 @@ package com.demo.MyApp.admin.order.entity;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.common.entity.ChangeOrder;
 import com.demo.MyApp.common.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,6 +28,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     /* 주문정보 */
+    @Column(unique = true)
     private String orderNumber; //주문번호
     private String orderer; //주문자
     private String phone; //연락처
@@ -49,16 +51,23 @@ public class Order {
         orderDate = LocalDateTime.now(); // 현재 날짜와 시간 설정
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude // Prevent circular reference in toString()
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude // Prevent circular reference in toString(
     private List<Product> products;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude // Prevent circular reference in toString()
     private List<OrderDetail> orderDetails;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude // Prevent circular reference in toString()
     private List<ChangeOrder> changeOrders;
+
 }
