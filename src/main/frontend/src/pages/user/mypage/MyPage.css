@@ -1,0 +1,45 @@
+.mypage-container {
+    display: flex;
+    height: 100vh;
+    background-color: #ffe6e6; /* 연분홍 배경색 */
+}
+
+.sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: #ff99cc; /* 연분홍 색상 */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: white;
+}
+
+.tab {
+    width: 300px;
+    height: 150px;
+    background-color: #ff6699; /* 강조색 */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.tab:hover {
+    background-color: #ff85b3; /* 호버 효과 */
+}
+
+.tab.active {
+    background-color: #ff3366; /* 활성화된 탭 강조색 */
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+}
