@@ -3,7 +3,7 @@ package com.demo.MyApp.admin.product.entity;
 import com.demo.MyApp.admin.order.entity.Order;
 import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.common.entity.ProductOption;
-import com.demo.MyApp.common.entity.RecentlyViewedItem;
+import com.demo.MyApp.user.review.entity.RecentlyViewedItem;
 import com.demo.MyApp.common.entity.Wishlist;
 import com.demo.MyApp.user.cart.entity.CartItem;
 import jakarta.persistence.*;

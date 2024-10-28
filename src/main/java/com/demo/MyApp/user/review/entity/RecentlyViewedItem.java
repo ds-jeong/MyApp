@@ -1,6 +1,7 @@
-package com.demo.MyApp.common.entity;
+package com.demo.MyApp.user.review.entity;
 
 import com.demo.MyApp.admin.product.entity.Product;
+import com.demo.MyApp.common.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

@@ -5,6 +5,7 @@ import {formatPrice} from '../../../utils/formatUtils';
 import CartPopup from './popup/CartPopup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import UserProductDetailTaps from "./tap/UserProductDetailTaps";
 
 function ProductDetail() {
 
@@ -270,6 +271,7 @@ function ProductDetail() {
                     </Col>
                 </Row>
             </Form>
+            <UserProductDetailTaps />
         </Container>
     );
 }
