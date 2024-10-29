@@ -5,6 +5,7 @@ import {Container, Navbar, Nav, NavItem, NavLink, Button, NavbarBrand, NavDropdo
 import Slider from './slick/Slider';
 const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
 const REDIRECT_URI  = process.env.REACT_APP_LOGOUT_REDIRECT_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Header = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -19,6 +20,31 @@ const Header = () => {
         } else {
             setIsAuthenticated(false);
         }
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        // console.log로 출력
+        console.log('Token:', token);
+        console.log('Type:', type);
+        console.log('State:', state);
+        console.log('User Data:', userData);
+
+        const userInfo = userData?.userInfo;
+
+        /* 변수에 맞게 값 할당 */
+        const id = userInfo?.id;
+        const userId = userInfo?.userId;
+        const userNm = userInfo?.userNm;
+        const phone = userInfo?.phone;
+        const address = userInfo?.address;
+        const role = userInfo?.role;
+        const email = userInfo?.email;
+        console.log('id : ' + id);
+        console.log('아이디 : ' + userId);
+        console.log('사용자명 : ' + userNm);
+        console.log('연락처 : ' + phone);
+        console.log('주소 : ' + address);
+        console.log('role: ' + role);
+        console.log('이메일 : ' + email);
     }, []); /* 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행 */
 
 
@@ -70,7 +96,7 @@ const Header = () => {
         try {
             // 카카오 로그아웃
             if(type === 'kakao') {
-                const response = await axios.get('http://localhost:8081/logout/kakao');
+                const response = await axios.get(`${BACKEND_URL}/logout/kakao`);
                 console.log('Logout successful:', response.data);
 
                 if(response.data !== 302) {
@@ -80,6 +106,8 @@ const Header = () => {
                     alert('로그아웃 되었습니다.')
                     window.localStorage.removeItem('token');
                     window.localStorage.removeItem('userData');
+                    window.localStorage.removeItem('type');
+                    window.localStorage.removeItem('state');
                     setIsAuthenticated(false);  // 상태 업데이트
                 }
                 window.location.replace('/');

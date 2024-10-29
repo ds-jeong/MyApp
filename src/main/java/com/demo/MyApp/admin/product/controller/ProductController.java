@@ -1,6 +1,7 @@
 package com.demo.MyApp.admin.product.controller;
 
 import com.demo.MyApp.admin.product.dto.ProductDto;
+import com.demo.MyApp.admin.product.dto.ProductUploadDto;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.service.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

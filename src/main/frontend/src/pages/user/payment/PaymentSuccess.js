@@ -56,7 +56,8 @@ const PaymentSuccess = () => {
     };
 
     return (
-        <div className="container">
+        <div className="payment-result-container">
+            <div className="container">
                 <>
                     <h2 className="header">Payment Receipt</h2>
                     <div className="infoSection">
@@ -71,6 +72,7 @@ const PaymentSuccess = () => {
                         <button onClick={handleContinueShoppingClick}>쇼핑 계속하기</button>
                     </div>
                 </>
+            </div>
         </div>
     );
 

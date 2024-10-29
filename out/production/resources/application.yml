@@ -35,9 +35,16 @@ spring:
       hibernate:
         format_sql: true
   profiles:
-#    active: prod
-     active: local
+    active: prod
+#     active: local
 file:
   upload-dir: ${IMAGE_UPLOAD_DIR}
+iamport:
+  apikey: "3345152447410084"
+  secretkey: "0l1cSVbjsp6YKeVJ6vwNhM89Daf6LLeQf8nOMhTmhubEb7zs072595tjbck4OvnMevG8n3UOy3z6yt7l"
+client:
+  id: "e13b5816e34807e9c3ef76b9652b60a9"
+  login-redirect-uri: "http://localhost:3000/login/kakao"
+  logout-redirect-uri: "http://localhost:3000/"
 
 
