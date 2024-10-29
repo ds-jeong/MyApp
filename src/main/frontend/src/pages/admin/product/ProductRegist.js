@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function ProductRegist() {
     //폼전송
@@ -29,7 +30,7 @@ function ProductRegist() {
         formData.append('author', authorRef.current.value);
         formData.append('file', fileRef.current.files[0]);
 
-        axios.post('/admin/product/insertProduct', formData)
+        axios.post(`/admin/product/insertProduct`, formData)
             .then(response => {
                 alert("상품이 등록되었습니다.");
                 // useHistory import 안되면 아래 코드로 수정해서 반영

@@ -33,7 +33,9 @@ const KakaoLoginCallback = () => {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('type', 'kakao');
                     localStorage.setItem('state', state);
-                    localStorage.setItem('userData', JSON.stringify(data.userInfo));
+                    // `userData`를 `userInfo` 속성으로 중첩하여 저장
+                    const userDataWithUserInfo = { userInfo: data.userInfo };
+                    localStorage.setItem('userData', JSON.stringify(userDataWithUserInfo));
                     setIsAuthenticated(true);  // 상태 업데이트
 
                     // Redirect to the main page
