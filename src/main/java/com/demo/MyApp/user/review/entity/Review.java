@@ -1,5 +1,6 @@
 package com.demo.MyApp.user.review.entity;
 
+import com.demo.MyApp.admin.order.entity.OrderDetail;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -43,9 +44,9 @@ public class Review {
         updatedAt = LocalDateTime.now(); // 현재 날짜와 시간 설정
     }
 
-//    @OneToOne
-//    @JoinColumn(name = "order_detail_id")  // 외래 키 컬럼
-//    private OrderDetail orderDetail;
+    @OneToOne
+    @JoinColumn(name = "order_detail_id")  // 외래 키 컬럼
+    private OrderDetail orderDetail;
 }
 
 

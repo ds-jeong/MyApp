@@ -21,6 +21,9 @@ public class UserProductDto {
     private  String filePath;
     private  String productKind;
 
+    private int salesCount;
+    private int reviewCount;
+
     public UserProductDto(String productNm, int quantity) {
         this.productNm = productNm;
         this.quantity = quantity;

@@ -1,9 +1,11 @@
 package com.demo.MyApp.user.product.service;
 
+import com.demo.MyApp.admin.order.repository.OrderDetailRepository;
 import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.user.product.dto.UserProductDto;
 import com.demo.MyApp.user.product.repository.UserProductRepository;
+import com.demo.MyApp.user.review.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,47 @@ public class UserProductServiceImpl implements UserProductService {
     @Autowired
     private final UserProductRepository userProductRepository;
 
+    @Autowired
+    private final OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private final ReviewRepository reviewRepository;
+
     @Override
     public Page<UserProductDto> userProductList(Pageable pageable) throws Exception {
         // 페이지 요청에 따라 상품 목록을 가져오기 위해 userProductRepository를 호출
         Page<Product> productPage = userProductRepository.findAll(pageable);
 
-        // 가져온 상품 목록을 UserProductDto 리스트로 변환
-        List<UserProductDto> productDtoList = convertToDtoList(productPage.getContent());
+        // 판매수와 리뷰수를 가져오기 위한 리스트 생성
+        List<UserProductDto> productDtoList = new ArrayList<>();
+        for (Product product : productPage.getContent()) {
+            // UserProductDto 객체 생성 및 필드 설정
+            UserProductDto dto = new UserProductDto();
+            dto.setId(product.getProductId()); // Product ID
+            dto.setProductNm(product.getProductNm()); // 상품명
+            dto.setPrice(product.getPrice()); // 가격
+            dto.setAuthor(product.getAuthor()); // 저자
+            dto.setContent(product.getContent()); // 내용
+            dto.setFileNm(product.getFileNm()); // 파일 이름
+            dto.setFilePath(product.getFilePath()); // 파일 경로
+
+            // 판매수 가져오기
+            Integer quantity = orderDetailRepository.sumQuantityByProductId(product.getProductId());
+            if(quantity == null)
+                quantity = 0;
+            System.out.println("quantity" + quantity);
+            dto.setSalesCount(quantity); // DTO에 판매수 설정
+
+            // 리뷰수 가져오기 (ReviewRepository를 통해)
+            int reviewCount = reviewRepository.countByOrderDetail_Product_ProductId(product.getProductId()); // Review 엔티티에서 리뷰수 조회
+            dto.setReviewCount(reviewCount); // DTO에 리뷰수 설정
+
+            // DTO 리스트에 추가
+            productDtoList.add(dto);
+        }
+
+//        // 가져온 상품 목록을 UserProductDto 리스트로 변환
+//        List<UserProductDto> productDtoList = convertToDtoList(productPage.getContent());
 
         // 변환된 DTO 리스트와 페이지 정보를 포함하여 Page<UserProductDto> 객체 생성 후 반환
         return new PageImpl<>(productDtoList, pageable, productPage.getTotalElements());
