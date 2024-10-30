@@ -30,7 +30,11 @@ function ProductRegist() {
         formData.append('author', authorRef.current.value);
         formData.append('file', fileRef.current.files[0]);
 
-        axios.post(`/admin/product/insertProduct`, formData)
+        axios.post(`/admin/product/insertProduct`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
             .then(response => {
                 alert("상품이 등록되었습니다.");
                 // useHistory import 안되면 아래 코드로 수정해서 반영
@@ -38,7 +42,7 @@ function ProductRegist() {
                 navigate('/productList');
             })
             .catch(error => {
-                console.error('Error submitting post: ', error);
+                console.error('Error submitting post: ', error.response ? error.response.data : error);
             });
     };
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import {Button, Card, CardBody, CardFooter, CardImg, Container} from "react-bootstrap";
+import {Button, Card, CardBody, CardFooter, CardImg, Container, Dropdown } from "react-bootstrap";
 import {formatPrice} from '../../../utils/formatUtils';
 import ReactPaginate from "react-paginate";
 
@@ -12,6 +12,9 @@ function UserProductList() {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
+    const [sortOption, setSortOption] = useState("default");
+    const [selectedSort, setSelectedSort] = useState("정렬 기준"); // 초기값 설정
+
 
     useEffect(() => {
         fetchData(currentPage);
@@ -104,11 +107,43 @@ function UserProductList() {
         }
     }
 
+    // 정렬 함수
+    const handleSort = (option, label) => {
+        setSortOption(option);
+        setSelectedSort(label); // 선택한 정렬 기준으로 버튼 텍스트 설정
+
+        let sortedArray = [...resArr];
+
+        if (option === "sales") {
+            sortedArray.sort((a, b) => b.salesCount - a.salesCount); // 조회수 내림차순 정렬
+        } else if (option === "priceLow") {
+            sortedArray.sort((a, b) => a.price - b.price); // 가격 낮은 순 정렬
+        } else if (option === "discount") {
+            sortedArray.sort((a, b) => b.discount - a.discount); // 할인율 내림차순 정렬
+        } else if (option === "reviews") {
+            sortedArray.sort((a,b) => b.reviewCount - a.reviewCount); // 리뷰수 내림차순 정렬
+        }
+        setResArr(sortedArray);
+    };
+
     return (
         <div className="divTable">
             <section className="py-5">
                 <Container>
-                    <Button variant="outline-dark" href="/productRegist">글쓰기</Button>
+                    <div className="d-flex justify-content-between mb-3">
+                        <Button variant="outline-dark" href="/productRegist">글쓰기</Button>
+                        <Dropdown align="end">
+                            <Dropdown.Toggle variant="outline-secondary">
+                                {selectedSort}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => handleSort("sales", "판매 순")}>판매 순</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleSort("priceLow", "가격 낮은 순")}>가격 낮은 순</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleSort("discount", "할인율 순")}>할인율 순</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleSort("reviews", "리뷰 순")}>리뷰 많은 순</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
                     <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
                         {resArr && resArr.map((item, index) => (
                             <div className="col mb-5" key={index}>

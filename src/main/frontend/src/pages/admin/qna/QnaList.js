@@ -24,7 +24,7 @@ function QnaList() {
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
         } catch (error) {
-            console.error("Error fetching fetchData", error);
+            console.error("Error fetching fetchData", error.response ? error.response.data : error);
         }
     };
 

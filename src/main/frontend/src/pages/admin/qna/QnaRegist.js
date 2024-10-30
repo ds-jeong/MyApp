@@ -30,7 +30,7 @@ function QnaRegist() {
                 navigate('/qnaList');
             })
             .catch(error => {
-                console.error('Error submitting post: ', error);
+                console.error('Error submitting post: ', error.response ? error.response.data : error);
             });
     };
 
