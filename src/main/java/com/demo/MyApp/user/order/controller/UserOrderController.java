@@ -26,7 +26,7 @@ public class UserOrderController {
     private UserProductService userProductService;
 
     @GetMapping("/orderCartItemDetail")
-    public List<Map<String,Object>> orderCartItemDetail(@RequestParam("id") Long id, @RequestParam("cartItemIds") String cartItemIds, @RequestParam("cartItemQuantitys") String cartItemQuantitys) throws Exception{
+    public List<Map<String,Object>> orderCartItemDetail(@RequestParam("id") Long id, @RequestParam("cartItemIds") String cartItemIds, @RequestParam(value = "cartItemQuantitys", required = false) String cartItemQuantitys) throws Exception{
 
         if (cartItemIds == null || cartItemIds.isEmpty()) {
             throw new IllegalArgumentException("No cart item IDs provided.");
@@ -35,6 +35,10 @@ public class UserOrderController {
         List<Long> cartItemIdList = Arrays.stream(cartItemIds.split(","))
                 .map(Long::valueOf)
                 .collect(Collectors.toList());
+
+        if (cartItemQuantitys == null || cartItemQuantitys.isEmpty()) {
+            throw new IllegalArgumentException("No cart item Quantitys provided.");
+        }
 
         List<Long> cartItemQuantityList = Arrays.stream(cartItemQuantitys.split(","))
                 .map(Long::valueOf)

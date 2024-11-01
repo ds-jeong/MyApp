@@ -30,8 +30,6 @@ const Order = () => {
     const [customDomain, setCustomDomain] = useState(''); /* 직접 입력된 도메인 상태 */
     const navigate = useNavigate();
 
-    console.log("wwwwww?? " + cartItemQuantitys);
-
     /* 장바구니 상품 조회 */
     useEffect(() => {
         const fetchData = async () => {
