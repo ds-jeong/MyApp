@@ -108,6 +108,7 @@ const Header = () => {
                     window.localStorage.removeItem('userData');
                     window.localStorage.removeItem('type');
                     window.localStorage.removeItem('state');
+                    localStorage.removeItem('likes'); // 좋아요 상태도 삭제
                     setIsAuthenticated(false);  // 상태 업데이트
                 }
                 window.location.replace('/');
@@ -122,6 +123,7 @@ const Header = () => {
             /* localStorage에서 JWT 토큰 삭제 */
             window.localStorage.removeItem('token');
             window.localStorage.removeItem('userData');
+            localStorage.removeItem('likes'); // 좋아요 상태도 삭제
 
             /* 로그아웃 후 로그인 페이지로 리디렉션 */
             window.location.replace('/login');

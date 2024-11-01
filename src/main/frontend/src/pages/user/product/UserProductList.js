@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {Button, Card, CardBody, CardFooter, CardImg, Container, Dropdown } from "react-bootstrap";
+import { FaHeart } from "react-icons/fa"; // 하트 아이콘 추가
 import {formatPrice} from '../../../utils/formatUtils';
 import ReactPaginate from "react-paginate";
 
@@ -14,23 +15,33 @@ function UserProductList() {
     const pageSize = 10;
     const [sortOption, setSortOption] = useState("default");
     const [selectedSort, setSelectedSort] = useState("정렬 기준"); // 초기값 설정
+    const [userId, setUserId] = useState();
+    const [productId, setProductId] = useState();
+    const [likes, setLikes] = useState({}); // 각 제품의 좋아요 상태를 저장할 객체
 
-
+    //product Rendering
     useEffect(() => {
-        fetchData(currentPage);
-    }, [currentPage]);
+        const fetchData = async (currentPage) => {
+            try {
+                const response = await axios.get(`/user/product/userProductList?page=${currentPage}&size=${pageSize}`);
+                setResArr(response.data.content);
+                setPageCount(response.data.totalPages);
+            } catch (error) {
+                console.error("Error fetching fetchData", error);
+            }
+        };
 
-    const fetchData = async (currentPage) => {
-        try {
-            const response = await axios.get(`/user/product/userProductList?page=${currentPage}&size=${pageSize}`);
-            setResArr(response.data.content);
-            setPageCount(response.data.totalPages);
-            // const response = await axios.post(`/user/product/userProductList`);
-            // setResArr(response.data);
-        } catch (error) {
-            console.error("Error fetching fetchData", error);
-        }
-    };
+        fetchData(currentPage);
+    }, [currentPage]); //페이지 변경 시 마다 실행
+
+    //userId setting
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        const userInfo = userData?.userInfo;
+        setUserId(userInfo?.id); // userId를 설정
+        console.log(userId); // 업데이트된 userId 로그
+    }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+
 
     const handlePageClick = (data) => {
         setCurrentPage(data.selected);
@@ -44,49 +55,78 @@ function UserProductList() {
         e.target.src = defaultImg; // 이미지 로드 오류 발생 시 기본 이미지로 교체
     };
 
-    // useEffect(async () => {
-    //     const fetchData = async () => {
-    //         const res = await axios.get(...)
-    //         if (res.data.type === 'liked') setLike(true)
-    //     }
-    //     fetchData()
-    // }, []);
+    // 좋아요 여부를 백엔드에서 불러오기 (로그인한 사용자에 따라 한 번만 적용)
+    useEffect(() => {
+        console.log(likes);
+        const fetchLikes = async () => {
+            try {
+                const response = await axios.get('/user/like/likedProducts', {
+                    headers: { Authorization: `Bearer ${token}` },
+                    params: {
+                        userId: userId,
+                    }
+                });
 
-    // const toggleLike = async (e) => {
-    //     const res = await axios.post(...) // [POST] 사용자가 좋아요를 누름 -> DB 갱신
-    //     setLike(!like)
-    // }
-    const [like, setLike] = useState(false);
-    // const [userId, setUserId] = useState('');
-    // const [productId, setProductId] = useState('');
-    const handleToggleLike = (e) => {
-        try {
-            // 서버에 로그아웃 요청 보내기
-            if (token) {
-                // const productId = e.target.getAttribute('data-custom');
-                //
-                // axios.post('/user/cart/addItemToCart', formData)
-                //     .then(response => {
-                //         alert("장바구니에 추가되었습니다");
-                //         /* useHistory import 안되면 아래 코드로 수정해서 반영 */
-                //         /* 응답을 받고 제품 등록화면으로 돌아감 */
-                //         navigate(`/productDetail/${params.id}`);
-                //     })
-                //     .catch(error => {
-                //         console.error('Error submitting post: ', error);
-                //     });
-                // await axios.post('/user/cart/cartItemList', null, {
-                //     params: {token}
-                // });
+                const fetchedLikesArray = response.data; // 예: [5, 1]
+                const fetchedLikes = {};
+                // 배열을 객체로 변환(likes 여부에 따라 하트 비우거나 채움)
+                fetchedLikesArray.forEach(productId => {
+                    fetchedLikes[productId] = true; // 해당 ID에 대해 좋아요가 true로 설정
+                });
+
+                setLikes(fetchedLikes);
+                console.log(fetchedLikes);
+                localStorage.setItem('likes', JSON.stringify(fetchedLikes));
+            } catch (error) {
+                console.error("Error fetching likes data", error);
             }
-
-            // 로그아웃 후 로그인 페이지로 리디렉션
-            //window.location.replace('/login');
-
-        } catch (error) {
-            console.error('Logout error:', error);
         }
-    }
+
+        if (userId) { // userId가 존재할 때만 fetchLikes 호출
+            fetchLikes();
+        }
+    }, [userId]);
+
+    // 페이지 새로고침 시 localStorage에서 좋아요 상태 불러오기
+    useEffect(() => {
+        const storedLikes = localStorage.getItem('likes');
+        if (storedLikes) {
+            setLikes(JSON.parse(storedLikes));
+        }
+    }, []);
+
+    // 좋아요 토글 핸들러
+    const handleToggleLike = async (productId) => {
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            navigate("/login"); // 로그인 페이지로 리디렉션
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `/user/like/toggleLike`,
+                {
+                    userId: userId,
+                    productId: productId
+                }, // POST 요청 본문은 비워둠
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setLikes((prevLikes) => {
+                const updatedLikes = {
+                    ...prevLikes,
+                    [productId]: !prevLikes[productId], // 기존의 상태를 바탕으로 업데이트
+                };
+                // localStorage에 좋아요 상태 저장
+                localStorage.setItem('likes', JSON.stringify(updatedLikes));
+                return updatedLikes; // 새로운 상태 반환
+            });
+        } catch (error) {
+            console.error("Error toggling favorite", error);
+        }
+    };
+
 
     const handleToggleCart = (e) => {
         try {
@@ -165,7 +205,15 @@ function UserProductList() {
                                                     View options1
                                                 </Link>
                                             </Button>
+                                            <Button
+                                                variant="link"
+                                                className="favorite-button"
+                                                onClick={() => handleToggleLike(item.id)}
+                                            >
+                                                <FaHeart color={likes[item.id] ? "red" : "grey"} />
+                                            </Button>
                                         </div>
+
                                         {/*<div className="text-center">*/}
                                         {/*    <CartButton like={like} productId={item.id} onClick={handleToggleCart}/>*/}
                                         {/*    <LikeButton like={like} productId={item.id} onClick={handleToggleLike}/>*/}

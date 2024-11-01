@@ -24,6 +24,7 @@ public class Favorite {
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private Long likeCnt;
