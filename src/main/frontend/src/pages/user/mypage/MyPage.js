@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import {Button, Container, Form} from "react-bootstrap";
+import React, {useState} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './MyPage.css';
 import OrderHistory from './orderHistory/OrderHistory';
+import MyReviews from './myReviews/MyReviews';
 
 function MyPage() {
 
@@ -14,6 +14,8 @@ function MyPage() {
                 return <div><OrderHistory/></div>;
             case 'favorites':
                 return <div>관심 상품 내용</div>;
+            case 'myReviews':
+                return <div><MyReviews/></div>;
             default:
                 return null;
         }
@@ -34,6 +36,12 @@ function MyPage() {
                     onClick={() => setActiveTab('favorites')}
                 >
                     관심 상품
+                </div>
+                <div
+                    className={`tab ${activeTab === 'myReviews' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('myReviews')}
+                >
+                    내가 쓴 리뷰
                 </div>
             </div>
             <div className="content">

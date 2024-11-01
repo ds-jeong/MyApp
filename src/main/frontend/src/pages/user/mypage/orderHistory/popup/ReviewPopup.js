@@ -44,7 +44,7 @@ const ReviewPopup = ({ product, show, onClose }) => {
         }
 
         try {
-            await axios.post('/user/review/insertReview', formData, {
+            await axios.post('/user/mypage/review/insertReview', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             alert("리뷰가 등록되었습니다.");
