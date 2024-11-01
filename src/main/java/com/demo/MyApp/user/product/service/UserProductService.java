@@ -16,12 +16,6 @@ public interface UserProductService {
 
     List<UserProductDto> favoriteProductList() throws Exception;
 
-    List<UserProductDto> lowerPriceProductList() throws Exception;
-
-    List<UserProductDto> higherViewsProductList() throws Exception;
-
-    List<UserProductDto> higherTotalSalesProductList() throws Exception;
-
     String getProductName(Long productId) throws Exception;
 
 }

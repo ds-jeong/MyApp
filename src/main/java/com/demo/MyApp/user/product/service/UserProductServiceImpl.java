@@ -54,7 +54,6 @@ public class UserProductServiceImpl implements UserProductService {
             Integer quantity = orderDetailRepository.sumQuantityByProductId(product.getProductId());
             if(quantity == null)
                 quantity = 0;
-            System.out.println("quantity" + quantity);
             dto.setSalesCount(quantity); // DTO에 판매수 설정
 
             // 리뷰수 가져오기 (ReviewRepository를 통해)
@@ -137,69 +136,6 @@ public class UserProductServiceImpl implements UserProductService {
     @Override
     public List<UserProductDto> favoriteProductList() throws Exception {
         List<Product> products = userProductRepository.findAllByOrderByFavoriteDesc();
-        List<UserProductDto> productDtoList = new ArrayList<>();
-        for (Product product : products) {
-            UserProductDto productDto = UserProductDto.builder()
-                    .id(product.getProductId())
-                    .productNm(product.getProductNm())
-                    .price(product.getPrice())
-                    .content(product.getContent())
-                    .author(product.getAuthor())
-                    .fileNm(product.getFileNm())
-                    .filePath(product.getFilePath())
-                    .build();
-            productDtoList.add(productDto);
-        }
-
-        return productDtoList;
-    }
-
-    @Transactional
-    @Override
-    public List<UserProductDto> lowerPriceProductList() throws Exception {
-        List<Product> products = userProductRepository.findAllByOrderByPriceAsc();
-        List<UserProductDto> productDtoList = new ArrayList<>();
-        for (Product product : products) {
-            UserProductDto productDto = UserProductDto.builder()
-                    .id(product.getProductId())
-                    .productNm(product.getProductNm())
-                    .price(product.getPrice())
-                    .content(product.getContent())
-                    .author(product.getAuthor())
-                    .fileNm(product.getFileNm())
-                    .filePath(product.getFilePath())
-                    .build();
-            productDtoList.add(productDto);
-        }
-
-        return productDtoList;
-    }
-
-    @Transactional
-    @Override
-    public List<UserProductDto> higherViewsProductList() throws Exception {
-        List<Product> products = userProductRepository.findAllByOrderByViewsDesc();
-        List<UserProductDto> productDtoList = new ArrayList<>();
-        for (Product product : products) {
-            UserProductDto productDto = UserProductDto.builder()
-                    .id(product.getProductId())
-                    .productNm(product.getProductNm())
-                    .price(product.getPrice())
-                    .content(product.getContent())
-                    .author(product.getAuthor())
-                    .fileNm(product.getFileNm())
-                    .filePath(product.getFilePath())
-                    .build();
-            productDtoList.add(productDto);
-        }
-
-        return productDtoList;
-    }
-
-    @Transactional
-    @Override
-    public List<UserProductDto> higherTotalSalesProductList() throws Exception {
-        List<Product> products = userProductRepository.findAllByOrderByTotalSalesDesc();
         List<UserProductDto> productDtoList = new ArrayList<>();
         for (Product product : products) {
             UserProductDto productDto = UserProductDto.builder()

@@ -51,7 +51,7 @@ export default class SimpleSlider extends Component {
                     <div key="index">
                         <img
                             className="resizeImg"
-                            src={`${process.env.PUBLIC_URL}/upload/img/${item.fileNm}`}
+                            src={`${item.filePath}`}
                             onError={handleImgError}
                         />
                     </div>

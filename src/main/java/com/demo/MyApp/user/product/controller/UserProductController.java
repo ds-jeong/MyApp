@@ -39,37 +39,19 @@ public class UserProductController {
         return userProductService.userProductDetail(id);
     }
 
+//    @GetMapping("/favoriteProductList")
+//    public List<UserProductDto> favoriteProductList(Model model) throws Exception{
+//        /* 사용자 > 메인페이지 슬라이더 */
+//        List<UserProductDto> list = userProductService.favoriteProductList();
+//        model.addAllAttributes(list);
+//        return list;
+//    }
     @GetMapping("/favoriteProductList")
-    public List<UserProductDto> favoriteProductList(Model model) throws Exception{
-        /* 사용자 > 메인페이지 슬라이더 */
-        List<UserProductDto> list = userProductService.favoriteProductList();
-        model.addAllAttributes(list);
-        return list;
+    public List<UserProductDto> favoriteProductList() throws Exception {
+        // 사용자 > 메인페이지 슬라이더
+        return userProductService.favoriteProductList();
     }
 
-    @GetMapping("/lowerPriceProductList")
-    public List<UserProductDto> lowerPriceProductList(Model model) throws Exception{
-        /* 사용자 > 메인페이지 슬라이더 */
-        List<UserProductDto> list = userProductService.lowerPriceProductList();
-        model.addAllAttributes(list);
-        return list;
-    }
-
-    @GetMapping("/higherViewsProductList")
-    public List<UserProductDto> higherViewsProductList(Model model) throws Exception{
-        /* 사용자 > 메인페이지 슬라이더 */
-        List<UserProductDto> list = userProductService.higherViewsProductList();
-        model.addAllAttributes(list);
-        return list;
-    }
-
-    @GetMapping("/higherTotalSalesProductList")
-    public List<UserProductDto> higherTotalSalesProductList(Model model) throws Exception{
-        /* 사용자 > 메인페이지 슬라이더 */
-        List<UserProductDto> list = userProductService.higherTotalSalesProductList();
-        model.addAllAttributes(list);
-        return list;
-    }
 
 
 
