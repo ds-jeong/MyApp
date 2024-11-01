@@ -33,4 +33,14 @@ public interface UserReviewRepository extends JpaRepository<Review, Long> {
             "JOIN Review r ON od.orderDetailId = r.orderDetail.orderDetailId " + // Review와 Product 사이의 조인 조건
             "WHERE o.user.id = :userId")
     List<Tuple> findReviewsByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT r.reviewId AS reviewId " +
+            ", r.title AS title " +
+            ", r.content AS content " +
+            ", r.rating AS rating " +
+            ", r.fileNm AS reviewImgNm " +
+            ", r.filePath AS reviewImgPath " +
+            ", DATE_FORMAT(r.createdAt, '%Y-%m-%d') AS createdAt " +
+            "FROM Review r WHERE r.product.productId = :productId")
+    List<Tuple> findReviewsByProductId(@Param("productId") Long productId);
 }

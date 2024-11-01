@@ -1,0 +1,126 @@
+/*.review-list {*/
+/*    padding: 20px;*/
+/*    background-color: #f9f9f9;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
+/*    max-width: 800px;*/
+/*    margin: auto;*/
+/*}*/
+
+/*.review-title {*/
+/*    font-size: 24px;*/
+/*    margin-bottom: 20px;*/
+/*    color: #333;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.no-reviews {*/
+/*    text-align: center;*/
+/*    color: #666;*/
+/*    font-style: italic;*/
+/*}*/
+
+/*.review-card {*/
+/*    background-color: #fff;*/
+/*    border-radius: 8px;*/
+/*    padding: 15px;*/
+/*    margin-bottom: 15px;*/
+/*    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.review-header {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.review-author {*/
+/*    font-weight: bold;*/
+/*    color: #007bff;*/
+/*}*/
+
+/*.review-date {*/
+/*    font-size: 0.9em;*/
+/*    color: #888;*/
+/*}*/
+
+/*.review-rating {*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.star {*/
+/*    color: #ddd;*/
+/*    font-size: 18px;*/
+/*}*/
+
+/*.star.filled {*/
+/*    color: #ffcc00;*/
+/*}*/
+
+/*.review-content {*/
+/*    font-size: 1em;*/
+/*    color: #444;*/
+/*    line-height: 1.5;*/
+/*}*/
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 1rem;
+}
+
+.review-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.review-date {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.review-rating {
+    margin: 0.5rem 0;
+}
+
+.star {
+    font-size: 1.2rem;
+    color: #ddd; /* 비어 있는 별 색상 */
+}
+
+.star.filled {
+    color: #ffcc00; /* 채워진 별 색상 */
+}
+
+.review-content {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.review-image {
+    margin-top: 0.5rem;
+    text-align: center; /* 이미지 중앙 정렬 */
+}
+
+.review-image img {
+    max-width: 100%; /* 이미지 최대 너비 설정 */
+    border-radius: 4px;
+}

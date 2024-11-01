@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/product")
@@ -71,6 +72,10 @@ public class UserProductController {
         return list;
     }
 
-
+    @PostMapping("/review/reviewsList")
+    public List<Map<String, Object>> reviewsList(@RequestParam("productId") Long productId) throws Exception{
+        /* 사용자 > 상품상세 > 리뷰 */
+        return userProductService.reviewsList(productId);
+    }
 
 }

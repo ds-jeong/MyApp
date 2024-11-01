@@ -6,6 +6,7 @@ import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.user.product.dto.UserProductDto;
 import com.demo.MyApp.user.product.repository.UserProductRepository;
 import com.demo.MyApp.user.review.repository.UserReviewRepository;
+import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -219,6 +218,32 @@ public class UserProductServiceImpl implements UserProductService {
 
     public String getProductName(Long productId) throws Exception {
         return userProductRepository.findProductNmByProductId(productId);
+    }
+
+    @Override
+    public List<Map<String, Object>> reviewsList(Long productId) throws Exception {
+
+        /* 리뷰정보 */
+        List<Tuple> reviews = userReviewRepository.findReviewsByProductId(productId);
+
+        List<Map<String, Object>> reviewsList = new ArrayList<>();
+
+        /* 리뷰정보를 map에 매핑 */
+        for (Tuple review : reviews) {
+            Map<String, Object> reviewDetailMap = new HashMap<>();
+            reviewDetailMap.put("reviewId", review.get("reviewId"));
+            reviewDetailMap.put("title", review.get("title"));
+            reviewDetailMap.put("content", review.get("content"));
+            reviewDetailMap.put("rating", review.get("rating"));
+            reviewDetailMap.put("reviewImgNm", review.get("reviewImgNm"));
+            reviewDetailMap.put("reviewImgPath", review.get("reviewImgPath"));
+            reviewDetailMap.put("createdAt", review.get("createdAt"));
+
+            reviewsList.add(reviewDetailMap);
+        }
+
+        return reviewsList;
+
     }
 
 }

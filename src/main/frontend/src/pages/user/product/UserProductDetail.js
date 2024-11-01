@@ -271,7 +271,7 @@ function ProductDetail() {
                     </Col>
                 </Row>
             </Form>
-            <UserProductDetailTaps />
+            <UserProductDetailTaps productId={resArr.productId}/>
         </Container>
     );
 }

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './UserProductDetailTaps.css';
-import {Container, Row, Col, Button, Image, Form, CardImg, FormControl} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import UserReview from '../review/UserReview';
 
-const UserProductDetailTaps = () => {
+const UserProductDetailTaps = ({ productId }) => {
     const [activeTab, setActiveTab] = useState('details');
 
     const renderContent = () => {
@@ -10,7 +11,7 @@ const UserProductDetailTaps = () => {
             case 'details':
                 return <div>상품 상세보기 내용</div>;
             case 'reviews':
-                return <div><h2>리뷰</h2></div>;
+                return <div><UserReview productId={productId} /></div>;
             default:
                 return null;
         }

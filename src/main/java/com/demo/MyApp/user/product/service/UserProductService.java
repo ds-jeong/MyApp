@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserProductService {
 
@@ -24,4 +25,5 @@ public interface UserProductService {
 
     String getProductName(Long productId) throws Exception;
 
+    List<Map<String, Object>> reviewsList(Long productId) throws Exception;
 }
