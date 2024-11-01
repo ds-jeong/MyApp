@@ -17,6 +17,7 @@ const Order = () => {
     /* 장바구니에서 전달 된 파라미터 */
     const queryParams = new URLSearchParams(location.search);
     const cartItemIds = queryParams.get('cartItemIds'); /* 장바구니에 담긴 상품 */
+    const cartItemQuantitys = queryParams.get('cartItemQuantitys'); /* 장바구니에 담긴 상품 */
 
     /* 구매하기에서 전달 된 데이터 */
     const buyProduct = { ...location.state };
@@ -29,7 +30,7 @@ const Order = () => {
     const [customDomain, setCustomDomain] = useState(''); /* 직접 입력된 도메인 상태 */
     const navigate = useNavigate();
 
-
+    console.log("wwwwww?? " + cartItemQuantitys);
 
     /* 장바구니 상품 조회 */
     useEffect(() => {
@@ -38,7 +39,7 @@ const Order = () => {
                 /* 장바구니 */
                 if(cartItemIds) {
                     const response = await axios.get('/user/order/orderCartItemDetail', {
-                        params: {id, cartItemIds},
+                        params: {id, cartItemIds, cartItemQuantitys},
                     });
                     setResArr(response.data);
                     setValue('id', id); // Set the order ID

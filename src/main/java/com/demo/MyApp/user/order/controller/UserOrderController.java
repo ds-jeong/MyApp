@@ -26,7 +26,7 @@ public class UserOrderController {
     private UserProductService userProductService;
 
     @GetMapping("/orderCartItemDetail")
-    public List<Map<String,Object>> orderCartItemDetail(@RequestParam("id") Long id, @RequestParam("cartItemIds") String cartItemIds) throws Exception{
+    public List<Map<String,Object>> orderCartItemDetail(@RequestParam("id") Long id, @RequestParam("cartItemIds") String cartItemIds, @RequestParam("cartItemQuantitys") String cartItemQuantitys) throws Exception{
 
         if (cartItemIds == null || cartItemIds.isEmpty()) {
             throw new IllegalArgumentException("No cart item IDs provided.");
@@ -36,8 +36,12 @@ public class UserOrderController {
                 .map(Long::valueOf)
                 .collect(Collectors.toList());
 
+        List<Long> cartItemQuantityList = Arrays.stream(cartItemQuantitys.split(","))
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+
         /* 사용자 > 장바구니 > 선택 상품 */
-        return userOrderService.orderCartItemDetail(id, cartItemIdList);
+        return userOrderService.orderCartItemDetail(id, cartItemIdList, cartItemQuantityList);
     }
 
     @PostMapping("/insertOrder")

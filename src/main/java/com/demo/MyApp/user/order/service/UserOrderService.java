@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface UserOrderService {
 
-    List<Map<String,Object>> orderCartItemDetail(Long id, List<Long> cartItemIdList) throws Exception;
+    List<Map<String,Object>> orderCartItemDetail(Long id, List<Long> cartItemIdList, List<Long> cartItemQuantityList) throws Exception;
 
     Order insertOrder(UserOrderDto userOrderDto) throws Exception;
 

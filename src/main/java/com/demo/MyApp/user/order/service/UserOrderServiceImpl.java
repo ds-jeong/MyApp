@@ -69,13 +69,16 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     @Override
-    public List<Map<String,Object>> orderCartItemDetail(Long id, List<Long> cartItemIds) throws Exception {
+    public List<Map<String,Object>> orderCartItemDetail(Long id, List<Long> cartItemIds, List<Long> cartItemQuantityList) throws Exception {
 
         /* 결과를 담을 List */
         List<Map<String,Object>> result = new ArrayList<>();
 
         /* 선택된 CartItem에 대한 정보를 조회 */
-        for (Long cartItemId : cartItemIds) {
+        for (int i = 0; i < cartItemIds.size(); i++) {
+            Long cartItemId = cartItemIds.get(i); // 현재 cartItemId
+            Long quantity = cartItemQuantityList.get(i); // 현재 수량
+
             CartItem cartItem = cartItemRepository.findById(cartItemId)
                     .orElseThrow(() -> new RuntimeException("CartItem not found"));
 
@@ -88,13 +91,32 @@ public class UserOrderServiceImpl implements UserOrderService {
             cartItemDetail.put("productNm", product.getProductNm());
             cartItemDetail.put("filePath", product.getFilePath());
             cartItemDetail.put("shipping", product.getShipping());
-            cartItemDetail.put("quantity", cartItem.getQuantity());
+            cartItemDetail.put("quantity", quantity); // cartItemQuantityList에서 가져온 수량
             cartItemDetail.put("price", product.getPrice());
-            cartItemDetail.put("totalPrice", cartItem.getQuantity() * product.getPrice());
+            cartItemDetail.put("totalPrice", quantity * product.getPrice()); // 수량과 가격을 곱하여 총 가격 계산
 
             result.add(cartItemDetail);
-
         }
+//        for (Long cartItemId : cartItemIds) {
+//            CartItem cartItem = cartItemRepository.findById(cartItemId)
+//                    .orElseThrow(() -> new RuntimeException("CartItem not found"));
+//
+//            /* 상품정보 */
+//            Product product = cartItem.getProduct(); /* CartItem에서 Product를 get */
+//
+//            /* Map에 주문내역 정보 put */
+//            Map<String, Object> cartItemDetail = new HashMap<>();
+//            cartItemDetail.put("productId", product.getProductId());
+//            cartItemDetail.put("productNm", product.getProductNm());
+//            cartItemDetail.put("filePath", product.getFilePath());
+//            cartItemDetail.put("shipping", product.getShipping());
+//            cartItemDetail.put("quantity", cartItem.getQuantity());
+//            cartItemDetail.put("price", product.getPrice());
+//            cartItemDetail.put("totalPrice", cartItem.getQuantity() * product.getPrice());
+//
+//            result.add(cartItemDetail);
+//
+//        }
         return result;
     }
 
