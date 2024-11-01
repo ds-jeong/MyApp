@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +46,19 @@ public class FavoriteServiceImpl implements FavoriteService {
             favorite.setUser(user);
             favorite.setProduct(product);
             favoriteRepository.save(favorite);
+            //like_cnt 지워도될지 논의
         }
+    }
+
+    @Override
+    public List<Long> likedProducts(Long userId) {
+        List<Favorite> favoriteList = favoriteRepository.findByUserId(userId);
+        List<Long> productIdList = new ArrayList<>();
+        //favorite 객체 -> product -> productId 추출
+        for(Favorite favorite : favoriteList) {
+            productIdList.add(favorite.getProduct().getProductId());
+        }
+
+        return productIdList;
     }
 }
