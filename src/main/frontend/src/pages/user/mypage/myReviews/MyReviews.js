@@ -40,6 +40,7 @@ const MyReviews = () => {
                     <div className="header-item">상품명</div>
                     <div className="header-item">제목</div>
                     <div className="header-item">내용</div>
+                    <div className="header-item">리뷰 이미지</div>
                     <div className="header-item">별점</div>
                 </div>
                 <div className="order-items">
@@ -53,7 +54,10 @@ const MyReviews = () => {
                             <div className="order-item">{item.title}</div>
                             <div className="order-item">{item.content}</div>
                             <div className="order-item">
-                                {Array.from({ length: 5 }, (v, i) => (
+                                <img src={item.reviewImgPath} alt={item.reviewImgNm} className="order-image"/>
+                            </div>
+                            <div className="order-item">
+                            {Array.from({ length: 5 }, (v, i) => (
                                     <span key={i} className={i < item.rating ? 'star filled' : 'star'}>
                                         ★
                                     </span>
