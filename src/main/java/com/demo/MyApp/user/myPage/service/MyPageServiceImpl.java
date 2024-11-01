@@ -31,6 +31,7 @@ public class MyPageServiceImpl implements MyPageService {
             orderDetailMap.put("orderId", order.get("orderId"));
             orderDetailMap.put("orderNumber", order.get("orderNumber"));
             orderDetailMap.put("orderDate", order.get("orderDate"));
+            orderDetailMap.put("orderDetailId", order.get("orderDetailId"));
             orderDetailMap.put("state", order.get("state"));
             orderDetailMap.put("quantity", order.get("quantity"));
             orderDetailMap.put("productId", order.get("productId"));

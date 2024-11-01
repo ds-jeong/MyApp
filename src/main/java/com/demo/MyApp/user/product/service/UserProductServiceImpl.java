@@ -5,7 +5,7 @@ import com.demo.MyApp.admin.product.dto.ProductDto;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.user.product.dto.UserProductDto;
 import com.demo.MyApp.user.product.repository.UserProductRepository;
-import com.demo.MyApp.user.review.repository.ReviewRepository;
+import com.demo.MyApp.user.review.repository.UserReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UserProductServiceImpl implements UserProductService {
     private final OrderDetailRepository orderDetailRepository;
 
     @Autowired
-    private final ReviewRepository reviewRepository;
+    private final UserReviewRepository userReviewRepository;
 
     @Override
     public Page<UserProductDto> userProductList(Pageable pageable) throws Exception {
@@ -58,7 +58,7 @@ public class UserProductServiceImpl implements UserProductService {
             dto.setSalesCount(quantity); // DTO에 판매수 설정
 
             // 리뷰수 가져오기 (ReviewRepository를 통해)
-            int reviewCount = reviewRepository.countByOrderDetail_Product_ProductId(product.getProductId()); // Review 엔티티에서 리뷰수 조회
+            int reviewCount = userReviewRepository.countByOrderDetail_Product_ProductId(product.getProductId()); // Review 엔티티에서 리뷰수 조회
             dto.setReviewCount(reviewCount); // DTO에 리뷰수 설정
 
             // DTO 리스트에 추가

@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef } from 'react';
 import './OrderHistory.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import ReviewPopup from './popup/ReviewPopup';
 
-// 주문번호 별로 상품 그룹화 함수
+/* 주문번호 별로 상품 그룹화 함수 */
 const groupByOrderId = (arr) => {
     return arr.reduce((acc, item) => {
         // 주문번호가 존재하지 않는 경우 새 배열 생성
@@ -44,12 +45,22 @@ const OrderHistory = () => {
         }
     };
 
-    // 주문번호별로 상품 그룹화
+    /* 주문번호별로 상품 그룹화 */
     const groupedOrders = groupByOrderId(resArr);
 
     const navigate = useNavigate();
     const handleProductDetail = (productId) => {
         navigate(`/userProductDetail/${productId}`);
+    };
+
+
+    /* 리뷰 제출 */
+    const [showReviewPopup, setShowReviewPopup] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const handleReviewButtonClick = (item) => {
+        setSelectedProduct(item);
+        setShowReviewPopup(true);
     };
 
     return (
@@ -70,15 +81,33 @@ const OrderHistory = () => {
                     <div className="order-items">
                         <div>주문번호: {orderId}</div>
                         {items.map((item) => (
-                            <div key={item.productId} className="order-card" onClick={() => handleProductDetail(item.productId)}>
+                            <div key={item.productId} className="order-card">
                                 <div className="order-item">{item.orderDate}</div>
                                 <div className="order-item">
-                                    <img src={item.filePath} alt={item.productNm} className="order-image"/>
+                                    <img src={item.filePath} alt={item.productNm} className="order-image" onClick={() => handleProductDetail(item.productId)}/>
                                 </div>
                                 <div className="order-item">{item.productNm}</div>
                                 <div className="order-item">{item.quantity}</div>
                                 <div className="order-item">{item.price}</div>
                                 <div className="order-item">{item.state}</div>
+                                {/* 조건부 렌더링을 통한 리뷰 작성 버튼 추가 */}
+                                {item.state === '주문완료' && (
+                                    <button onClick={() => handleReviewButtonClick(item)}>리뷰 작성</button>
+                                )}
+
+                                {selectedProduct && (
+                                    <ReviewPopup
+                                        product={{
+                                            productId: selectedProduct.productId,
+                                            productNm: selectedProduct.productNm,
+                                            filePath: selectedProduct.filePath,
+                                            orderDetailId: selectedProduct.orderDetailId,
+                                        }}
+                                        show={showReviewPopup}
+                                        onClose={() => setShowReviewPopup(false)}
+                                    />
+                                )}
+
                             </div>
                         ))}
                     </div>

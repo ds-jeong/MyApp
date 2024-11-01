@@ -19,6 +19,7 @@ public interface UserOrderDetailRepository extends JpaRepository<OrderDetail,Lon
             ", o.orderNumber AS orderNumber" +
             ", DATE_FORMAT(o.orderDate, '%Y-%m-%d') AS orderDate" +
             ", o.state AS state" +
+            ", od.orderDetailId AS orderDetailId" +
             ", od.quantity AS quantity" +
             ", p.productId AS productId" +
             ", p.price AS price" +
