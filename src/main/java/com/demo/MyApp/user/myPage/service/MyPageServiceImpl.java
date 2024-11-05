@@ -65,6 +65,7 @@ public class MyPageServiceImpl implements MyPageService {
             orderDetailMap.put("price", order.get("price"));
             orderDetailMap.put("filePath", order.get("filePath"));
             orderDetailMap.put("productNm", order.get("productNm"));
+            orderDetailMap.put("returnReqStatus", order.get("returnReqStatus"));
 
             orderHistoryList.add(orderDetailMap);
         }

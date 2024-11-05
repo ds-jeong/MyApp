@@ -121,8 +121,9 @@ const OrderHistory = () => {
                                         />
                                     )}
                                     {/* 반품 요청 버튼 */}
-                                    {item.state === '주문완료' && (
-                                        <button onClick={() => handleReturnButtonClick(item)}>반품 요청</button>
+                                    {/* returnReqStatus가 null, undefined, 빈 문자열일 때 또는 item.state가 '주문완료'일 때 */}
+                                    {((!item.returnReqStatus || item.returnReqStatus.trim() === '') && item.state === '주문완료') && (
+                                        <button onClick={() => handleReturnButtonClick(item)}>반품</button>
                                     )}
                                     {/* 반품 팝업 */}
                                     {selectedReturnProduct && (

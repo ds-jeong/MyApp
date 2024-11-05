@@ -25,9 +25,11 @@ public interface UserOrderDetailRepository extends JpaRepository<OrderDetail,Lon
             ", p.price AS price" +
             ", p.filePath AS filePath" +
             ", p.productNm AS productNm " +
+            ", r.status AS returnReqStatus " +
             "FROM Order o " +
             "JOIN o.orderDetails od " +
             "JOIN od.product p " +
+            "LEFT JOIN ReturnRequest r ON od.orderDetailId = r.orderDetail.orderDetailId " +
             "WHERE o.user.id = :userId")
     List<Tuple> findOrderDetailsByUserId(@Param("userId") Long userId);
 }
