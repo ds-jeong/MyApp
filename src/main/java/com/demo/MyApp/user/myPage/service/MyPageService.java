@@ -1,5 +1,6 @@
 package com.demo.MyApp.user.myPage.service;
 
+import com.demo.MyApp.user.returnRequst.dto.UserReturnRequestDto;
 import com.demo.MyApp.user.review.dto.UserReviewDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,4 +13,6 @@ public interface MyPageService {
     void insertReview(UserReviewDto userReviewDto, MultipartFile file) throws Exception;
 
     List<Map<String, Object>> myReviewsList(Long id) throws Exception;
+
+    void insertReturnRequst(UserReturnRequestDto returnRequestDto) throws Exception;
 }

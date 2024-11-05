@@ -1,9 +1,17 @@
 package com.demo.MyApp.user.myPage.service;
 
+import com.demo.MyApp.admin.order.entity.Order;
 import com.demo.MyApp.admin.order.entity.OrderDetail;
+import com.demo.MyApp.admin.order.entity.OrderStatus;
+import com.demo.MyApp.admin.order.entity.OrderStatusHist;
 import com.demo.MyApp.admin.product.entity.Product;
+import com.demo.MyApp.admin.returnRequest.entity.ReturnRequest;
+import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.config.aws.s3.S3Uploader;
 import com.demo.MyApp.user.order.repository.UserOrderDetailRepository;
+import com.demo.MyApp.user.order.repository.UserOrderStatusHistRepository;
+import com.demo.MyApp.user.returnRequst.dto.UserReturnRequestDto;
+import com.demo.MyApp.user.returnRequst.repository.UserReturnRequestRepository;
 import com.demo.MyApp.user.review.dto.UserReviewDto;
 import com.demo.MyApp.user.review.entity.Review;
 import com.demo.MyApp.user.review.repository.UserReviewRepository;
@@ -13,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +38,12 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Autowired
     private UserReviewRepository userReviewRepository;
+
+    @Autowired
+    private UserReturnRequestRepository userReturnRequestRepository;
+
+    @Autowired
+    private UserOrderStatusHistRepository userOrderStatusHistRepository;
 
     @Override
     public List<Map<String, Object>> orderHistory(Long id) throws Exception {
@@ -128,5 +143,49 @@ public class MyPageServiceImpl implements MyPageService {
 
 
         return reviewList;
+    }
+
+    @Transactional
+    @Override
+    public void insertReturnRequst(UserReturnRequestDto userReturnRequestDto) throws Exception {
+
+        /* 주문상세정보 */
+        OrderDetail orderDetail = userOrderDetailRepository.findById(userReturnRequestDto.getOrderDetailId())
+                .orElseThrow(() -> new RuntimeException("orderDetailId not found"));;
+
+        /* 주문정보 */
+        Order order = orderDetail.getOrder();
+
+        /* 유저정보 */
+        User user = order.getUser();
+
+        /* 반품정보 저장 */
+        /* DTO를 Entity로 변환하여 save() 메소드에 담아 데이터 삽입 */
+        ReturnRequest returnRequest = ReturnRequest.toEntity(userReturnRequestDto);
+        returnRequest.setStatus(OrderStatus.RETURN_PENDING); /* 반품접수 */
+        returnRequest.setReason(userReturnRequestDto.getReason());
+        returnRequest.setCreatedAt(userReturnRequestDto.getCreatedAt());
+        returnRequest.setUpdatedAt(userReturnRequestDto.getUpdatedAt());
+        returnRequest.setOrderDetail(orderDetail);
+        returnRequest.setOrder(order);
+        returnRequest.setUser(user);
+
+
+        userReturnRequestRepository.save(returnRequest);
+
+        /* 주문상태 업데이트 주문테이블 상태값 수정 (추후 진행예정)
+         상태 로직 > 결제, 결제취소 - 주문,주문취소 - 발송 - 배송중 - 배송완료, 반품접수 - 반품발송 - 반품완료 */
+
+
+        /* 이력 저장 */
+        OrderStatusHist orderStatusHist = new OrderStatusHist();
+        orderStatusHist.setOrderDetail(orderDetail);
+        orderStatusHist.setStatus(OrderStatus.RETURN_PENDING); /* 반품접수 */
+        orderStatusHist.setCreatedAt(LocalDateTime.now());
+        orderStatusHist.setUpdatedAt(LocalDateTime.now());
+        orderStatusHist.setUser(user);
+
+        userOrderStatusHistRepository.save(orderStatusHist);
+
     }
 }

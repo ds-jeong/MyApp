@@ -44,11 +44,15 @@ const ReviewPopup = ({ product, show, onClose }) => {
         }
 
         try {
-            await axios.post('/user/mypage/review/insertReview', formData, {
+            const response = await axios.post('/user/mypage/review/insertReview', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            alert("리뷰가 등록되었습니다.");
-            onClose();
+            if (response.status === 200) {
+                alert("리뷰가 등록되었습니다.");
+                onClose();
+            } else {
+                alert('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
+            }
         } catch (error) {
             console.error('Error submitting review:', error);
             if (error){

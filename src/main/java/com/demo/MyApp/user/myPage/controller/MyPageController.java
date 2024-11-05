@@ -1,6 +1,7 @@
 package com.demo.MyApp.user.myPage.controller;
 
 import com.demo.MyApp.user.myPage.service.MyPageService;
+import com.demo.MyApp.user.returnRequst.dto.UserReturnRequestDto;
 import com.demo.MyApp.user.review.dto.UserReviewDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,4 +34,11 @@ public class MyPageController {
         /* 사용자 > 마이페이지 > 내가 쓴 리뷰 */
         return myPageService.myReviewsList(id);
     }
+
+    @PostMapping("/returnRequst/insertReturnRequst")
+    public void insertReturnRequst(@ModelAttribute UserReturnRequestDto returnRequestDto) throws Exception{
+        /* 사용자 > 마이페이지 > 주문내역 > 반품 */
+        myPageService.insertReturnRequst(returnRequestDto);
+    }
+
 }
