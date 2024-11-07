@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface UserProductService {
 
-    Page<UserProductDto> userProductList(Pageable pageable) throws Exception;
+    Page<UserProductDto> userProductList(Pageable pageable, String category) throws Exception;
 //    List<UserProductDto> userProductList() throws Exception;
 
     ProductDto userProductDetail(Long id) throws Exception;

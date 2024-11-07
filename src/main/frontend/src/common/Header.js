@@ -163,9 +163,9 @@ const Header = () => {
                             </NavItem>
                             <NavDropdown title="Shop" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="/userProductList">All Products</NavDropdown.Item>
-                                <NavDropdown.Item href="/top">Top</NavDropdown.Item>
-                                <NavDropdown.Item href="/bottom">Bottom</NavDropdown.Item>
-                                <NavDropdown.Item href="/acc">Acc</NavDropdown.Item>
+                                <NavDropdown.Item href="/userProductList/top">Top</NavDropdown.Item>
+                                <NavDropdown.Item href="/userProductList/bottom">Bottom</NavDropdown.Item>
+                                <NavDropdown.Item href="/userProductList/acc">Acc</NavDropdown.Item>
                             </NavDropdown>
                             <NavItem>
                                 <NavLink href="/qnaList">Q&A</NavLink>

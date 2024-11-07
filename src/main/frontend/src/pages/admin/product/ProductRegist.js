@@ -15,6 +15,21 @@ function ProductRegist() {
     const fileRef = useRef();
     const navigate = useNavigate();
 
+    const [subCategoryVisible, setSubCategoryVisible] = useState(false);
+    const [selectedSubCategory, setSelectedSubCategory] = useState('');
+
+    const handleCategoryChange = () => {
+        const selectedCategory = categoryRef.current.value;
+        // "의류"가 선택되었을 때만 하위 카테고리 드롭다운을 표시
+        setSubCategoryVisible(selectedCategory === 'clothing');
+        // setSelectedSubCategory(''); // Reset subcategory when main category changes
+    };
+
+    const handleSubCategoryChange = (e) => {
+        setSelectedSubCategory(e.target.value);
+    };
+
+
     const handleSubmit = event => {
 
         event.preventDefault();
@@ -29,6 +44,10 @@ function ProductRegist() {
         formData.append('content', contentRef.current.value);
         formData.append('author', authorRef.current.value);
         formData.append('file', fileRef.current.files[0]);
+        if (subCategoryVisible && selectedSubCategory) {
+            formData.append('subCategory', selectedSubCategory);
+        }
+
 
         axios.post(`/admin/product/insertProduct`, formData, {
             headers: {
@@ -72,7 +91,7 @@ function ProductRegist() {
 
                     <Form.Group controlId="formCategory">
                         <Form.Label>상품종류</Form.Label>
-                        <Form.Control as="select" style={{width: '100px', height: '35px'}} ref={categoryRef}>
+                        <Form.Control as="select" style={{width: '100px', height: '35px'}} ref={categoryRef} onChange={handleCategoryChange}>
                             <option value="clothing">의류</option>
                             <option value="electronics">전자제품</option>
                             <option value="books">책</option>
@@ -80,6 +99,24 @@ function ProductRegist() {
                             <option value="toys">장난감</option>
                         </Form.Control>
                     </Form.Group>
+
+                    {/* "의류"가 선택되었을 때만 하위 카테고리 드롭다운을 표시 */}
+                    {subCategoryVisible && (
+                        <Form.Group controlId="formSubCategory" style={{ marginTop: '10px' }}>
+                            <Form.Label>세부 카테고리</Form.Label>
+                            <Form.Control
+                                as="select"
+                                style={{ width: '100px', height: '35px' }}
+                                value={selectedSubCategory}
+                                onChange={handleSubCategoryChange}
+                            >
+                                <option value="">선택</option>
+                                <option value="top">Top</option>
+                                <option value="bottom">Bottom</option>
+                                <option value="acc">Acc</option>
+                            </Form.Control>
+                        </Form.Group>
+                    )}
 
                     <Form.Group controlId="formAuthor">
                         <Form.Label>작성자</Form.Label>

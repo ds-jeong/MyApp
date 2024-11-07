@@ -18,7 +18,7 @@ const Payment = () => {
         }
 
         /* 1. 가맹점 식별하기 */
-        const { IMP } = window;
+        const {IMP} = window;
         IMP.init("imp00224460");
 
         /*2. 결제 데이터 정의하기*/
@@ -35,8 +35,12 @@ const Payment = () => {
             buyer_postcode: orderData.zonecode,           // 구매자 우편번호
         }
 
+        try {
         /* 4. 결제 창 호출하기 */
-        IMP.request_pay(data, callback);
+            IMP.request_pay(data, callback);
+        } catch(error) {
+            console.log('imp 호출 에러' + error);
+        }
 
         /* 3. 콜백 함수 정의하기 */
         function callback(response) {

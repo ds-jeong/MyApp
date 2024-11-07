@@ -19,4 +19,5 @@ public class ProductDto {
     private  String fileNm;
     private  String filePath;
     private  String category;
+    private String subCategory;
 }
