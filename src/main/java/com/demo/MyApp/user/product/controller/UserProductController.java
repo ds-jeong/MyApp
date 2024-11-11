@@ -22,11 +22,13 @@ public class UserProductController {
 
     @GetMapping("/userProductList")
     public Page<UserProductDto> userProductList(Model model
+            , @RequestParam(value = "category", required = false) String category
             , @RequestParam("page") int page
             , @RequestParam("size") int size) throws Exception{
+        System.out.println("*****ccccccccccccccccccc*****" + category);
         Pageable pageable = PageRequest.of(page, size);
         /* 사용자 > 상품리스트 */
-        return userProductService.userProductList(pageable);
+        return userProductService.userProductList(pageable, category);
     }
 //    @PostMapping("/userProductList")
 //    public List<UserProductDto> userProductList() throws Exception{

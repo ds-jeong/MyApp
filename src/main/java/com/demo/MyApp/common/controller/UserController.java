@@ -1,7 +1,10 @@
 package com.demo.MyApp.common.controller;
 
+import com.demo.MyApp.common.dto.UserDetailDto;
 import com.demo.MyApp.common.dto.UserDto;
+import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.common.service.UserServiceImpl;
+import com.demo.MyApp.config.security.CustomUserDetailsService;
 import com.demo.MyApp.config.security.jwt.JwtFilter;
 import com.demo.MyApp.config.security.jwt.JwtTokenProvider;
 import com.demo.MyApp.config.security.jwt.TokenResponseDto;
@@ -10,11 +13,23 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 @RestController
@@ -24,9 +39,19 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
-    private AuthenticationManagerBuilder authenticationManager;
+    private AuthenticationManagerBuilder AuthenticationManagerBuilder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder; // 패스워드 암호화를 위한 빈
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @PostMapping("/join")
     public String registerUser(@ModelAttribute UserDto userDto) throws Exception {
@@ -55,32 +80,49 @@ public class UserController {
     }
 
 
-
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDto> login(@ModelAttribute UserDto userDto) {
+    public Object login(@RequestBody UserDto userDto) {
+        if (userDto.getUserId() == null || userDto.getPw() == null) {
+            throw new IllegalArgumentException("User ID or password is null");
+        }
+        try {
+            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            if (!userDto.getUserId().contains("admin"))
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            else
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
-        //1. AuthenticationManager를 통해 인증을 시도하고 인증이 성공하면 Authentication 객체를 리턴받는다.
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userDto.getUserId(), userDto.getPw());
+            User userDetails = new User(userDto.getUserId(), userDto.getPw(), authorities);
 
-        //UserDetailsServiceImpl의 loadUserByUsername() 메소드가 실행된다.
-        Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
+            // 인증 객체 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDto.getPw(), authorities);
 
-        //2. SecurityContextHolder에 위에서 생성한 Authentication 객체를 저장한다.
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("##########authentication test  "+ authentication);
 
-        //3. JwtTokenProvider를 통해 JWT 토큰을 생성한다.
-        String jwtToken = jwtTokenProvider.createToken(authentication);
+            // Create an authentication token with user credentials
+//            Authentication authentication = new UsernamePasswordAuthenticationToken(
+//                    userDto.getUserId(), userDto.getPw());
 
-        // 4. 유저 정보를 조회한다.
-        UserDto userInfo = userService.selectUserInfo(userDto);
+            // 인증 처리 (이 부분을 통해 실제 인증이 이루어짐)
+//            Authentication authenticated = authenticationManager.authenticate(authentication);
+//            System.out.println("##########authenticated test  "+ authenticated);
+            //위의 주석처리 코드 실패해서 authenticationManager 사용 생략
 
-        // 5. 생성한 JWT 토큰을 Response Header에 담아서 리턴한다.
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwtToken);
+            // JWT 토큰 생성
+            String jwtToken = jwtTokenProvider.createToken(authentication);
 
+            // 유저 정보 조회
+            UserDto userInfo = userService.selectUserInfo(userDto);
 
-        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(new TokenResponseDto(jwtToken, userInfo));
+            // JWT 토큰을 Response Header에 담아서 리턴
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwtToken);
+
+            return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(new TokenResponseDto(jwtToken, userInfo));
+        } catch (AuthenticationException e) {
+            logger.error("Authentication failed: ", e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 아이디 또는 비밀번호입니다.");
+        }
     }
 
 }

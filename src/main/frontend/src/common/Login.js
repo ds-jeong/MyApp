@@ -15,23 +15,28 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
 
-            const response = await axios.post('/api/login', formData);
-            
+            const response = await axios.post('/api/login', formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log('Response:', response);
+            console.log('Response Data:', response.data);
+            console.log('Response Headers:', response.headers);
+            window.localStorage.setItem('data', response.data);
+
             //로그인한 사용자 정보
-            const userInfo =response.data.userInfo;
+            const userInfo = response.data.userInfo;
             //로그인한 사용자 정보를 받아 객체에 저장
             const dataToSave = {userInfo};
             //전역에서 사용할수 있도록 localStorage에 저장
             window.localStorage.setItem('token', response.data.token);
             window.localStorage.setItem('userData', JSON.stringify(dataToSave));
 
-            // 로그인 후 메인 페이지로 리디렉션
             window.location.replace('/');
-
         } catch (error) {
             alert("로그인에 실패하였습니다.");
             console.error('Login failed:', error);

@@ -32,9 +32,14 @@ public class UserProductServiceImpl implements UserProductService {
     private final UserReviewRepository userReviewRepository;
 
     @Override
-    public Page<UserProductDto> userProductList(Pageable pageable) throws Exception {
+    public Page<UserProductDto> userProductList(Pageable pageable, String category) throws Exception {
         // 페이지 요청에 따라 상품 목록을 가져오기 위해 userProductRepository를 호출
-        Page<Product> productPage = userProductRepository.findAll(pageable);
+        Page<Product> productPage;
+        System.out.println(category + "cateogry");
+        if(category == null)
+            productPage = userProductRepository.findAll(pageable);
+        else
+            productPage = userProductRepository.findAllBySubCategory(category, pageable);
 
         // 판매수와 리뷰수를 가져오기 위한 리스트 생성
         List<UserProductDto> productDtoList = new ArrayList<>();

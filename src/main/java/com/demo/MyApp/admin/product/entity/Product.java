@@ -44,6 +44,10 @@ public class Product {
     private Integer totalSales;  // 총 판매량
     private Double purchaseRate;  // 구매율 (판매량 / 조회수 등으로 계산된 값)
 
+    //
+    @Column(name = "sub_category")
+    private String subCategory;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Wishlist> wishlists;
 
@@ -76,6 +80,7 @@ public class Product {
                 .price(dto.getPrice())
                 .fileNm(dto.getFileNm())
                 .filePath(dto.getFilePath())
+                .subCategory(dto.getSubCategory())
                 .build();
     }
 

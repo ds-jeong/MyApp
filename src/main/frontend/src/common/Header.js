@@ -8,7 +8,7 @@ const REDIRECT_URI  = process.env.REACT_APP_LOGOUT_REDIRECT_URL;
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Header = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const token = window.localStorage.getItem('token');
     const type = window.localStorage.getItem('type');
     const state = window.localStorage.getItem('state');
@@ -21,6 +21,7 @@ const Header = () => {
             setIsAuthenticated(false);
         }
         const userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(window.localStorage.getItem('data'));
 
         // console.log로 출력
         console.log('Token:', token);
@@ -45,7 +46,7 @@ const Header = () => {
         console.log('주소 : ' + address);
         console.log('role: ' + role);
         console.log('이메일 : ' + email);
-    }, []); /* 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행 */
+    }, [token, type, state]); /* 빈 배열로 설정하여 컴포넌트가 처음 마운트될 때만 실행 */
 
 
     /* localStorage에 저장된 사용자의 정보 */
@@ -163,9 +164,9 @@ const Header = () => {
                             </NavItem>
                             <NavDropdown title="Shop" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="/userProductList">All Products</NavDropdown.Item>
-                                <NavDropdown.Item href="/top">Top</NavDropdown.Item>
-                                <NavDropdown.Item href="/bottom">Bottom</NavDropdown.Item>
-                                <NavDropdown.Item href="/acc">Acc</NavDropdown.Item>
+                                <NavDropdown.Item href="/userProductList/top">Top</NavDropdown.Item>
+                                <NavDropdown.Item href="/userProductList/bottom">Bottom</NavDropdown.Item>
+                                <NavDropdown.Item href="/userProductList/acc">Acc</NavDropdown.Item>
                             </NavDropdown>
                             <NavItem>
                                 <NavLink href="/qnaList">Q&A</NavLink>

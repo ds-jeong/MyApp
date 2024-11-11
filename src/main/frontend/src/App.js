@@ -56,9 +56,8 @@ function App() {
                             <Route path="/order/detail" element={<OrderDetail />}/>
                             <Route path="/order/cancel" element={<OrderCancel />}/>
 
-
-
                             <Route path="/userProductList" element={<UserProductList />}/>
+                            <Route path="/userProductList/:category?" element={<UserProductList />} />
                             <Route path="/userProductDetail/:id" element={<UserProductDetail />} />
                             <Route path="/userProductList/favoriteProductList" element={<UserProductList />} />
                             <Route path="/userProductList/lowerPriceProductList" element={<UserProductList />} />

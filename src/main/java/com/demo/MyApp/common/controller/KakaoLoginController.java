@@ -4,6 +4,7 @@ import com.demo.MyApp.common.dto.UserDto;
 import com.demo.MyApp.common.repository.UserRepository;
 import com.demo.MyApp.common.service.KakaoLoginService;
 import com.demo.MyApp.common.service.UserService;
+import com.demo.MyApp.common.service.UserServiceImpl;
 import com.demo.MyApp.config.security.jwt.JwtFilter;
 import com.demo.MyApp.config.security.jwt.TokenResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class KakaoLoginController {
     private KakaoLoginService kakaoLoginService;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private UserRepository userRepository;

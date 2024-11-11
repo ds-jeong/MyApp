@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {Button, Card, CardBody, CardFooter, CardImg, Container, Dropdown } from "react-bootstrap";
 import { FaHeart } from "react-icons/fa"; // 하트 아이콘 추가
@@ -7,6 +7,7 @@ import {formatPrice} from '../../../utils/formatUtils';
 import ReactPaginate from "react-paginate";
 
 function UserProductList() {
+    const { category } = useParams();
     const token = window.localStorage.getItem('token');
     const navigate = useNavigate();
     const [resArr, setResArr] = useState(['']);
@@ -23,7 +24,12 @@ function UserProductList() {
     useEffect(() => {
         const fetchData = async (currentPage) => {
             try {
-                const response = await axios.get(`/user/product/userProductList?page=${currentPage}&size=${pageSize}`);
+                const url = category
+                    ? `/user/product/userProductList?page=${currentPage}&size=${pageSize}&category=${category}` //top/bottom/acc 일 경우
+                    : `/user/product/userProductList?page=${currentPage}&size=${pageSize}`;
+                console.log("currentPage:", currentPage, "pageSize:", pageSize, "category:", category);
+
+                const response = await axios.get(url);
                 setResArr(response.data.content);
                 setPageCount(response.data.totalPages);
             } catch (error) {
@@ -112,6 +118,7 @@ function UserProductList() {
                 }, // POST 요청 본문은 비워둠
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+
 
             setLikes((prevLikes) => {
                 const updatedLikes = {

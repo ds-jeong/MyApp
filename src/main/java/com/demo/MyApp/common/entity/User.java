@@ -7,6 +7,8 @@ import com.demo.MyApp.user.review.entity.RecentlyViewedItem;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.List;
 import java.util.Set;
 
@@ -51,6 +53,10 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
+
+    public User(String userId, String pw, List<SimpleGrantedAuthority> authorities) {
+    }
+
 
     // Entity는 암묵적으로 Setter를 사용하지않음(정말 필요할때만 쓰기)
     // Setter 대신 데이터를 가공할때 호출할 메소드
