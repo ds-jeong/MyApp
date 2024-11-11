@@ -46,5 +46,10 @@ client:
   id: "e13b5816e34807e9c3ef76b9652b60a9"
   login-redirect-uri: "http://localhost:3000/login/kakao"
   logout-redirect-uri: "http://localhost:3000/"
+logging:
+  level:
+    org.springframework: DEBUG
+    com.demo.MyApp: DEBUG  # 본인의 패키지 경로로 설정
+
 
 

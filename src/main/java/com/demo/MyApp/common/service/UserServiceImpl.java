@@ -6,6 +6,7 @@ import com.demo.MyApp.common.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder; // 패스워드 암호화를 위한 빈
+
+    public UserServiceImpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void registerUser(UserDto userDto) throws Exception {

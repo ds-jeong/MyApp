@@ -25,8 +25,9 @@ function UserProductList() {
         const fetchData = async (currentPage) => {
             try {
                 const url = category
-                    ? `/user/product/userProductList/${category}?page=${currentPage}&size=${pageSize}` //top/bottom/acc 경우
+                    ? `/user/product/userProductList?page=${currentPage}&size=${pageSize}&category=${category}` //top/bottom/acc 일 경우
                     : `/user/product/userProductList?page=${currentPage}&size=${pageSize}`;
+                console.log("currentPage:", currentPage, "pageSize:", pageSize, "category:", category);
 
                 const response = await axios.get(url);
                 setResArr(response.data.content);
@@ -117,6 +118,7 @@ function UserProductList() {
                 }, // POST 요청 본문은 비워둠
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+
 
             setLikes((prevLikes) => {
                 const updatedLikes = {
