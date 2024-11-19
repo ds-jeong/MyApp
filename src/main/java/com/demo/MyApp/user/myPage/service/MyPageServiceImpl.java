@@ -163,7 +163,7 @@ public class MyPageServiceImpl implements MyPageService {
         /* 반품정보 저장 */
         /* DTO를 Entity로 변환하여 save() 메소드에 담아 데이터 삽입 */
         ReturnRequest returnRequest = ReturnRequest.toEntity(userReturnRequestDto);
-        returnRequest.setStatus(OrderStatus.RETURN_PENDING); /* 반품접수 */
+        returnRequest.setStatus(OrderStatus.RETURN_REQUESTED); /* 반품접수 */
         returnRequest.setReason(userReturnRequestDto.getReason());
         returnRequest.setCreatedAt(userReturnRequestDto.getCreatedAt());
         returnRequest.setUpdatedAt(userReturnRequestDto.getUpdatedAt());
@@ -181,7 +181,7 @@ public class MyPageServiceImpl implements MyPageService {
         /* 이력 저장 */
         OrderStatusHist orderStatusHist = new OrderStatusHist();
         orderStatusHist.setOrderDetail(orderDetail);
-        orderStatusHist.setStatus(OrderStatus.RETURN_PENDING); /* 반품접수 */
+        orderStatusHist.setStatus(OrderStatus.RETURN_REQUESTED); /* 반품접수 */
         orderStatusHist.setCreatedAt(LocalDateTime.now());
         orderStatusHist.setUpdatedAt(LocalDateTime.now());
         orderStatusHist.setUser(user);

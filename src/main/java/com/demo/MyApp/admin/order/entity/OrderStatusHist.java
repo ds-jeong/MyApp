@@ -38,4 +38,9 @@ public class OrderStatusHist{
         createdAt = LocalDateTime.now(); // 현재 날짜와 시간 설정
         updatedAt = LocalDateTime.now(); // 현재 날짜와 시간 설정
     }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now(); // 업데이트 시 현재 날짜와 시간으로 변경
+    }
 }

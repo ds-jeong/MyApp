@@ -30,6 +30,11 @@ public class PaymentController {
         return paymentService.getPaymentInfo(orderId);
     }
 
+    @PostMapping("/failed")
+    public void failedPayment(@RequestBody PaymentDto paymentDto) throws Exception {
+        paymentService.processPaymentDone(paymentDto);
+    }
+
     @PostMapping("/cancel")
     public ResponseEntity<String> cancelPayment(@RequestParam("orderId") Long orderId, // orderId 파라미터를 받음
                                                 @RequestParam("reason") String reason) throws Exception {

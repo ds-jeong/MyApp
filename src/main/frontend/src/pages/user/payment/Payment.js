@@ -62,6 +62,7 @@ const Payment = () => {
                     merchant_uid: merchant_uid,
                     paid_at: paid_at,
                     paid_amount: paid_amount,
+                    status: 'success'
                 })
                     .then(response => {
                         navigate('/payment/success', {
@@ -76,6 +77,13 @@ const Payment = () => {
                     })
                     .catch(error => console.log(error));
             } else {
+                axios.post(`${BACKEND_URL}/user/payment/save`, {
+                    imp_uid: imp_uid,
+                    merchant_uid: merchant_uid,
+                    paid_at: paid_at,
+                    paid_amount: paid_amount,
+                    status: 'failed'
+                })
                 alert(`결제 실패: ${error_msg}`);
                 navigate('/');
             }

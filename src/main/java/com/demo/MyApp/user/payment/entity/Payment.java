@@ -1,6 +1,7 @@
 package com.demo.MyApp.user.payment.entity;
 
 import com.demo.MyApp.admin.order.entity.Order;
+import com.demo.MyApp.admin.order.entity.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,11 +31,11 @@ public class Payment {
     @Column(nullable = false)
     private String merchantUid;          // 주문 고유 번호
 
-    @Column(nullable = false)
     private int amount;           // 결제 금액
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;               // 결제 상태 (예: "paid", "failed", "cancelled")
+    private OrderStatus status; // 처리 상태
 
     private int checksum; // 결제 검증용
 
