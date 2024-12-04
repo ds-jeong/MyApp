@@ -2,6 +2,9 @@ package com.demo.MyApp.user.order.service;
 
 import com.demo.MyApp.admin.order.entity.Order;
 import com.demo.MyApp.admin.order.entity.OrderDetail;
+import com.demo.MyApp.admin.order.entity.OrderStatus;
+import com.demo.MyApp.admin.order.entity.OrderStatusHist;
+import com.demo.MyApp.admin.order.repository.OrderStatusHistRepository;
 import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.product.repository.ProductRepository;
 import com.demo.MyApp.common.entity.User;
@@ -39,6 +42,9 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     @Autowired
     private final ProductRepository productRepository;
+
+    @Autowired
+    private final OrderStatusHistRepository orderStatusHistRepository;
 
     /* 주문번호 생성 */
     private static final String PREFIX = "ON"; // 고정 접두사
@@ -134,7 +140,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         Order order = new Order();
         order.setUser(user);
         order.setOrderNumber(orderNumber);
-        order.setState("주문완료");
+        order.setStatus(OrderStatus.PAYMENT_COMPLETED);
         order.setOrderer(userOrderDto.getOrderer());
         order.setZonecode(userOrderDto.getZonecode());
         order.setAddr(userOrderDto.getAddr());
@@ -146,6 +152,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 
         /* Order에 주문정보 put */
         userOrderRepository.save(order);
+
 
         for (UserOrderDetailDto userOrderDetailDto  : userOrderDto.getOrderDetails()){
 
@@ -160,6 +167,14 @@ public class UserOrderServiceImpl implements UserOrderService {
 
             /* OrderDetail에 주문상세정보 put */
             userOrderDetailRepository.save(orderDetail);
+
+            /* 주문 히스토리 */
+            OrderStatusHist orderStatusHist = new OrderStatusHist();
+            orderStatusHist.setOrderDetail(orderDetail);
+            orderStatusHist.setUser(user);
+            orderStatusHist.setStatus(OrderStatus.PAYMENT_COMPLETED);
+
+            orderStatusHistRepository.save(orderStatusHist);
         }
 
         return userOrderRepository.findOrderByOrderNumber(orderNumber);

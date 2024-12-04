@@ -15,10 +15,13 @@ public interface UserOrderDetailRepository extends JpaRepository<OrderDetail,Lon
 
     List<Long> findProductIdByOrder_orderId(Long orderId);
 
+    @Query("SELECT o.orderDetailId FROM OrderDetail o WHERE o.order.orderId = :orderId")
+    List<Long> findOrderDetailIdByOrder_orderId(@Param("orderId") Long orderId);
+
     @Query("SELECT o.orderId AS orderId" +
             ", o.orderNumber AS orderNumber" +
             ", DATE_FORMAT(o.orderDate, '%Y-%m-%d') AS orderDate" +
-            ", o.state AS state" +
+            ", o.status AS state" +
             ", od.orderDetailId AS orderDetailId" +
             ", od.quantity AS quantity" +
             ", p.productId AS productId" +

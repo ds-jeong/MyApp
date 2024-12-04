@@ -4,16 +4,20 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import ReviewPopup from './popup/ReviewPopup';
 import ReturnRequestPopup from './popup/ReturnRequestPopup';
+import OrderCancelPopup from "./popup/OrderCancelPopup";
 
 /* 주문번호 별로 상품 그룹화 함수 */
 const groupByOrderId = (arr) => {
     return arr.reduce((acc, item) => {
         // 주문번호가 존재하지 않는 경우 새 배열 생성
         if (!acc[item.orderId]) {
-            acc[item.orderId] = [];
+            acc[item.orderId] = {
+                orderStatus: item.orderState, // orderId의 전체 주문 상태
+                items: []                 // 주문 항목 목록
+            };
         }
         // 해당 주문번호 배열에 상품 추가
-        acc[item.orderId].push(item);
+        acc[item.orderId].items.push(item);
         return acc;
     }, {});
 };
@@ -73,9 +77,24 @@ const OrderHistory = () => {
         setShowReturnPopup(true);
     };
 
+    /* 주문 취소 */
+    const [showOrderCancelPopup, setShowOrderCancelPopup] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    const handleOrderCancelButtonClick = (orderId, item) => {
+        setSelectedOrder({
+            orderId: orderId,
+            productId: item.productId,
+            productNm: item.productNm,
+            filePath: item.filePath,
+            orderDetailId: item.orderDetailId,
+        });
+        setShowOrderCancelPopup(true);
+    };
+
     return (
         <div>
-            {Object.entries(groupedOrders).map(([orderId, items], index) => (
+            {Object.entries(groupedOrders).map(([orderId, orderData], index) => (
                 <div key={orderId} className="order-group">
                     {/* 첫 번째 주문 번호 그룹에 대해서만 헤더 렌더링 */}
                     {index === 0 && (
@@ -91,7 +110,8 @@ const OrderHistory = () => {
                     )}
                     <div className="order-items">
                         <div>주문번호: {orderId}</div>
-                        {items.map((item) => (
+                        <div>전체 주문 상태: {orderData.orderStatus}</div>
+                        {orderData.items.map((item) => (
                             <div key={item.productId} className="order-card">
                                 <div className="order-item">{item.orderDate}</div>
                                 <div className="order-item">
@@ -101,10 +121,10 @@ const OrderHistory = () => {
                                 <div className="order-item">{item.productNm}</div>
                                 <div className="order-item">{item.quantity}</div>
                                 <div className="order-item">{item.price}</div>
-                                <div className="order-item">{item.state}</div>
+                                <div className="order-item">{item.orderDetailState}</div>
                                 <div className="order-item">
                                     {/* 리뷰 작성 버튼 */}
-                                    {item.state === '주문완료' && (
+                                    {item.orderDetailState === 'DELIVERED' && (
                                         <button onClick={() => handleReviewButtonClick(item)}>리뷰 작성</button>
                                     )}
                                     {/* 리뷰 팝업 */}
@@ -122,7 +142,7 @@ const OrderHistory = () => {
                                     )}
                                     {/* 반품 요청 버튼 */}
                                     {/* returnReqStatus가 null, undefined, 빈 문자열일 때 또는 item.state가 '주문완료'일 때 */}
-                                    {((!item.returnReqStatus || item.returnReqStatus.trim() === '') && item.state === '주문완료') && (
+                                    {((!item.returnReqStatus || item.returnReqStatus.trim() === '') && item.orderDetailState === 'DELIVERED') && (
                                         <button onClick={() => handleReturnButtonClick(item)}>반품</button>
                                     )}
                                     {/* 반품 팝업 */}
@@ -137,13 +157,25 @@ const OrderHistory = () => {
                                             show={showReturnPopup}
                                             onClose={() => setShowReturnPopup(false)}
                                         />
-                                        )}
+                                    )}
+                                    {/* 주문 취소 버튼(결제완료/배송대기 상태일 때만 가능)*/}
+                                    {(item.orderDetailState === 'AWAITING_SHIPMENT' || item.orderDetailState === 'PAYMENT_COMPLETED' || item.orderDetailState === 'PARTIALLY_CANCELLED') && (
+                                        <button onClick={() => handleOrderCancelButtonClick(orderId, item)}>주문 취소</button>
+                                    )}
+                                    {/* 주문 취소 팝업 */}
                                 </div>
                             </div>
-                                ))}
-                            </div>
-                            </div>
-                            ))}
+                        ))}
+                    </div>
+                </div>
+            ))}
+            {selectedOrder && (
+                <OrderCancelPopup
+                    product={selectedOrder}
+                    show={showOrderCancelPopup}
+                    onClose={() => setShowOrderCancelPopup(false)}
+                />
+            )}
         </div>
     );
 };

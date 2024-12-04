@@ -8,13 +8,16 @@ import com.demo.MyApp.admin.product.entity.Product;
 import com.demo.MyApp.admin.returnRequest.entity.ReturnRequest;
 import com.demo.MyApp.common.entity.User;
 import com.demo.MyApp.config.aws.s3.S3Uploader;
+import com.demo.MyApp.user.order.dto.OrderCancelDto;
 import com.demo.MyApp.user.order.repository.UserOrderDetailRepository;
+import com.demo.MyApp.user.order.repository.UserOrderRepository;
 import com.demo.MyApp.user.order.repository.UserOrderStatusHistRepository;
 import com.demo.MyApp.user.returnRequst.dto.UserReturnRequestDto;
 import com.demo.MyApp.user.returnRequst.repository.UserReturnRequestRepository;
 import com.demo.MyApp.user.review.dto.UserReviewDto;
 import com.demo.MyApp.user.review.entity.Review;
 import com.demo.MyApp.user.review.repository.UserReviewRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MyPageServiceImpl implements MyPageService {
@@ -45,6 +45,9 @@ public class MyPageServiceImpl implements MyPageService {
     @Autowired
     private UserOrderStatusHistRepository userOrderStatusHistRepository;
 
+    @Autowired
+    private UserOrderRepository userOrderRepository;
+
     @Override
     public List<Map<String, Object>> orderHistory(Long id) throws Exception {
 
@@ -59,7 +62,14 @@ public class MyPageServiceImpl implements MyPageService {
             orderDetailMap.put("orderNumber", order.get("orderNumber"));
             orderDetailMap.put("orderDate", order.get("orderDate"));
             orderDetailMap.put("orderDetailId", order.get("orderDetailId"));
-            orderDetailMap.put("state", order.get("state"));
+            Optional<OrderStatusHist> ost = userOrderStatusHistRepository.findByOrderDetail_OrderDetailId((Long) order.get("orderDetailId"));
+            if (ost.isPresent()) {
+                System.out.println("##############orderDEtailid" + order.get("orderDetailId") + ost.get().getStatus());
+                orderDetailMap.put("orderDetailState", ost.get().getStatus());
+            } else {
+                orderDetailMap.put("orderDetailState", order.get("state"));
+            }
+            orderDetailMap.put("orderState", userOrderRepository.findById((Long) order.get("orderId")).get().getStatus());
             orderDetailMap.put("quantity", order.get("quantity"));
             orderDetailMap.put("productId", order.get("productId"));
             orderDetailMap.put("price", order.get("price"));
@@ -163,7 +173,7 @@ public class MyPageServiceImpl implements MyPageService {
         /* 반품정보 저장 */
         /* DTO를 Entity로 변환하여 save() 메소드에 담아 데이터 삽입 */
         ReturnRequest returnRequest = ReturnRequest.toEntity(userReturnRequestDto);
-        returnRequest.setStatus(OrderStatus.RETURN_PENDING); /* 반품접수 */
+        returnRequest.setStatus(OrderStatus.RETURN_REQUESTED); /* 반품접수 */
         returnRequest.setReason(userReturnRequestDto.getReason());
         returnRequest.setCreatedAt(userReturnRequestDto.getCreatedAt());
         returnRequest.setUpdatedAt(userReturnRequestDto.getUpdatedAt());
@@ -181,12 +191,53 @@ public class MyPageServiceImpl implements MyPageService {
         /* 이력 저장 */
         OrderStatusHist orderStatusHist = new OrderStatusHist();
         orderStatusHist.setOrderDetail(orderDetail);
-        orderStatusHist.setStatus(OrderStatus.RETURN_PENDING); /* 반품접수 */
+        orderStatusHist.setStatus(OrderStatus.RETURN_REQUESTED); /* 반품접수 */
         orderStatusHist.setCreatedAt(LocalDateTime.now());
         orderStatusHist.setUpdatedAt(LocalDateTime.now());
         orderStatusHist.setUser(user);
 
         userOrderStatusHistRepository.save(orderStatusHist);
+    }
 
+    @Transactional
+    @Override
+    public void updateOrderStatus(OrderCancelDto orderCancelDto, OrderStatus newStatus) {
+        Long orderId = orderCancelDto.getOrderId();
+        Long orderDetailId = orderCancelDto.getOrderDetailId();
+        Long productId = orderCancelDto.getProductId();
+        String reason = orderCancelDto.getReason();
+
+        System.out.println("orderID" + orderId + "orderDetailId" + orderDetailId + "productId" + productId + "reason" + reason);
+
+        // OrderStatusHistory db 변경
+        OrderStatusHist orderStatusHist = userOrderStatusHistRepository.findByOrderDetail_OrderDetailId(orderDetailId)
+                .orElseThrow(() -> new EntityNotFoundException("OrderStatusHist not found"));
+        orderStatusHist.setStatus(newStatus);
+        userOrderStatusHistRepository.save(orderStatusHist);
+
+        //부분 취소/전체 취소 판단
+        isAllCanceled(orderId);
+    }
+
+    @Override
+    public void isAllCanceled(Long orderId) {
+        // Order db 변경
+        // 부분 취소/전체 취소 판단 로직
+        boolean allCanceled = true;
+        List<Long> orderDetailIdList = userOrderDetailRepository.findOrderDetailIdByOrder_orderId(orderId);
+        for(Long odId: orderDetailIdList){
+            if(userOrderStatusHistRepository
+                    .existsByOrderDetail_OrderDetailIdAndStatus(odId, OrderStatus.PAYMENT_COMPLETED)) {
+                allCanceled = false;
+                break;
+            }
+        }
+        Order order = userOrderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        if(allCanceled)
+            order.setStatus(OrderStatus.PAYMENT_CANCELLED); //전체 취소로 Order의 Status 변경
+        else
+            order.setStatus(OrderStatus.PARTIALLY_CANCELLED); //부분 취소로 Order의 Status 변경
+        userOrderRepository.save(order);
     }
 }

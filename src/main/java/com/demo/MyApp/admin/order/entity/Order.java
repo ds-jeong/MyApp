@@ -40,8 +40,9 @@ public class Order {
     private String zonecode; //우편번호
     private String addr; //배송주소
 
-    /* 상태값 */
-    private String state;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status; // 처리 상태
 
     /* 총 결제금액 */
     private Long totalPayment;

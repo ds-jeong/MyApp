@@ -22,9 +22,11 @@ public class OrderStatusHist{
     private Long orderStatusHistId;
 
     @ManyToOne
+    @JoinColumn(name = "order_detail_id", nullable = false)
     private OrderDetail orderDetail; // 주문상세번호
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user; // 사용자
 
     @Enumerated(EnumType.STRING)
@@ -37,5 +39,10 @@ public class OrderStatusHist{
     protected void onCreate() {
         createdAt = LocalDateTime.now(); // 현재 날짜와 시간 설정
         updatedAt = LocalDateTime.now(); // 현재 날짜와 시간 설정
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now(); // 업데이트 시 현재 날짜와 시간으로 변경
     }
 }

@@ -1,6 +1,7 @@
 package com.demo.MyApp.user.payment.service;
 
 import com.demo.MyApp.admin.order.entity.Order;
+import com.demo.MyApp.admin.order.entity.OrderStatus;
 import com.demo.MyApp.user.order.repository.UserOrderRepository;
 import com.demo.MyApp.user.payment.dto.PaymentDto;
 import com.demo.MyApp.user.payment.entity.Payment;
@@ -41,6 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
+    //결제 성공+실패 한번에 다룸
     public void processPaymentDone(PaymentDto paymentDto) {
         String imp_uid = paymentDto.getImp_uid();
         String merchant_uid = paymentDto.getMerchant_uid();
@@ -57,18 +59,48 @@ public class PaymentServiceImpl implements PaymentService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        currentOrder.setState("결제완료");
+        //결제 실패 경우에만 처리해주면 됨.(주문성공 == 결제성공 처리)
+        if(paymentDto.getStatus().equals("failed")) {
+            currentOrder.setStatus(OrderStatus.PAYMENT_FAILED);
+            currentOrder.setStatus(OrderStatus.PAYMENT_FAILED);
+        }
 
         Payment newPayment = new Payment();
         newPayment.setOrder(currentOrder);
-        newPayment.setStatus("결제완료");
         newPayment.setImpUid(imp_uid);
         newPayment.setMerchantUid(merchant_uid);
         newPayment.setPaid_at(paid_at);
-        newPayment.setAmount(amount);
-        newPayment.setChecksum(amount); //인증용은 계산 값과 동일
+        
+        if(paymentDto.getStatus().equals("failed")) {
+            newPayment.setStatus(OrderStatus.PAYMENT_FAILED);
+            newPayment.setAmount(-1);
+            newPayment.setChecksum(0); 
+        }
+        else {
+            newPayment.setStatus(OrderStatus.PAYMENT_COMPLETED);
+            newPayment.setAmount(amount);
+            newPayment.setChecksum(amount); //인증용은 계산 값과 동일
+        }
 
         paymentRepository.save(newPayment);
+    }
+    
+    public String processPaymentCancel(PaymentDto paymentDto, String reason) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("reason", reason);
+        requestBody.put("imp_uid", paymentDto.getImp_uid());
+        requestBody.put("amount", paymentDto.getPaid_amount());
+        requestBody.put("checksum", paymentDto.getChecksum());
+
+
+        return webClient.post()
+                .uri("https://api.iamport.kr/payments/cancel")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, getAccessToken())
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class) // 응답을 String으로 받음
+                .block();
     }
 
     public String getAccessToken() {
@@ -94,23 +126,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .block(); // Block to wait for the result (비동기 코드를 동기화로 만들어줌)
     }
 
-    public String processPaymentCancel(PaymentDto paymentDto, String reason) {
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("reason", reason);
-        requestBody.put("imp_uid", paymentDto.getImp_uid());
-        requestBody.put("amount", paymentDto.getPaid_amount());
-        requestBody.put("checksum", paymentDto.getChecksum());
-
-
-        return webClient.post()
-                .uri("https://api.iamport.kr/payments/cancel")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, getAccessToken())
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class) // 응답을 String으로 받음
-                .block();
-    }
 
     public PaymentDto getPaymentInfo(Long orderId) {
         return paymentRepository.findPaymentsByOrderId(orderId);

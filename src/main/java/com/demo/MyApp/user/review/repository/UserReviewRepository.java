@@ -14,7 +14,7 @@ public interface UserReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT o.orderId AS orderId" +
             ", o.orderNumber AS orderNumber" +
             ", DATE_FORMAT(o.orderDate, '%Y-%m-%d') AS orderDate" +
-            ", o.state AS state" +
+            ", o.status AS state" +
             ", od.orderDetailId AS orderDetailId" +
             ", od.quantity AS quantity" +
             ", p.productId AS productId" +
