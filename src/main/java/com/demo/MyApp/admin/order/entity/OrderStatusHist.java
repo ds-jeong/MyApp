@@ -22,9 +22,11 @@ public class OrderStatusHist{
     private Long orderStatusHistId;
 
     @ManyToOne
+    @JoinColumn(name = "order_detail_id", nullable = false)
     private OrderDetail orderDetail; // 주문상세번호
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user; // 사용자
 
     @Enumerated(EnumType.STRING)

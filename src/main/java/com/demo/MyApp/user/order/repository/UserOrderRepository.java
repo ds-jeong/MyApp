@@ -1,7 +1,9 @@
 package com.demo.MyApp.user.order.repository;
 
 import com.demo.MyApp.admin.order.entity.Order;
+import com.demo.MyApp.admin.order.entity.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
