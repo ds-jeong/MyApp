@@ -40,6 +40,9 @@ public class Order {
     private String zonecode; //우편번호
     private String addr; //배송주소
 
+    private String trackingNumber; //운송장코드
+    private String shippingCompany; //배송업체
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status; // 처리 상태

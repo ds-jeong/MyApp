@@ -18,6 +18,8 @@ import ProductRegist from "./pages/admin/product/ProductRegist";
 import ProductDetail from "./pages/admin/product/ProductDetail";
 import ProductModify from "./pages/admin/product/ProductModify";
 
+import OrderManagement from "./pages/admin/orderManagement/OrderManagement";
+
 import UserProductList from "./pages/user/product/UserProductList"
 import UserProductDetail from "./pages/user/product/UserProductDetail"
 
@@ -74,6 +76,10 @@ function App() {
                             <Route path="/productRegist" element={<ProductRegist />}/>
                             <Route path="/productDetail/:id" element={<ProductDetail />} />
                             <Route path="/productModify/:id" element={<ProductModify />} />
+
+                            <Route path="/orderManagement" element={<OrderManagement />} />
+
+
                         </Routes>
                     </div>
                 </BrowserRouter>

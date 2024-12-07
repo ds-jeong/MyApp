@@ -1,5 +1,6 @@
-package com.demo.MyApp.user.order.dto;
+package com.demo.MyApp.admin.order.dto;
 
+import com.demo.MyApp.user.order.dto.UserOrderDetailDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,8 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class UserOrderDto {
+public class OrderDto {
+
     private Long orderId;
     private LocalDateTime orderDate;
     /* 주문정보 */
@@ -34,5 +36,8 @@ public class UserOrderDto {
     private Long id;
     private List<UserOrderDetailDto> orderDetails;
 
-    private String status; //주문상태값
+    private String status; //주문상태
+    private String trackingNumber; //운송장코드
+    private String shippingCompany; //배송업체
 }
+

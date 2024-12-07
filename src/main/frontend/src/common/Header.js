@@ -173,6 +173,7 @@ const Header = () => {
                             </NavItem>
                             <NavDropdown title="Admin" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="/productList">All Products</NavDropdown.Item>
+                                <NavDropdown.Item href="/orderManagement">Order Management</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">
