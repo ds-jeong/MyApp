@@ -2,10 +2,10 @@ package com.demo.MyApp.admin.order.repository;
 
 import com.demo.MyApp.admin.order.entity.Order;
 import com.demo.MyApp.admin.order.entity.OrderStatus;
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.demo.MyApp.admin.shipping.dto.ShippingDto;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Dictionary;
 import java.util.List;
@@ -24,7 +24,7 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
             "JOIN user u ON o.user_id = u.id", nativeQuery = true)
     List<Map<String, Object>> getAllOrders();
 
-    @Query("SELECT o.orderDate, o.totalPayment FROM Order o WHERE o.orderStatus = :s")
+    @Query("SELECT o.orderDate, o.totalPayment FROM Order o WHERE o.status = :s")
     List<Order> findByStatus(@Param("s") OrderStatus orderStatus);
 
 //    @Query("SELECT o.totalPayment FROM Order o WHERE o.OrderId =: id")

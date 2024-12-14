@@ -177,9 +177,6 @@ const Header = () => {
                                 <NavDropdown.Item href="/sales">Sales</NavDropdown.Item>
                                 <NavDropdown.Item href="/order">Order</NavDropdown.Item>
                                 <NavDropdown.Item href="/orderManagement">Order Management</NavDropdown.Item>
-                                <NavDropdown.Item href="/shipping">Shipping</NavDropdown.Item>
-                                <NavDropdown.Item href="/sales">Sales</NavDropdown.Item>
-                                <NavDropdown.Item href="/order">Order</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">
