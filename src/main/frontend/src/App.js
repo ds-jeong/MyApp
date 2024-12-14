@@ -30,7 +30,8 @@ import OrderCancel from "./pages/user/order/OrderCancel";
 import Payment from "./pages/user/payment/Payment";
 import PaymentSuccess from "./pages/user/payment/PaymentSuccess";
 
-
+import ShippingManage from "./pages/admin/shipping/ShippingManage";
+import Sales from "./pages/admin/sales/Sales";
 
 import KakaoLoginHandler from "./components/KakaoLoginHandler";
 
@@ -74,6 +75,9 @@ function App() {
                             <Route path="/productRegist" element={<ProductRegist />}/>
                             <Route path="/productDetail/:id" element={<ProductDetail />} />
                             <Route path="/productModify/:id" element={<ProductModify />} />
+
+                            <Route path="/shipping" element={<ShippingManage />} />
+                            <Route path="/sales" element={<Sales />} />
                         </Routes>
                     </div>
                 </BrowserRouter>

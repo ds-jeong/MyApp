@@ -25,10 +25,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
+    @Column(name="order_date")
     private LocalDateTime orderDate;
 
     /* 주문정보 */
-    @Column(unique = true)
+    @Column(unique = true, name="order_number")
     private String orderNumber; //주문번호
     private String orderer; //주문자
     private String phone; //연락처
@@ -45,6 +46,7 @@ public class Order {
     private OrderStatus status; // 처리 상태
 
     /* 총 결제금액 */
+    @Column(name = "total_payment")
     private Long totalPayment;
 
     @PrePersist
