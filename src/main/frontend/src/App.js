@@ -84,6 +84,9 @@ function App() {
 
                             <Route path="/shipping" element={<ShippingManage />} />
                             <Route path="/sales" element={<Sales />} />
+
+                            <Route path="/shipping" element={<ShippingManage />} />
+                            <Route path="/sales" element={<Sales />} />
                         </Routes>
                     </div>
                 </BrowserRouter>
