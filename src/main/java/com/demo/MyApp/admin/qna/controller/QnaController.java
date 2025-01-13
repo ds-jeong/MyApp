@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/admin/qna")
+@RequestMapping("/api/admin/qna")
 public class QnaController {
 
     @Autowired

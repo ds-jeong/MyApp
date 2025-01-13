@@ -20,9 +20,10 @@ function QnaList() {
     const fetchData = async (page) => {
         try {
             //데이터 호출
-            const response = await axios.get(`/admin/qna/qnaList?page=${page}&size=${pageSize}`);
+            const response = await axios.get(`/api/admin/qna/qnaList?page=${page}&size=${pageSize}`);
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
+            console.log("Q&A 데이터 호출 데이터 : " + response.data.content);
         } catch (error) {
             console.error("Error fetching fetchData", error.response ? error.response.data : error);
         }
@@ -35,7 +36,7 @@ function QnaList() {
     const handleTitleClick = async (id) => {
         try {
             // 조회수 증가 요청
-            await axios.get(`/admin/qna/addQnaViews?id=${id}`);
+            await axios.get(`/api/admin/qna/addQnaViews?id=${id}`);
 
             // 페이지 이동
             navigate(`/qnaDetail/${id}`);
