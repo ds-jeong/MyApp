@@ -49,7 +49,7 @@ function ProductRegist() {
         }
 
 
-        axios.post(`/admin/product/insertProduct`, formData, {
+        axios.post(`/api/admin/product/insertProduct`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

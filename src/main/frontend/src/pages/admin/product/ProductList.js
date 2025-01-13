@@ -21,7 +21,7 @@ function ProductList() {
 
     const fetchData = async (page) => {
         try {
-            const response = await axios.get(`/admin/product/productList?page=${page}&size=${pageSize}`);
+            const response = await axios.get(`/api/admin/product/productList?page=${page}&size=${pageSize}`);
             setResArr(response.data.content);
             setPageCount(response.data.totalPages);
         } catch (error) {

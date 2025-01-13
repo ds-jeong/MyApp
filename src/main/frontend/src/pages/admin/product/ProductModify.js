@@ -38,7 +38,7 @@ function ProductModify() {
     };
 
     useEffect(() => {
-        axios.get(`/admin/product/productModify?id=${params.id}`).then(response => {
+        axios.get(`/api/admin/product/productModify?id=${params.id}`).then(response => {
                 //setResArr(response.data);
                 setInputValue(response.data);
             }
@@ -106,7 +106,7 @@ function ProductModify() {
             alert("상품설명을 입력하세요.");
         }else{
             if(msg){
-                axios.post('/admin/product/updateProduct', formData)
+                axios.post('/api/admin/product/updateProduct', formData)
                     .then(response => {
                         alert("상품이 수정되었습니다.");
                         /* useHistory import 안되면 아래 코드로 수정해서 반영 */

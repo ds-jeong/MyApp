@@ -25,7 +25,7 @@ const Cart = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.post(`/user/cart/cartItemList?id=${id}`);
+            const response = await axios.post(`/api/user/cart/cartItemList?id=${id}`);
             setResArr(response.data);
         } catch (error) {
             console.error("Error fetching fetchData", error);
@@ -82,7 +82,7 @@ const Cart = () => {
     /* 장바구니 개별 상품 삭제 */
     const handleDeleteCartItem= async (cartItemId) => {
         if(window.confirm("삭제하시겠습니까?")) {
-            await axios.post(`/user/cart/deleteCartItem?cartItemId=${cartItemId}`);
+            await axios.post(`/api/user/cart/deleteCartItem?cartItemId=${cartItemId}`);
             setResArr(prev => prev.filter(item => item.cartItemId !== cartItemId));
             calculateTotals(resArr);
             alert("삭제되었습니다");
@@ -93,7 +93,7 @@ const Cart = () => {
     /* 장바구니 선택 상품 삭제 */
     const handleDeleteCartItemSelected = async () => {
         if(window.confirm("선택한 상품을 삭제하시겠습니까?")) {
-            await axios.post('/user/cart/deleteCartItemselected', selectedIds, {
+            await axios.post('/api/user/cart/deleteCartItemselected', selectedIds, {
                 headers: {
                     'Content-Type': 'application/json'
                 }});

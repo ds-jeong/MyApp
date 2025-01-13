@@ -10,7 +10,7 @@ function ProductDetail() {
     const params = useParams();
 
     useEffect(() => {
-        axios.get(`/admin/product/productDetail?id=${params.id}`).then(response => {
+        axios.get(`/api/admin/product/productDetail?id=${params.id}`).then(response => {
                 setResArr(response.data);
             }
         )
