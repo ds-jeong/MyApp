@@ -34,7 +34,7 @@ const PaymentSuccess = () => {
         const orderNumber = paymentInfo.merchant_uid.substring(4); // "on"부터 잘라낸 값
         console.log(orderNumber);
 
-        axios.get(`${BACKEND_URL}/user/order/getOrderId`, {
+        axios.get(`/api/user/order/getOrderId`, {
             params: {
                 orderNumber: orderNumber,
             },

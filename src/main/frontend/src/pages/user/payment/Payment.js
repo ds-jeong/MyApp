@@ -57,7 +57,7 @@ const Payment = () => {
                 alert('결제 성공');
 
                 /* 결제내역 저장 */
-                axios.post(`${BACKEND_URL}/user/payment/save`, {
+                axios.post(`/api/user/payment/save`, {
                     imp_uid: imp_uid,
                     merchant_uid: merchant_uid,
                     paid_at: paid_at,
@@ -77,7 +77,7 @@ const Payment = () => {
                     })
                     .catch(error => console.log(error));
             } else {
-                axios.post(`${BACKEND_URL}/user/payment/save`, {
+                axios.post(`/api/user/payment/save`, {
                     imp_uid: imp_uid,
                     merchant_uid: merchant_uid,
                     paid_at: paid_at,

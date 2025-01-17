@@ -25,7 +25,7 @@ const OrderCancel = () => {
         const reasonToSend = selectedReason ? selectedReason : otherReason;
         console.log(reasonToSend);
 
-        axios.post(`${BACKEND_URL}/user/payment/cancel?orderId=${orderId}&reason=${reasonToSend}`)
+        axios.post(`/api/user/payment/cancel?orderId=${orderId}&reason=${reasonToSend}`)
             .then(response => {
                 //imp_uid, reason, amount, checksum 필요
                 if(response.status === 200) {

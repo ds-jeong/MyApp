@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/admin/sales")
+@RequestMapping("/api/admin/sales")
 public class SalesController {
     //{
     //  "totalRevenue": 150000,

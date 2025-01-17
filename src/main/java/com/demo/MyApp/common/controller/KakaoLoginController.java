@@ -28,7 +28,7 @@ public class KakaoLoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/login/kakao/callback")
+    @GetMapping("/api/login/kakao/callback")
     public ResponseEntity<?> kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
         String access_token = kakaoLoginService.getKaKaoAccessToken(code);
         HashMap<String, Object> userKakaoInfo = kakaoLoginService.getUserKakaoInfo(access_token);
@@ -71,7 +71,7 @@ public class KakaoLoginController {
         }
     }
 
-    @GetMapping("/logout/kakao")
+    @GetMapping("/api/logout/kakao")
     public ResponseEntity<Integer> kakaoLogout() {
         int responseCode = kakaoLoginService.processLogout();
         return ResponseEntity.ok(responseCode);

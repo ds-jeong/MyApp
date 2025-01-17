@@ -15,9 +15,9 @@ const Sales = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const summaryResponse = await axios.get('/admin/sales/summary');
-                const salesResponse = await axios.get('/admin/sales/data');
-                const topSalesData = await axios.get('/admin/sales/topSalesData');
+                const summaryResponse = await axios.get('/api/admin/sales/summary');
+                const salesResponse = await axios.get('/api/admin/sales/data');
+                const topSalesData = await axios.get('/api/admin/sales/topSalesData');
                 setSummary(summaryResponse.data);
                 setSalesData(salesResponse.data);
                 setTopSalesData(topSalesData.data);

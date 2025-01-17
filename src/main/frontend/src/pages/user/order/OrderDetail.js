@@ -23,7 +23,7 @@ const OrderDetail = () => {
                 setLoading(true); // 요청 시작 전에 로딩 상태 설정
 
                 // 첫 번째 요청: orderInfo
-                const orderInfoResponse = await axios.get(`${BACKEND_URL}/user/order/orderInfo?orderId=${orderId}`);
+                const orderInfoResponse = await axios.get(`/api/user/order/orderInfo?orderId=${orderId}`);
                 if (orderInfoResponse.status === 200) {
                     setOrderInfo(orderInfoResponse.data);
                     console.log(orderInfoResponse.data);
@@ -32,7 +32,7 @@ const OrderDetail = () => {
                 }
 
                 // 두 번째 요청: orderDetails
-                const orderDetailsResponse = await axios.get(`${BACKEND_URL}/user/order/orderDetails?orderId=${orderId}`);
+                const orderDetailsResponse = await axios.get(`/api/user/order/orderDetails?orderId=${orderId}`);
                 if (orderDetailsResponse.status === 200) {
                     setOrderDetails(orderDetailsResponse.data);
                 } else {
