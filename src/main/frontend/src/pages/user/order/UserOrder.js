@@ -36,7 +36,7 @@ const Order = () => {
             try {
                 /* 장바구니 */
                 if(cartItemIds) {
-                    const response = await axios.get('/user/order/orderCartItemDetail', {
+                    const response = await axios.get('/api/user/order/orderCartItemDetail', {
                         params: {id, cartItemIds, cartItemQuantitys},
                     });
                     setResArr(response.data);
@@ -122,7 +122,7 @@ const Order = () => {
         }
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/user/order/insertOrder`, {
+            const response = await axios.post(`/api/user/order/insertOrder`, {
                 ...data,
                 email,
                 addr,

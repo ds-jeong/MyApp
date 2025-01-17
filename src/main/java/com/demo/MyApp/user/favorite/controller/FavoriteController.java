@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user/like")
+@RequestMapping("/api/user/like")
 public class FavoriteController {
 
     @Autowired

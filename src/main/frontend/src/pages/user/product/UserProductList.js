@@ -25,8 +25,8 @@ function UserProductList() {
         const fetchData = async (currentPage) => {
             try {
                 const url = category
-                    ? `/user/product/userProductList?page=${currentPage}&size=${pageSize}&category=${category}` //top/bottom/acc 일 경우
-                    : `/user/product/userProductList?page=${currentPage}&size=${pageSize}`;
+                    ? `/api/user/product/userProductList?page=${currentPage}&size=${pageSize}&category=${category}` //top/bottom/acc 일 경우
+                    : `/api/user/product/userProductList?page=${currentPage}&size=${pageSize}`;
                 console.log("currentPage:", currentPage, "pageSize:", pageSize, "category:", category);
 
                 const response = await axios.get(url);
@@ -66,7 +66,7 @@ function UserProductList() {
         console.log(likes);
         const fetchLikes = async () => {
             try {
-                const response = await axios.get('/user/like/likedProducts', {
+                const response = await axios.get('/api/user/like/likedProducts', {
                     headers: { Authorization: `Bearer ${token}` },
                     params: {
                         userId: userId,
@@ -111,7 +111,7 @@ function UserProductList() {
 
         try {
             const response = await axios.post(
-                `/user/like/toggleLike`,
+                `/api/user/like/toggleLike`,
                 {
                     userId: userId,
                     productId: productId

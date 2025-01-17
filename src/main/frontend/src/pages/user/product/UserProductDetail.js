@@ -25,7 +25,7 @@ function ProductDetail() {
     const params = useParams();
 
     useEffect(() => {
-        axios.get(`/user/product/userProductDetail?id=${params.id}`).then(response => {
+        axios.get(`/api/user/product/userProductDetail?id=${params.id}`).then(response => {
                 setResArr(response.data);
             }
         )
@@ -88,7 +88,7 @@ function ProductDetail() {
         formData.append('quantity', quantityRef.current.value);
 
         /* 비동기식 코드지만 요청완료를 기다리지않고 다음 코드를 진행함 */
-        axios.post('/user/cart/insertCart', formData)
+        axios.post('/api/user/cart/insertCart', formData)
             .then(response => {
                 //alert("장바구니에 담겼습니다");
                 handleOpenPopup();
