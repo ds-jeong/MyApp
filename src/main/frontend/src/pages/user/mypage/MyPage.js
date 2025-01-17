@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
 import './MyPage.css';
 import OrderHistory from './orderHistory/OrderHistory';
 import MyReviews from './myReviews/MyReviews';
