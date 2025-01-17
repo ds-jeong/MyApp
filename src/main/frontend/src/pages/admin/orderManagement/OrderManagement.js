@@ -13,7 +13,7 @@ const OrderManagement = () => {
     }, []);
 
     const fetchOrders = async () => {
-        const response = await axios.get('/admin/order/getAllOrders');
+        const response = await axios.get('/api/admin/order/getAllOrders');
         setResArr(response.data);
     };
 
@@ -35,7 +35,7 @@ const OrderManagement = () => {
         }
 
         try {
-            const response = await axios.put(`/admin/order/updateOrderStatus/${orderId}`, {
+            const response = await axios.put(`/api/admin/order/updateOrderStatus/${orderId}`, {
                 status: orderStatus[orderId],
                 trackingNumber: trackingNumbers[orderId],
                 shippingCompany: shippingCompanies[orderId]

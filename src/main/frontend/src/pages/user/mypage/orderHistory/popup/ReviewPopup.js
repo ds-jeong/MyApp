@@ -44,7 +44,7 @@ const ReviewPopup = ({ product, show, onClose }) => {
         }
 
         try {
-            const response = await axios.post('/user/mypage/review/insertReview', formData, {
+            const response = await axios.post('/api/user/mypage/review/insertReview', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             if (response.status === 200) {

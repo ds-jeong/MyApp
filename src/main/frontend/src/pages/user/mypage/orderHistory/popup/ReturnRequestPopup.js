@@ -21,7 +21,7 @@ const ReturnRequestPopup = ({ product, show, onClose }) => {
         formData.append('status', 'PENDING');
 
         try {
-            const response = await axios.post('/user/mypage/returnRequst/insertReturnRequst', formData, {
+            const response = await axios.post('/api/user/mypage/returnRequst/insertReturnRequst', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',  // 'multipart/form-data'로 설정
                 }
