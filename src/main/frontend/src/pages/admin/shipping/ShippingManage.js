@@ -12,7 +12,7 @@ const ShippingManage = () => {
     }, []);
 
     const fetchShippingData = async () => {
-        const response = await fetch('/admin/shipping/userShipData');
+        const response = await fetch('/api/admin/shipping/userShipData');
         const data = await response.json();
         setShippingData(data);
     };
@@ -82,7 +82,7 @@ const ShippingManage = () => {
 // 상태 변경 함수 예시
 const updateShippingStatus = async (orderId, orderNumber) => {
     alert(`주문번호 ${orderNumber}의 상태를 변경합니다.`);
-    const response = await fetch('/admin/shipping/userShipData');
+    const response = await fetch('/api/admin/shipping/userShipData');
     const data = await response.json();
 };
 

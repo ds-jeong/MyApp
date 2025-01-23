@@ -22,7 +22,7 @@ const OrderCancelPopup = ({product, show, onClose}) => {
         formData.append('reason', finalReason);
 
         try {
-            const response = await axios.post('/user/mypage/orderCancel', formData, {
+            const response = await axios.post('/api/user/mypage/orderCancel', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',  // 'multipart/form-data'로 설정
                 }

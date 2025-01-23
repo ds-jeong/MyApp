@@ -6,6 +6,7 @@ import {formatPrice} from '../../../utils/formatUtils';
 import {Link} from "react-router-dom";
 import ReactPaginate from "react-paginate";
 // import LikeButton from '../../../components/button/LikeButton';
+import './Product.css'
 
 function ProductList() {
     const token = window.localStorage.getItem('token');
@@ -79,9 +80,11 @@ function ProductList() {
         <div className="divTable">
             <section className="py-5">
                 <Container>
-                    <Button variant="outline-dark" href="/productRegist">글쓰기</Button>
+                    <Button className="calm-brown-button" variant="outline-dark" href="/productRegist">상품 등록</Button>
                     <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
-                        {resArr && resArr.map((item, index) => (
+                        {
+
+                            resArr && resArr.map((item, index) => (
                             <div className="col mb-5" key={index}>
                                 <Card className="h-100">
                                     <CardImg className="cardImg" top="true"

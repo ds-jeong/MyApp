@@ -1,0 +1,15 @@
+.calm-brown-button {
+    background-color: #8B4513; /* 차분한 갈색 */
+    color: white; /* 텍스트 색상 */
+    border: 1px solid #8B4513; /* 버튼 외곽선 */
+    transition: all 0.3s ease; /* 호버 애니메이션 */
+    /*display: flex;*/
+    /*margin: 0 auto; !* 버튼을 부모 컨테이너 기준으로 수평 중앙 정렬*!*/
+    /*width: 150px; */
+    /*height: 50px; */
+}
+.calm-brown-button:hover {
+    background-color: #A0522D; /* 호버 시 더 밝은 갈색 */
+    color: white; /* 텍스트 색상 유지 */
+    border: 1px solid #A0522D;
+}

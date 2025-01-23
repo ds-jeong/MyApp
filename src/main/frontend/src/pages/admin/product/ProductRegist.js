@@ -91,7 +91,9 @@ function ProductRegist() {
 
                     <Form.Group controlId="formCategory">
                         <Form.Label>상품종류</Form.Label>
-                        <Form.Control as="select" style={{width: '100px', height: '35px'}} ref={categoryRef} onChange={handleCategoryChange}>
+                        <Form.Control as="select" style={{width: '100px', height: '35px'}} ref={categoryRef}
+                                      onChange={handleCategoryChange}>
+                            <option value="">선택</option>
                             <option value="clothing">의류</option>
                             <option value="electronics">전자제품</option>
                             <option value="books">책</option>

@@ -178,7 +178,6 @@ function UserProductList() {
             <section className="py-5">
                 <Container>
                     <div className="d-flex justify-content-between mb-3">
-                        <Button variant="outline-dark" href="/productRegist">글쓰기</Button>
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="outline-secondary">
                                 {selectedSort}

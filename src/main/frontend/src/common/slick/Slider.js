@@ -13,7 +13,7 @@ export default class SimpleSlider extends Component {
     }
 
     componentDidMount() {
-        axios.get('/user/product/favoriteProductList')
+        axios.get('/api/user/product/favoriteProductList')
             .then(response => {
                 this.setState({
                     resArr: response.data}

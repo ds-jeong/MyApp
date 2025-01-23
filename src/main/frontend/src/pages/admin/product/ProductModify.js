@@ -37,6 +37,12 @@ function ProductModify() {
         });
     };
 
+    const [selectedSubCategory, setSelectedSubCategory] = useState('');
+
+    const handleSubCategoryChange = (e) => {
+        setSelectedSubCategory(e.target.value);
+    };
+
     useEffect(() => {
         axios.get(`/api/admin/product/productModify?id=${params.id}`).then(response => {
                 //setResArr(response.data);
@@ -124,7 +130,7 @@ function ProductModify() {
     const handleDelete = () => {
         const msg = window.confirm("정말 삭제하시겠습니까?");
         if (msg){
-            axios.post('/admin/product/deleteProduct',
+            axios.post('/api/admin/product/deleteProduct',
                 {
                     params: {id: params.id}
                 })
@@ -221,6 +227,28 @@ function ProductModify() {
                                 </Form.Control>
                             </td>
                         </tr>
+                        {productKind === '의류' && (
+                            <tr>
+                                <td>
+                                    {/* "의류"가 선택되었을 때만 하위 카테고리 드롭다운을 표시 */}
+                                        <Form.Group controlId="formSubCategory" style={{ marginTop: '10px' }}>
+                                            <Form.Label>세부 카테고리</Form.Label>
+                                            <Form.Control
+                                                name="subCategory"
+                                                className="subCategory"
+                                                as="select"
+                                                style={{ width: '100px', height: '35px' }}
+                                                value={selectedSubCategory}
+                                                onChange={handleSubCategoryChange}
+                                            >
+                                                <option value="">선택</option>
+                                                <option value="top">Top</option>
+                                                <option value="bottom">Bottom</option>
+                                                <option value="acc">Acc</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                </td>
+                            </tr> )}
                         <tr>
                             <td><Form.Label>작성자</Form.Label></td>
                             <td>

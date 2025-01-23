@@ -97,7 +97,7 @@ const Header = () => {
         try {
             // 카카오 로그아웃
             if(type === 'kakao') {
-                const response = await axios.get(`${BACKEND_URL}/logout/kakao`);
+                const response = await axios.get(`${BACKEND_URL}/api/logout/kakao`);
                 console.log('Logout successful:', response.data);
 
                 if(response.data !== 302) {

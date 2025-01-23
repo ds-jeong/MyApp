@@ -12,7 +12,7 @@ const UserReview = ({ productId }) => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.post(`/user/product/review/reviewsList?productId=${productId}`);
+            const response = await axios.post(`/api/user/product/review/reviewsList?productId=${productId}`);
             setResArr(response.data);
         } catch (error) {
             console.error("Error fetching fetchData", error);
