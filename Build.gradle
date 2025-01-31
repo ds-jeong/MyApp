@@ -55,16 +55,18 @@ dependencies {
 
     //import
     implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.23'
-
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-//bootJar {
-//    archiveFileName.set("MyApp-0.0.1-SNAPSHOT-plain.jar")
-//}
-jar {
-    enabled = false
+// JAR 파일 이름 설정 (주석을 해제)
+bootJar {
+    archiveFileName.set("MyApp-0.0.1-SNAPSHOT.jar")
 }
+
+// JAR 태스크를 비활성화하지 않도록 삭제
+// jar {
+//     enabled = false
+// }
